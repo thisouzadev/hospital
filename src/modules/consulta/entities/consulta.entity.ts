@@ -7,12 +7,6 @@ export class Consulta {
   @PrimaryGeneratedColumn()
   consultaID: number;
 
-  @ManyToOne(() => Paciente, (paciente) => paciente.consultas)
-  paciente: Paciente;
-
-  @ManyToOne(() => Funcionario, (funcionario) => funcionario.consultas)
-  funcionario: Funcionario;
-
   @Column()
   data: Date;
 
@@ -30,4 +24,10 @@ export class Consulta {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
+
+  @ManyToOne(() => Paciente, (paciente) => paciente.consultas)
+  paciente: Paciente;
+
+  @ManyToOne(() => Funcionario, (funcionario) => funcionario.consultas)
+  funcionario: Funcionario;
 }

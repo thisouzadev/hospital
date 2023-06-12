@@ -1,5 +1,3 @@
-// src/modules/anamnese/entities/anamnese.entity.ts
-
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Paciente } from '../../paciente/entities/paciente.entity';
 

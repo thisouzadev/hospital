@@ -4,12 +4,16 @@ import {
   OneToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
+  ManyToMany,
 } from 'typeorm';
 import { Endereco } from '../../endereco/entities/endereco.entity';
 import { Transferencia } from '../../transferencia/entities/transferencia.entity';
 import { EvolucaoPrescricao } from '../../evolucaoPrescricao/entities/evolucao-prescricao.entity';
 import { PrescricaoInicial } from '../../prescricaoInicial/entities/prescricao-inicial.entity';
 import { Consulta } from '../../consulta/entities/consulta.entity';
+import { Anamnese } from 'src/modules/anamnese/entities/anamnese.entity';
+import { ExamesSolicitados } from 'src/modules/examesSolicitados/entities/exames-solicitados.entity';
+import { Tratamento } from 'src/modules/tratamento/entities/tratamento.entity';
 
 @Entity()
 export class Paciente {
@@ -78,4 +82,13 @@ export class Paciente {
 
   @OneToMany(() => Consulta, (consulta) => consulta.paciente)
   consultas: Consulta[];
+
+  @OneToMany(() => Anamnese, (anamnese) => anamnese.paciente)
+  anamneses: Anamnese[];
+
+  @ManyToMany(() => ExamesSolicitados, (exame) => exame.paciente)
+  examesSolicitados: ExamesSolicitados[];
+
+  @ManyToMany(() => Tratamento, (tratamento) => tratamento.paciente)
+  tratamentos: Tratamento[];
 }
