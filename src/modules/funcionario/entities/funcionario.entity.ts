@@ -61,6 +61,7 @@ export class Funcionario {
   @Column({ default: true })
   ativo: boolean;
 
+  @Column()
   @IsNotEmpty()
   hospitalID: number;
 
@@ -81,7 +82,7 @@ export class Funcionario {
 
   @ManyToOne(() => Hospital, (hospital) => hospital.funcionarios)
   @IsNotEmpty()
-  @JoinColumn({ name: 'hospitalID' })
+  @JoinColumn({ name: 'hospitalID', referencedColumnName: 'hospitalID' })
   hospital: Hospital;
 
   @ManyToMany(() => Consulta, (consulta) => consulta.funcionario)

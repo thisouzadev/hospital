@@ -27,7 +27,7 @@ export class FuncionarioService {
   }
 
   findAll(): Promise<Funcionario[]> {
-    return this.funcionarioRepository.find();
+    return this.funcionarioRepository.find({ relations: ['hospital'] });
   }
 
   findOne(id: number): Promise<Funcionario> {
