@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  mysql_hospital:
+    image: mysql:8.0
+    container_name: mysql_hospital
+    restart: always
+    environment:
+      - MYSQL_DATABASE=hospital
+      - MYSQL_USER=hospital
+      - MYSQL_PASSWORD=passw
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+  app:
+    build: .
+    container_name: hospital_api
+    restart: always
+    ports:
+      - 3000:3000
+      - 9229:9229
+    volumes:
+      - .:/usr/app
+    links:
+      - mysql_hospital
+    depends_on:
+      - mysql_hospital
+volumes:
+  db:
+    driver: local

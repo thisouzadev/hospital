@@ -20,10 +20,10 @@ import { HospitalModule } from './modules/hospital/hospital.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql', // Use 'mysql' para MySQL Server
-      host: 'localhost',
+      host: 'mysql_hospital',
       port: 3306,
-      username: 'root',
-      password: '',
+      username: 'hospital',
+      password: 'passw',
       database: 'hospital',
       entities: [__dirname + '/**/*.entity{.ts,.js}'], // Caminho para as entidades
       synchronize: true,

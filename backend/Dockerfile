@@ -1,4 +1,16 @@
-FROM mysql:latest
+FROM node:16-alpine3.15
 
-ENV MYSQL_ROOT_PASSWORD=root
+RUN apk update && apk add bash
+
+WORKDIR /usr/app
+
+COPY package.json ./
+COPY . .
+
+EXPOSE 3000
+
+RUN npm install
+RUN npm run build
+
+ENTRYPOINT [ "npm", "run", "start:dev" ]
 
