@@ -15,7 +15,9 @@ import { EvolucaoPrescricaoModule } from './modules/evolucaoPrescricao/evolucao-
 import { TransferenciaModule } from './modules/transferencia/transferencia.module';
 import { PermissaoAcessoModule } from './modules/permissaoAcesso/permissaoAcesso.module';
 import { HospitalModule } from './modules/hospital/hospital.module';
-import { SessionsModule } from './modules/sessions/sessions.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { ConfigModule } from '@nestjs/config';
+import { configValidationSchema } from './config/config.schema';
 
 @Module({
   imports: [
@@ -31,6 +33,12 @@ import { SessionsModule } from './modules/sessions/sessions.module';
       retryAttempts: 3,
       retryDelay: 1000,
     }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: [`.env`],
+      validationSchema: configValidationSchema,
+      cache: true,
+    }),
 
     PacienteModule,
     EnderecoModule,
@@ -44,7 +52,7 @@ import { SessionsModule } from './modules/sessions/sessions.module';
     TransferenciaModule,
     PermissaoAcessoModule,
     HospitalModule,
-    SessionsModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

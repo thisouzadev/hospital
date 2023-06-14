@@ -6,13 +6,22 @@ import {
   Body,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
+import { AuthGuard } from '@nestjs/passport';
 import { Hospital } from '../entities/hospital.entity';
 import { HospitalService } from '../services/hospital.service';
 
 @Controller('hospitais')
+@UseGuards(AuthGuard())
 export class HospitalController {
-  constructor(private hospitalService: HospitalService) {}
+  constructor(
+    private hospitalService: HospitalService,
+    private jwtService: JwtService,
+    private configService: ConfigService,
+  ) {}
 
   @Post()
   async createHospital(@Body() hospital: Hospital): Promise<Hospital> {
