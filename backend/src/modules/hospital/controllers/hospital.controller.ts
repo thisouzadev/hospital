@@ -15,7 +15,7 @@ import { Hospital } from '../entities/hospital.entity';
 import { HospitalService } from '../services/hospital.service';
 
 @Controller('hospitais')
-@UseGuards(AuthGuard())
+// @UseGuards(AuthGuard())
 export class HospitalController {
   constructor(
     private hospitalService: HospitalService,
