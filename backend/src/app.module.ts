@@ -15,6 +15,7 @@ import { EvolucaoPrescricaoModule } from './modules/evolucaoPrescricao/evolucao-
 import { TransferenciaModule } from './modules/transferencia/transferencia.module';
 import { PermissaoAcessoModule } from './modules/permissaoAcesso/permissaoAcesso.module';
 import { HospitalModule } from './modules/hospital/hospital.module';
+import { SessionsModule } from './modules/sessions/sessions.module';
 
 @Module({
   imports: [
@@ -43,6 +44,7 @@ import { HospitalModule } from './modules/hospital/hospital.module';
     TransferenciaModule,
     PermissaoAcessoModule,
     HospitalModule,
+    SessionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
