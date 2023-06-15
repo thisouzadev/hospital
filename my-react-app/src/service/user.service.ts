@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 class UserService {
-  async login(cpf: string, password: string) {
+  async login(cpf: string, senha: string) {
     const response = await axios({
       method: 'post',
       url: 'http://localhost:3000/auth/signin',
       data: {
         cpf,
-        password,
+        senha,
       },
     });
     return response;

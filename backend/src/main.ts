@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   // Configuração do CORS
   const corsOptions: CorsOptions = {
-    origin: 'http://localhost:3000', // Defina a origem permitida, pode ser um domínio específico ou '*' para permitir de qualquer origem
+    origin: '*', // Defina a origem permitida, pode ser um domínio específico ou '*' para permitir de qualquer origem
     methods: ['GET', 'POST', 'PUT', 'DELETE'], // Defina os métodos HTTP permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Defina os cabeçalhos permitidos
   };
