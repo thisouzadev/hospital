@@ -15,9 +15,7 @@ export class AuthService {
     private readonly funcionarioRepository: Repository<Funcionario>,
   ) {}
 
-  async signin(
-    authCredentialsDto: AuthCredentialsDto,
-  ): Promise<{ accessToken: string }> {
+  async signin(authCredentialsDto: AuthCredentialsDto): Promise<any> {
     const cpf: string = authCredentialsDto.cpf;
     const senha: string = authCredentialsDto.senha;
 
@@ -34,8 +32,9 @@ export class AuthService {
 
       const role = user.role;
       const payload: UserJwtPayload = { cpf, role };
+      const { senha: _, ...userData } = user;
       const accessToken: string = this.jwtService.sign(payload);
-      return { accessToken };
+      return { accessToken, user: userData };
     } else {
       throw new UnauthorizedException('cpf/senha inválidos!');
     }

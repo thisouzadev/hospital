@@ -7,6 +7,7 @@ import {
   Put,
   Delete,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
@@ -17,6 +18,7 @@ import { Role } from 'src/shared/enums/role.enum';
 import { Hospital } from '../entities/hospital.entity';
 import { HospitalService } from '../services/hospital.service';
 
+@UseGuards(AuthGuard())
 @Controller('hospitais')
 export class HospitalController {
   constructor(
@@ -31,7 +33,7 @@ export class HospitalController {
   }
 
   @Roles(Role.Admin)
-  @UseGuards(AuthGuard(), RolesGuard)
+  @UseGuards(RolesGuard)
   @Get()
   async getAllHospitals(): Promise<Hospital[]> {
     return this.hospitalService.getAllHospitals();
