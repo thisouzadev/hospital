@@ -38,7 +38,7 @@ const Login: React.FC = () => {
       .then((res) => {
         // const { token, user } = res.data;
 
-        console.log(res.data);
+        console.log(res.data.user);
         // localStorage.setItem("token", token);
         // setLocalStorage("user", user);
         // setUser(user);
