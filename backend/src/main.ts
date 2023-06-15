@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import * as bodyParser from 'body-parser';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ extended: true }));
 
   const PORT = process.env.PORT || 3000;
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen(PORT, () => console.log('running on port', PORT));
 }
 bootstrap();
