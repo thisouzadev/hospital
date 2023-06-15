@@ -11,11 +11,13 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/modules/auth/roles.decorator';
+import { RolesGuard } from 'src/modules/auth/roles.guard';
+import { Role } from 'src/shared/enums/role.enum';
 import { Hospital } from '../entities/hospital.entity';
 import { HospitalService } from '../services/hospital.service';
 
 @Controller('hospitais')
-// @UseGuards(AuthGuard())
 export class HospitalController {
   constructor(
     private hospitalService: HospitalService,
@@ -28,6 +30,8 @@ export class HospitalController {
     return this.hospitalService.createHospital(hospital);
   }
 
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard(), RolesGuard)
   @Get()
   async getAllHospitals(): Promise<Hospital[]> {
     return this.hospitalService.getAllHospitals();

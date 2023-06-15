@@ -22,7 +22,7 @@ const jwtFactory = {
 @Module({
   imports: [
     JwtModule.registerAsync(jwtFactory),
-    PassportModule.register({ defaultStrategy: 'jwt' }),
+    PassportModule.register({ defaultStrategy: 'jwt', property: 'user' }),
     TypeOrmModule.forFeature([Funcionario, FuncionarioRepository]),
   ],
   controllers: [AuthController],

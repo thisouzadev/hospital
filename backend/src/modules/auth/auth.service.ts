@@ -32,8 +32,8 @@ export class AuthService {
         throw new UnauthorizedException('cpf/senha inválidos!');
       }
 
-      const cargo = user.cargo;
-      const payload: UserJwtPayload = { cpf, cargo };
+      const role = user.role;
+      const payload: UserJwtPayload = { cpf, role };
       const accessToken: string = this.jwtService.sign(payload);
       return { accessToken };
     } else {
