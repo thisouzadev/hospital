@@ -18,13 +18,14 @@ import { HospitalModule } from './modules/hospital/hospital.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from './config/config.schema';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      type: 'mysql', // Use 'mysql' para MySQL Server
-      host: 'mysql_hospital',
-      port: 3306,
+      type: 'postgres', // Use 'mysql' para MySQL Server
+      host: 'database_hospital',
+      port: 5432,
       username: 'hospital',
       password: 'passw',
       database: 'hospital',
@@ -53,6 +54,7 @@ import { configValidationSchema } from './config/config.schema';
     PermissaoAcessoModule,
     HospitalModule,
     AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

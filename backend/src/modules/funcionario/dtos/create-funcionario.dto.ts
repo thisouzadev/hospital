@@ -6,5 +6,5 @@ export class CreateFuncionarioDto {
   especialidade: string;
   email: string;
   senha: string;
-  hospitalID: number;
+  hospitalID: string;
 }

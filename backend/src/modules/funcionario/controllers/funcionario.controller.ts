@@ -28,7 +28,7 @@ export class FuncionarioController {
 
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Funcionario> {
-    return this.funcionarioService.findOne(Number(id));
+    return this.funcionarioService.findOne(id);
   }
 
   @Put(':id')
@@ -36,7 +36,7 @@ export class FuncionarioController {
     @Param('id') id: string,
     @Body() funcionarioDto: UpdateFuncionarioDto,
   ): Promise<Funcionario> {
-    return this.funcionarioService.update(Number(id), funcionarioDto);
+    return this.funcionarioService.update(id, funcionarioDto);
   }
 
   @Delete(':id')

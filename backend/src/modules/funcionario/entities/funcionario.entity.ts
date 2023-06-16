@@ -17,8 +17,8 @@ import { Role } from 'src/shared/enums/role.enum';
 
 @Entity()
 export class Funcionario {
-  @PrimaryGeneratedColumn()
-  funcionarioID: number;
+  @PrimaryGeneratedColumn('uuid')
+  funcionarioID: string;
 
   @Column()
   @IsNotEmpty()
@@ -64,7 +64,8 @@ export class Funcionario {
 
   @Column()
   @IsNotEmpty()
-  hospitalID: number;
+  @IsString()
+  hospitalID: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

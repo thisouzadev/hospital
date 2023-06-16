@@ -30,12 +30,12 @@ export class FuncionarioService {
     return this.funcionarioRepository.find({ relations: ['hospital'] });
   }
 
-  findOne(id: number): Promise<Funcionario> {
+  findOne(id: string): Promise<Funcionario> {
     return this.funcionarioRepository.findOne({ where: { funcionarioID: id } });
   }
 
   async update(
-    id: number,
+    id: string,
     funcionarioDto: UpdateFuncionarioDto,
   ): Promise<Funcionario> {
     const { senha } = funcionarioDto;

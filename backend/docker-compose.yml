@@ -1,20 +1,18 @@
 version: "3.9"
 
 services:
-  mysql_hospital:
-    image: mysql:8.0
-    container_name: mysql_hospital
+  database:
+    image: postgres
+    container_name: database_hospital
     restart: always
-    environment:
-      - MYSQL_DATABASE=hospital
-      - MYSQL_USER=hospital
-      - MYSQL_PASSWORD=passw
-      - MYSQL_ROOT_PASSWORD=root
     ports:
-      - "3306:3306"
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=hospital
+      - POSTGRES_USER=hospital
+      - POSTGRES_PASSWORD=passw
     volumes:
-      - db:/var/lib/mysql
-      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/data/postgres
   app:
     build: .
     container_name: hospital_api
@@ -25,9 +23,9 @@ services:
     volumes:
       - .:/usr/app
     links:
-      - mysql_hospital
+      - database
     depends_on:
-      - mysql_hospital
+      - database
 volumes:
-  db:
+  pgdata:
     driver: local
