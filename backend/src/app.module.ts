@@ -19,21 +19,11 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from './config/config.schema';
 import { UserModule } from './modules/user/user.module';
+import { typeOrmAsyncConfig } from './config/typeorm.config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres', // Use 'mysql' para MySQL Server
-      host: 'database_hospital',
-      port: 5432,
-      username: 'hospital',
-      password: 'passw',
-      database: 'hospital',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'], // Caminho para as entidades
-      synchronize: true,
-      retryAttempts: 3,
-      retryDelay: 1000,
-    }),
+    TypeOrmModule.forRootAsync(typeOrmAsyncConfig),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [`.env`],

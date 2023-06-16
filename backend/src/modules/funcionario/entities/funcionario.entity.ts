@@ -11,9 +11,9 @@ import {
 import { IsNotEmpty, IsString } from 'class-validator';
 import * as bcrypt from 'bcrypt';
 import { PermissaoAcesso } from '../../permissaoAcesso/entities/permissao-acesso.entity';
-import { Hospital } from 'src/modules/hospital/entities/hospital.entity';
-import { Consulta } from 'src/modules/consulta/entities/consulta.entity';
-import { Role } from 'src/shared/enums/role.enum';
+import { Hospital } from '../../hospital/entities/hospital.entity';
+import { Consulta } from '../../consulta/entities/consulta.entity';
+import { Role } from '../../../shared/enums/role.enum';
 
 @Entity()
 export class Funcionario {
