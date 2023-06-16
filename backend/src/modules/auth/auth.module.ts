@@ -8,6 +8,7 @@ import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Funcionario } from '../funcionario/entities/funcionario.entity';
 import { FuncionarioRepository } from '../funcionario/repositories/funcionario.repository';
+import { User } from '../user/entities/user.entity';
 
 const jwtFactory = {
   useFactory: async (configService: ConfigService) => ({
@@ -23,7 +24,7 @@ const jwtFactory = {
   imports: [
     JwtModule.registerAsync(jwtFactory),
     PassportModule.register({ defaultStrategy: 'jwt', property: 'user' }),
-    TypeOrmModule.forFeature([Funcionario, FuncionarioRepository]),
+    TypeOrmModule.forFeature([User]),
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],
