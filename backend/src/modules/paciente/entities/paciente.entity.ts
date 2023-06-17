@@ -6,7 +6,6 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
 } from 'typeorm';
-import { Endereco } from '../../endereco/entities/endereco.entity';
 import { Transferencia } from '../../transferencia/entities/transferencia.entity';
 import { EvolucaoPrescricao } from '../../evolucaoPrescricao/entities/evolucao-prescricao.entity';
 import { PrescricaoInicial } from '../../prescricaoInicial/entities/prescricao-inicial.entity';
@@ -61,9 +60,6 @@ export class Paciente {
 
   @Column()
   naturalidade: string;
-
-  @ManyToOne(() => Endereco, (endereco) => endereco.pacientes)
-  endereco: Endereco;
 
   @OneToMany(() => Transferencia, (transferencia) => transferencia.paciente)
   transferencias: Transferencia[];

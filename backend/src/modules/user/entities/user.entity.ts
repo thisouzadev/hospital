@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsString } from 'class-validator';
-import { Employee } from 'src/modules/employee/entities/employee.entity';
+import { Employee } from '../../employee/entities/employee.entity';
 import * as bcrypt from 'bcrypt';
 
 import {

@@ -4,7 +4,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 import { PacienteModule } from './modules/paciente/paciente.module';
-import { EnderecoModule } from './modules/endereco/endereco.module';
 import { ConsultaModule } from './modules/consulta/consulta.module';
 import { AnamneseModule } from './modules/anamnese/anamnese.module';
 import { TratamentoModule } from './modules/tratamento/tratamento.module';
@@ -20,6 +19,7 @@ import { configValidationSchema } from './config/config.schema';
 import { UserModule } from './modules/user/user.module';
 import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { EmployeeModule } from './modules/employee/employee.module';
+import { AddressModule } from './modules/address/address.module';
 
 @Module({
   imports: [
@@ -32,7 +32,7 @@ import { EmployeeModule } from './modules/employee/employee.module';
     }),
 
     PacienteModule,
-    EnderecoModule,
+    AddressModule,
     EmployeeModule,
     ConsultaModule,
     AnamneseModule,

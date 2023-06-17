@@ -1,7 +1,8 @@
 import { IsNotEmpty, IsString, IsUUID, ValidateNested } from 'class-validator';
-import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
+import { CreateUserDto } from '../../user/dto/create-user.dto';
 
 import { Type } from 'class-transformer';
+import { CreateAddressDto } from '../../address/dto/create-address.dto';
 
 export class CreateEmployeeDto {
   @IsNotEmpty()
@@ -20,4 +21,9 @@ export class CreateEmployeeDto {
   @ValidateNested()
   @Type(() => CreateUserDto)
   user: CreateUserDto;
+
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => CreateAddressDto)
+  address: CreateAddressDto;
 }

@@ -20,7 +20,7 @@ export class EmployeeService {
   }
 
   findAll(): Promise<Employee[]> {
-    return this.employeeRepository.find({ relations: ['hospital', 'user'] });
+    return this.employeeRepository.find({ relations: ['address', 'user'] });
   }
 
   async findOne(id: string): Promise<Employee> {
@@ -40,13 +40,11 @@ export class EmployeeService {
   ): Promise<Employee> {
     const employee = await this.employeeRepository.findOne({
       where: { employeeId },
-      relations: ['user'],
+      relations: ['user', 'address'],
     });
     if (!employee) {
       throw new NotFoundException('Funcionário não encontrado');
     }
-
-    console.log(employee);
 
     Object.assign(employee, {
       ...employeeDto,
@@ -55,9 +53,11 @@ export class EmployeeService {
         ...employeeDto.user,
         password: employee.user.password,
       },
+      address: {
+        ...employee.address,
+        ...employeeDto.address,
+      },
     });
-
-    console.log(employee);
 
     return this.employeeRepository.save(employee);
   }

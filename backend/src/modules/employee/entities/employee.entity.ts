@@ -1,3 +1,4 @@
+import { Address } from '../../address/entities/address.entity';
 import {
   Column,
   DeleteDateColumn,
@@ -8,7 +9,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Hospital } from '../../hospital/entities/hospital.entity';
-import { User } from 'src/modules/user/entities/user.entity';
+import { User } from '../../user/entities/user.entity';
 
 @Entity('employees')
 export class Employee {
@@ -46,4 +47,11 @@ export class Employee {
   @OneToOne(() => User, { cascade: ['insert', 'update'], onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'userId' })
   user: User;
+
+  @OneToOne(() => Address, {
+    cascade: ['insert', 'update'],
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'address_id', referencedColumnName: 'addressId' })
+  address: Address;
 }
