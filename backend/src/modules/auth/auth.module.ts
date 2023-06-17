@@ -6,8 +6,6 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
 import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Funcionario } from '../funcionario/entities/funcionario.entity';
-import { FuncionarioRepository } from '../funcionario/repositories/funcionario.repository';
 import { User } from '../user/entities/user.entity';
 
 const jwtFactory = {

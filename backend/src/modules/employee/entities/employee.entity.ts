@@ -9,10 +9,10 @@ import {
 import { Hospital } from '../../hospital/entities/hospital.entity';
 import { Role } from '../../../shared/enums/role.enum';
 
-@Entity()
-export class Funcionario {
-  @PrimaryGeneratedColumn('uuid')
-  funcionarioID: string;
+@Entity('employees')
+export class Employee {
+  @PrimaryGeneratedColumn('uuid', { name: 'employee_id' })
+  employeeId: string;
 
   @Column()
   nome: string;
@@ -44,7 +44,7 @@ export class Funcionario {
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt: Date;
 
-  @ManyToOne(() => Hospital, (hospital) => hospital.funcionarios)
+  @ManyToOne(() => Hospital, (hospital) => hospital.employees)
   @JoinColumn({ name: 'hospitalID', referencedColumnName: 'hospitalID' })
   hospital: Hospital;
 }

@@ -5,7 +5,6 @@ import { AppService } from './app.service';
 
 import { PacienteModule } from './modules/paciente/paciente.module';
 import { EnderecoModule } from './modules/endereco/endereco.module';
-import { FuncionarioModule } from './modules/funcionario/funcionario.module';
 import { ConsultaModule } from './modules/consulta/consulta.module';
 import { AnamneseModule } from './modules/anamnese/anamnese.module';
 import { TratamentoModule } from './modules/tratamento/tratamento.module';
@@ -20,6 +19,7 @@ import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from './config/config.schema';
 import { UserModule } from './modules/user/user.module';
 import { typeOrmAsyncConfig } from './config/typeorm.config';
+import { EmployeeModule } from './modules/employee/employee.module';
 
 @Module({
   imports: [
@@ -33,7 +33,7 @@ import { typeOrmAsyncConfig } from './config/typeorm.config';
 
     PacienteModule,
     EnderecoModule,
-    FuncionarioModule,
+    EmployeeModule,
     ConsultaModule,
     AnamneseModule,
     TratamentoModule,

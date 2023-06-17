@@ -1,4 +1,4 @@
-export class CreateFuncionarioDto {
+export class CreateEmployeeDto {
   nome: string;
   cpf: string;
   rg: string;

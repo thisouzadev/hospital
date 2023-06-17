@@ -1,4 +1,4 @@
-export class UpdateFuncionarioDto {
+export class UpdateEmployeeDto {
   nome?: string;
   cpf?: string;
   rg?: string;

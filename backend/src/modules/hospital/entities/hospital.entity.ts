@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Funcionario } from '../../funcionario/entities/funcionario.entity';
+import { Employee } from '../../employee/entities/employee.entity';
 
 @Entity()
 export class Hospital {
@@ -21,6 +21,6 @@ export class Hospital {
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt: Date;
 
-  @OneToMany(() => Funcionario, (funcionario) => funcionario.hospital)
-  funcionarios: Funcionario[];
+  @OneToMany(() => Employee, (employee) => employee.hospital)
+  employees: Employee[];
 }
