@@ -20,7 +20,9 @@ export class EmployeeService {
   }
 
   findAll(): Promise<Employee[]> {
-    return this.employeeRepository.find({ relations: ['address', 'user'] });
+    return this.employeeRepository.find({
+      relations: ['address', 'user', 'doctor'],
+    });
   }
 
   async findOne(id: string): Promise<Employee> {

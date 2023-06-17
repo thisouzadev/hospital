@@ -20,6 +20,7 @@ import { UserModule } from './modules/user/user.module';
 import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { EmployeeModule } from './modules/employee/employee.module';
 import { AddressModule } from './modules/address/address.module';
+import { DoctorModule } from './modules/doctor/doctor.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { AddressModule } from './modules/address/address.module';
     HospitalModule,
     AuthModule,
     UserModule,
+    DoctorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

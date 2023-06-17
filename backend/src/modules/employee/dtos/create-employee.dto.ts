@@ -1,8 +1,15 @@
-import { IsNotEmpty, IsString, IsUUID, ValidateNested } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
 import { CreateUserDto } from '../../user/dto/create-user.dto';
 
 import { Type } from 'class-transformer';
 import { CreateAddressDto } from '../../address/dto/create-address.dto';
+import { CreateDoctorDto } from 'src/modules/doctor/dto/create-doctor.dto';
 
 export class CreateEmployeeDto {
   @IsNotEmpty()
@@ -26,4 +33,9 @@ export class CreateEmployeeDto {
   @ValidateNested()
   @Type(() => CreateAddressDto)
   address: CreateAddressDto;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => CreateDoctorDto)
+  doctor: CreateDoctorDto;
 }

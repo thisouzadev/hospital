@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Hospital } from '../../hospital/entities/hospital.entity';
 import { User } from '../../user/entities/user.entity';
+import { Doctor } from 'src/modules/doctor/entities/doctor.entity';
 
 @Entity('employees')
 export class Employee {
@@ -43,6 +44,11 @@ export class Employee {
   @ManyToOne(() => Hospital, (hospital) => hospital.employees)
   @JoinColumn({ name: 'hospital_id', referencedColumnName: 'hospitalId' })
   hospital: Hospital;
+
+  @OneToOne(() => Doctor, (doctor) => doctor.employee, {
+    cascade: ['insert', 'update'],
+  })
+  doctor: Doctor;
 
   @OneToOne(() => User, { cascade: ['insert', 'update'], onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id', referencedColumnName: 'userId' })
