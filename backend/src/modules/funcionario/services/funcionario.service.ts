@@ -14,13 +14,8 @@ export class FuncionarioService {
   ) {}
 
   async create(funcionarioDto: CreateFuncionarioDto): Promise<Funcionario> {
-    const { senha } = funcionarioDto;
-    const saltRounds = 10;
-    const hashedSenha = await bcrypt.hash(senha, saltRounds);
-
     const funcionario = this.funcionarioRepository.create({
       ...funcionarioDto,
-      senha: hashedSenha,
     });
 
     return this.funcionarioRepository.save(funcionario);
@@ -38,13 +33,8 @@ export class FuncionarioService {
     id: string,
     funcionarioDto: UpdateFuncionarioDto,
   ): Promise<Funcionario> {
-    const { senha } = funcionarioDto;
-    const saltRounds = 10;
-    const hashedSenha = await bcrypt.hash(senha, saltRounds);
-
     await this.funcionarioRepository.update(id, {
       ...funcionarioDto,
-      senha: hashedSenha,
     });
 
     return this.funcionarioRepository.findOne({ where: { funcionarioID: id } });

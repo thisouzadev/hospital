@@ -4,7 +4,5 @@ export class CreateFuncionarioDto {
   rg: string;
   cargo: string;
   especialidade: string;
-  email: string;
-  senha: string;
   hospitalID: string;
 }

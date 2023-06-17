@@ -4,7 +4,5 @@ export class UpdateFuncionarioDto {
   rg?: string;
   cargo?: string;
   especialidade?: string;
-  email?: string;
-  senha?: string;
   hospitalId?: number;
 }
