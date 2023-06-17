@@ -8,7 +8,6 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Hospital } from '../../hospital/entities/hospital.entity';
-import { Role } from '../../../shared/enums/role.enum';
 import { User } from 'src/modules/user/entities/user.entity';
 
 @Entity('employees')
@@ -19,23 +18,17 @@ export class Employee {
   @Column()
   name: string;
 
-  // @Column({ name: 'user_id' })
-  // userId: string;
-
   @Column()
   cpf: string;
 
   @Column()
   rg: string;
 
-  @Column()
-  especialidade: string;
-
   @Column({ default: true })
-  ativo: boolean;
+  active: boolean;
 
-  @Column()
-  hospitalID: string;
+  @Column({ name: 'hospital_id' })
+  hospitalId: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
@@ -43,14 +36,14 @@ export class Employee {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
 
-  @DeleteDateColumn({ name: 'deleted_at', nullable: true })
-  deletedAt: Date;
+  @DeleteDateColumn({ name: 'left_at', nullable: true })
+  leftAt: Date;
 
   @ManyToOne(() => Hospital, (hospital) => hospital.employees)
-  @JoinColumn({ name: 'hospitalID', referencedColumnName: 'hospitalID' })
+  @JoinColumn({ name: 'hospital_id', referencedColumnName: 'hospitalId' })
   hospital: Hospital;
 
-  @OneToOne(() => User, { cascade: true })
-  @JoinColumn()
+  @OneToOne(() => User, { cascade: ['insert', 'update'], onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'userId' })
   user: User;
 }

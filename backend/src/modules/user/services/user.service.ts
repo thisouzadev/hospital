@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -13,17 +13,12 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async create(UserDto: CreateUserDto): Promise<User> {
-    const { password } = UserDto;
-    const saltRounds = 10;
-    const hashedSenha = await bcrypt.hash(password, saltRounds);
-
-    const User = this.userRepository.create({
-      ...UserDto,
-      password: hashedSenha,
+  async create(userDto: CreateUserDto): Promise<User> {
+    const user = this.userRepository.create({
+      ...userDto,
     });
 
-    return this.userRepository.save(User);
+    return this.userRepository.save(user);
   }
 
   async findAll(): Promise<User[]> {
@@ -31,23 +26,30 @@ export class UserService {
   }
 
   async findOne(userId: string): Promise<User> {
-    return this.userRepository.findOneBy({ userId });
+    const user = await this.userRepository.findOneBy({ userId });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+    return user;
   }
 
-  async update(id: string, UserDto: UpdateUserDto): Promise<User> {
-    const { password } = UserDto;
-    const saltRounds = 10;
-    const hashedSenha = await bcrypt.hash(password, saltRounds);
+  async update(userId: string, userDto: UpdateUserDto): Promise<User> {
+    const user = await this.userRepository.findOneBy({ userId });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+    Object.assign(user, userDto);
 
-    await this.userRepository.update(id, {
-      ...UserDto,
-      password: hashedSenha,
-    });
+    this.userRepository.save(user);
 
-    return this.userRepository.findOne({ where: { userId: id } });
+    return user;
   }
 
-  async remove(id: number): Promise<void> {
-    await this.userRepository.delete(id);
+  async remove(userId: string): Promise<void> {
+    const user = await this.userRepository.findOneBy({ userId });
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+    await this.userRepository.remove(user);
   }
 }

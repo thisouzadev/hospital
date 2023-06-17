@@ -1,10 +1,13 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Employee } from 'src/modules/employee/entities/employee.entity';
+import * as bcrypt from 'bcrypt';
+
 import {
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -55,4 +58,15 @@ export class User {
 
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt: Date;
+
+  @OneToOne(() => Employee, (employee) => employee.user)
+  employee: Employee;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  async hashPassword() {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(this.password, saltRounds);
+    this.password = hashedPassword;
+  }
 }

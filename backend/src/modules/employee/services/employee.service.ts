@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
@@ -20,22 +20,56 @@ export class EmployeeService {
   }
 
   findAll(): Promise<Employee[]> {
-    return this.employeeRepository.find({ relations: ['hospital'] });
+    return this.employeeRepository.find({ relations: ['hospital', 'user'] });
   }
 
-  findOne(id: string): Promise<Employee> {
-    return this.employeeRepository.findOne({ where: { employeeId: id } });
+  async findOne(id: string): Promise<Employee> {
+    const employee = await this.employeeRepository.findOne({
+      where: { employeeId: id },
+    });
+    console.log(employee);
+    if (!employee) {
+      throw new NotFoundException('Funcionário não encontrado');
+    }
+    return employee;
   }
 
-  async update(id: string, EmployeeDto: UpdateEmployeeDto): Promise<Employee> {
-    await this.employeeRepository.update(id, {
-      ...EmployeeDto,
+  async update(
+    employeeId: string,
+    employeeDto: UpdateEmployeeDto,
+  ): Promise<Employee> {
+    const employee = await this.employeeRepository.findOne({
+      where: { employeeId },
+      relations: ['user'],
+    });
+    if (!employee) {
+      throw new NotFoundException('Funcionário não encontrado');
+    }
+
+    console.log(employee);
+
+    Object.assign(employee, {
+      ...employeeDto,
+      user: {
+        ...employee.user,
+        ...employeeDto.user,
+        password: employee.user.password,
+      },
     });
 
-    return this.employeeRepository.findOne({ where: { employeeId: id } });
+    console.log(employee);
+
+    return this.employeeRepository.save(employee);
   }
 
-  async remove(id: number): Promise<void> {
-    await this.employeeRepository.delete(id);
+  async remove(employeeId: string): Promise<void> {
+    const employee = await this.employeeRepository.findOne({
+      where: { employeeId },
+      relations: ['user'],
+    });
+    if (!employee) {
+      throw new NotFoundException('Funcionário não encontrado');
+    }
+    await this.employeeRepository.remove(employee);
   }
 }
