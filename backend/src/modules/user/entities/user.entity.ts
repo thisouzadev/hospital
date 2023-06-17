@@ -1,13 +1,16 @@
 import { IsNotEmpty, IsString } from 'class-validator';
+import { Employee } from 'src/modules/employee/entities/employee.entity';
 import {
   Column,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
 export enum UserRole {
-  Medico = 'medico',
+  Medico = 'médico',
   Recepcionista = 'recepcionista',
   Farmaceutico = 'farmaceutico',
   Admin = 'administrador',

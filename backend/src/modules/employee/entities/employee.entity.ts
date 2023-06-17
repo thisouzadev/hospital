@@ -4,10 +4,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Hospital } from '../../hospital/entities/hospital.entity';
 import { Role } from '../../../shared/enums/role.enum';
+import { User } from 'src/modules/user/entities/user.entity';
 
 @Entity('employees')
 export class Employee {
@@ -15,16 +17,16 @@ export class Employee {
   employeeId: string;
 
   @Column()
-  nome: string;
+  name: string;
+
+  // @Column({ name: 'user_id' })
+  // userId: string;
 
   @Column()
   cpf: string;
 
   @Column()
   rg: string;
-
-  @Column()
-  role: Role;
 
   @Column()
   especialidade: string;
@@ -47,4 +49,8 @@ export class Employee {
   @ManyToOne(() => Hospital, (hospital) => hospital.employees)
   @JoinColumn({ name: 'hospitalID', referencedColumnName: 'hospitalID' })
   hospital: Hospital;
+
+  @OneToOne(() => User, { cascade: true })
+  @JoinColumn()
+  user: User;
 }

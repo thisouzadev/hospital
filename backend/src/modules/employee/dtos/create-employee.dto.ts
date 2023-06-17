@@ -1,8 +1,10 @@
+import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
+
 export class CreateEmployeeDto {
-  nome: string;
+  name: string;
   cpf: string;
   rg: string;
   cargo: string;
   especialidade: string;
-  hospitalID: string;
+  user: CreateUserDto;
 }

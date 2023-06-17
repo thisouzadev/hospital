@@ -1,8 +1,7 @@
 export class UpdateEmployeeDto {
-  nome?: string;
+  name?: string;
   cpf?: string;
   rg?: string;
   cargo?: string;
   especialidade?: string;
-  hospitalId?: number;
 }
