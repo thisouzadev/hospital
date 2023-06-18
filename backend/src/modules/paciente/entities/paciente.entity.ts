@@ -60,31 +60,4 @@ export class Paciente {
 
   @Column()
   naturalidade: string;
-
-  @OneToMany(() => Transferencia, (transferencia) => transferencia.paciente)
-  transferencias: Transferencia[];
-
-  @OneToMany(
-    () => EvolucaoPrescricao,
-    (evolucaoPrescricao) => evolucaoPrescricao.paciente,
-  )
-  evolucoesPrescricao: EvolucaoPrescricao[];
-
-  @OneToMany(
-    () => PrescricaoInicial,
-    (prescricaoInicial) => prescricaoInicial.paciente,
-  )
-  prescricoesIniciais: PrescricaoInicial[];
-
-  @OneToMany(() => Consulta, (consulta) => consulta.paciente)
-  consultas: Consulta[];
-
-  @OneToMany(() => Anamnese, (anamnese) => anamnese.paciente)
-  anamneses: Anamnese[];
-
-  @ManyToMany(() => ExamesSolicitados, (exame) => exame.paciente)
-  examesSolicitados: ExamesSolicitados[];
-
-  @ManyToMany(() => Tratamento, (tratamento) => tratamento.paciente)
-  tratamentos: Tratamento[];
 }
