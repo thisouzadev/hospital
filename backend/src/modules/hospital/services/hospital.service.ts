@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateHospitalDto } from '../dtos/create-hospital.dto';
 import { Hospital } from '../entities/hospital.entity';
 
 @Injectable()
@@ -10,7 +11,7 @@ export class HospitalService {
     private hospitalRepository: Repository<Hospital>,
   ) {}
 
-  async createHospital(hospital: Hospital): Promise<Hospital> {
+  async createHospital(hospital: CreateHospitalDto): Promise<Hospital> {
     try {
       const newHospital = await this.hospitalRepository.create(hospital);
       return await this.hospitalRepository.save(newHospital);
