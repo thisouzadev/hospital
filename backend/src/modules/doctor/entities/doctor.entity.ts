@@ -1,5 +1,5 @@
-import { State } from 'src/modules/address/entities/state.entity';
-import { Employee } from 'src/modules/employee/entities/employee.entity';
+import { State } from '../../address/entities/state.entity';
+import { Employee } from '../../employee/entities/employee.entity';
 import {
   Column,
   Entity,

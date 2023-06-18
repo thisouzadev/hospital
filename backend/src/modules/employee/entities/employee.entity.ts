@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { Hospital } from '../../hospital/entities/hospital.entity';
 import { User } from '../../user/entities/user.entity';
-import { Doctor } from 'src/modules/doctor/entities/doctor.entity';
+import { Doctor } from '../../doctor/entities/doctor.entity';
 
 @Entity('employees')
 export class Employee {

@@ -21,9 +21,6 @@ const createSuperAdmin = async () => {
 
   // console.log(a);
 
-  const saltRounds = 10;
-  const hashedPassword = await bcrypt.hash('123456', saltRounds);
-
   class superAdminData implements CreateUserDto {
     role: UserRole;
     email: string;
