@@ -10,9 +10,9 @@ const App: React.FC = () => {
     <BrowserRouter>
       <Routes>
         <Route>
-          <Route path="/" element={<Login />} />
           <Route path="/admin/manage" element={<Management />} />
           <Route path="/admin/pacientes" element={<Patients />} />
+          <Route path="/login" element={<Login />} />
         </Route>
       </Routes>
     </BrowserRouter>
