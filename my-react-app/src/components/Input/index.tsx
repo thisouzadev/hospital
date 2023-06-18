@@ -11,26 +11,40 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({
-    label, className, width, name, md, asChild, ...props
+    label, className, name, md, asChild, ...props
   }, forwardedRed) => {
     const Comp = asChild ? Slot : 'input';
     return (
-      <div className='group'>
+      <div 
+        className={
+        clsx(
+          'group flex items-center h-9',
+          { 'md:col-span-1': md === 1 },
+          { 'md:col-span-2': md === 2 },
+          { 'md:col-span-3': md === 3 },
+          { 'md:col-span-4': md === 4 },
+          { 'md:col-span-5': md === 5 },
+          { 'md:col-span-6': md === 6 },
+          { 'md:col-span-7': md === 7 },
+          { 'md:col-span-8': md === 8 },
+          { 'md:col-span-9': md === 9 },
+          { 'md:col-span-10': md === 10 },
+          { 'md:col-span-11': md === 11 },
+          { 'md:col-span-12': md === 12 },
+          ''
+        )
+      }
+      >
         <label
           htmlFor={name}
           className={
-          clsx(
-            'flex items-center ring-1 ring-black rounded-lg border-black text-black h-9 px-1 gap-1 group-hover:ring-2 focus-within:ring-2',
-            { 'md:w-2/12': md === 2 },
-            { 'md:w-4/12': md === 4 },
-            { 'md:w-6/12': md === 6 },
-            { 'md:w-8/12': md === 8 },
-            { 'md:w-10/12': md === 10 },
-
-          )
-        }
+            clsx(
+              'flex items-center ring-1  h-9 px-1 gap-1  w-full',
+              'ring-black rounded-lg border-black text-black group-hover:ring-2 focus-within:ring-2'
+            )
+          }
         >
-          <span className="">{label}</span>
+          <span className="whitespace-nowrap">{label}</span>
           <Comp
             name={name}
             {...props}

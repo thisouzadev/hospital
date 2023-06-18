@@ -31,7 +31,7 @@ const createSuperAdmin = async () => {
     constructor() {
       this.role = UserRole.SuperAdmin;
       this.email = 'super_admin@email.com';
-      this.password = hashedPassword;
+      this.password = '123456';
     }
   }
 
