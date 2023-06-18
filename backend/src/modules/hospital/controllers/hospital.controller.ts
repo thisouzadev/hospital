@@ -6,15 +6,11 @@ import {
   Body,
   Put,
   Delete,
-  UseGuards,
-  Request,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
-import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/modules/auth/roles.decorator';
-import { RolesGuard } from 'src/modules/auth/roles.guard';
-import { Role } from 'src/shared/enums/role.enum';
+
+import { CreateHospitalDto } from '../dtos/create-hospital.dto';
 import { Hospital } from '../entities/hospital.entity';
 import { HospitalService } from '../services/hospital.service';
 
@@ -28,7 +24,7 @@ export class HospitalController {
   ) {}
 
   @Post()
-  async createHospital(@Body() hospital: Hospital): Promise<Hospital> {
+  async createHospital(@Body() hospital: CreateHospitalDto): Promise<Hospital> {
     return this.hospitalService.createHospital(hospital);
   }
 
