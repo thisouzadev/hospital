@@ -3,7 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { PacienteModule } from './modules/paciente/paciente.module';
 import { ConsultaModule } from './modules/consulta/consulta.module';
 import { AnamneseModule } from './modules/anamnese/anamnese.module';
 import { TratamentoModule } from './modules/tratamento/tratamento.module';
@@ -21,6 +20,7 @@ import { typeOrmAsyncConfig } from './config/typeorm.config';
 import { EmployeeModule } from './modules/employee/employee.module';
 import { AddressModule } from './modules/address/address.module';
 import { DoctorModule } from './modules/doctor/doctor.module';
+import { PatientModule } from './modules/patient/patient.module';
 
 @Module({
   imports: [
@@ -32,7 +32,6 @@ import { DoctorModule } from './modules/doctor/doctor.module';
       cache: true,
     }),
 
-    PacienteModule,
     AddressModule,
     EmployeeModule,
     ConsultaModule,
@@ -47,6 +46,7 @@ import { DoctorModule } from './modules/doctor/doctor.module';
     AuthModule,
     UserModule,
     DoctorModule,
+    PatientModule,
   ],
   controllers: [AppController],
   providers: [AppService],

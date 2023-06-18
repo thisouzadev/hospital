@@ -1,13 +1,9 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Paciente } from '../../paciente/entities/paciente.entity';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Anamnese {
   @PrimaryGeneratedColumn()
   anamneseID: number;
-
-  @ManyToOne(() => Paciente, (paciente) => paciente.anamneses)
-  paciente: Paciente;
 
   @Column()
   data: Date;
