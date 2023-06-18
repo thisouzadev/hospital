@@ -1,7 +1,8 @@
-import { IsDate, IsDateString, IsString } from 'class-validator';
+import { IsDateString, IsString } from 'class-validator';
+import { ICreatePatient } from '../../../shared/interfaces/create-patient.interface';
 import { Race } from '../entities/patient.entity';
 
-export class CreatePatientDto {
+export class CreatePatientDto implements ICreatePatient {
   @IsString()
   name: string;
 
