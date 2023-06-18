@@ -14,6 +14,7 @@ const Login: React.FC = () => {
   const [password, setPassword] = useState("");
   const [messageError, setMessageError] = useState("");
   const [error, setError] = useState(false);
+  const [stayLoggedIn, setStayLoggedIn] = useState(false);
 
   const { setUser } = useAuth();
   const navigate = useNavigate();
@@ -21,12 +22,15 @@ const Login: React.FC = () => {
   useEffect(() => {
     const userLocal = getLocalStorage("user");
     if (userLocal) {
-      switch (userLocal.cargo) {
-        case "administrator":
-          navigate("/admin/manage");
-          break;
-        default:
-          break;
+      if (userLocal.stayLoggedIn) {
+        // Se o usuário estiver conectado, redirecione para a página apropriada
+        switch (userLocal.role) {
+          case "admin":
+            navigate("/admin/manage");
+            break;
+          default:
+            break;
+        }
       }
     }
   }, [navigate]);
@@ -36,19 +40,18 @@ const Login: React.FC = () => {
     new UserService()
       .login(email, password)
       .then((res) => {
-        // const { token, user } = res.data;
+        const { accessToken, user } = res.data;
 
-        console.log(res.data);
-        // localStorage.setItem("token", token);
-        // setLocalStorage("user", user);
-        // setUser(user);
-        // switch (user.cargo) {
-        //   case "administrator":
-        //     navigate("/admin/manage");
-        //     break;
-        //   default:
-        //     break;
-        // }
+        setLocalStorage("token", accessToken);
+        setLocalStorage("user", { ...user, stayLoggedIn });
+        setUser(user);
+        switch (user.role) {
+          case "admin":
+            navigate("/admin/manage");
+            break;
+          default:
+            break;
+        }
       })
       .catch((err) => {
         setError(true);
@@ -56,6 +59,11 @@ const Login: React.FC = () => {
         console.log("ERRO -> ", err);
       });
   };
+
+  const handleStayLoggedIn = () => {
+    setStayLoggedIn(!stayLoggedIn);
+  };
+
   return (
     <div className="container">
       <div className="d-flex justify-content-center align-items-center vh-100">
@@ -98,9 +106,21 @@ const Login: React.FC = () => {
                 <Link to="/recover-password" className="btn btn-link">
                   Recuperar Senha
                 </Link>
+                <div className="form-check">
+                  <input
+                    className="form-check-input"
+                    type="checkbox"
+                    id="stayLoggedIn"
+                    checked={stayLoggedIn}
+                    onChange={handleStayLoggedIn}
+                  />
+                  <label className="form-check-label" htmlFor="stayLoggedIn">
+                    Manter-se conectado
+                  </label>
+                </div>
               </div>
             </form>
-            {error ? <ErrorLogin message={messageError} /> : ""}
+            {error && <ErrorLogin message={messageError} />}
           </Card.Body>
         </Card>
       </div>
