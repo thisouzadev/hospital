@@ -22,7 +22,7 @@ export class HospitalService {
   async getHospitalById(id: number): Promise<Hospital> {
     try {
       return await this.hospitalRepository.findOne({
-        where: { hospitalID: id },
+        where: { hospitalId: id },
       });
     } catch (error) {
       throw new Error('Error getting hospital: ' + error.message);

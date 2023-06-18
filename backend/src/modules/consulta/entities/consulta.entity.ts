@@ -1,6 +1,4 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Paciente } from '../../paciente/entities/paciente.entity';
-import { Funcionario } from '../../funcionario/entities/funcionario.entity';
 
 @Entity()
 export class Consulta {
@@ -24,10 +22,4 @@ export class Consulta {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;
-
-  @ManyToOne(() => Paciente, (paciente) => paciente.consultas)
-  paciente: Paciente;
-
-  @ManyToOne(() => Funcionario, (funcionario) => funcionario.consultas)
-  funcionario: Funcionario;
 }

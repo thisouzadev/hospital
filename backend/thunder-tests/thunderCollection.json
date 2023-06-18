@@ -1,0 +1,23 @@
+[
+  {
+    "_id": "7e26be5d-bcf8-4c76-b01c-55ddb9d9a92e",
+    "colName": "User",
+    "created": "2023-06-16T22:34:52.945Z",
+    "sortNum": 10000,
+    "folders": []
+  },
+  {
+    "_id": "1db99ed1-be14-41cc-a96c-9e25d96a9645",
+    "colName": "Hospital",
+    "created": "2023-06-16T22:39:20.776Z",
+    "sortNum": 20000,
+    "folders": []
+  },
+  {
+    "_id": "23c86a2a-1928-485e-a2ba-15939476de92",
+    "colName": "Employee",
+    "created": "2023-06-16T22:39:56.430Z",
+    "sortNum": 30000,
+    "folders": []
+  }
+]

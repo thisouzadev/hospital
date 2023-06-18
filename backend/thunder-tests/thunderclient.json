@@ -1,0 +1,63 @@
+[
+  {
+    "_id": "85a74095-2a4d-41d6-9ac1-57cea1619250",
+    "colId": "7e26be5d-bcf8-4c76-b01c-55ddb9d9a92e",
+    "containerId": "",
+    "name": "GetAll",
+    "url": "http://localhost:3000/users",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2023-06-16T22:35:05.865Z",
+    "modified": "2023-06-16T22:35:42.660Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "b142be9b-8302-44fe-b402-dd3096006fd7",
+    "colId": "7e26be5d-bcf8-4c76-b01c-55ddb9d9a92e",
+    "containerId": "",
+    "name": "Signin",
+    "url": "http://localhost:3000/auth/signin",
+    "method": "POST",
+    "sortNum": 20000,
+    "created": "2023-06-16T22:35:33.900Z",
+    "modified": "2023-06-16T22:38:45.777Z",
+    "headers": [],
+    "params": [],
+    "body": {
+      "type": "json",
+      "raw": "{\n  \"email\": \"super_admin@email.com\",\n\t\"password\": \"123456\"\n}\n",
+      "form": []
+    },
+    "tests": []
+  },
+  {
+    "_id": "51fc2647-32ae-42b2-9eb5-2f90cb67c733",
+    "colId": "23c86a2a-1928-485e-a2ba-15939476de92",
+    "containerId": "",
+    "name": "getAll",
+    "url": "http://localhost:3000/employees",
+    "method": "GET",
+    "sortNum": 10000,
+    "created": "2023-06-17T12:28:52.620Z",
+    "modified": "2023-06-17T12:29:05.003Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  },
+  {
+    "_id": "dfb36eb9-d4c7-4860-b862-7781712743b0",
+    "colId": "23c86a2a-1928-485e-a2ba-15939476de92",
+    "containerId": "",
+    "name": "getOne",
+    "url": "http://localhost:3000/employees/9945fb83-6ec0-4b74-88f2-563617fab258",
+    "method": "GET",
+    "sortNum": 20000,
+    "created": "2023-06-17T12:30:15.557Z",
+    "modified": "2023-06-17T12:31:12.476Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]

@@ -1,6 +1,7 @@
-import { Role } from 'src/shared/enums/role.enum';
+import { UserRole } from 'src/modules/user/entities/user.entity';
 
 export interface UserJwtPayload {
-  cpf: string;
-  role: Role;
+  userId: string;
+  email: string;
+  role: UserRole;
 }

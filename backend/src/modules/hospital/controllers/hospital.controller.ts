@@ -18,7 +18,7 @@ import { Role } from 'src/shared/enums/role.enum';
 import { Hospital } from '../entities/hospital.entity';
 import { HospitalService } from '../services/hospital.service';
 
-@UseGuards(AuthGuard())
+// @UseGuards(AuthGuard())
 @Controller('hospitais')
 export class HospitalController {
   constructor(
@@ -32,8 +32,8 @@ export class HospitalController {
     return this.hospitalService.createHospital(hospital);
   }
 
-  @Roles(Role.Admin)
-  @UseGuards(RolesGuard)
+  // @Roles(Role.Admin)
+  // @UseGuards(RolesGuard)
   @Get()
   async getAllHospitals(): Promise<Hospital[]> {
     return this.hospitalService.getAllHospitals();
