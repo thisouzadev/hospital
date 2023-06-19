@@ -117,8 +117,6 @@ const MedicalEmployeeModal: React.FC<Props> = ({ show, onClose, onSave }) => {
                 </Form.Control>
               </Form.Group>
             </Row>
-            {cargo === 'Médico' &&
-            
               <Row>
                 <Form.Group as={Col} controlId="docTipo">
                   <Form.Label>Doc. MED/Tipo</Form.Label>
@@ -145,8 +143,6 @@ const MedicalEmployeeModal: React.FC<Props> = ({ show, onClose, onSave }) => {
                   />
                 </Form.Group>
               </Row>
-            }
-
             <Form.Group as={Col} controlId="mat">
               <Form.Label>Mat</Form.Label>
               <Form.Control
