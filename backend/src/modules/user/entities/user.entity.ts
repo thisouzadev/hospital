@@ -17,6 +17,7 @@ export enum UserRole {
   Recepcionista = 'recepcionista',
   Farmaceutico = 'farmaceutico',
   Admin = 'administrador',
+  HospitalAdmin = 'administrador de hospital',
   SuperAdmin = 'administrador do sistema',
 }
 

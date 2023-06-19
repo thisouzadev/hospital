@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePatientDto } from '../dto/create-patient.dto';
@@ -13,6 +17,14 @@ export class PatientService {
   ) {}
 
   async create(createPatientDto: CreatePatientDto) {
+    const cpfExists = await this.patientRepository.findOne({
+      where: { cpf: createPatientDto.cpf },
+    });
+
+    if (cpfExists) {
+      throw new ConflictException('O paciente já está cadastrado');
+    }
+
     const patient = this.patientRepository.create(createPatientDto);
     await this.patientRepository.save(patient);
     return patient;
@@ -24,11 +36,17 @@ export class PatientService {
 
   async findOne(patientId: string) {
     const patient = await this.patientRepository.findOneBy({ patientId });
-
     if (!patient) {
       throw new NotFoundException('Paciente não encontrado');
     }
+    return patient;
+  }
 
+  async findOneByCPF(cpf: string) {
+    const patient = await this.patientRepository.findOneBy({ cpf });
+    if (!patient) {
+      throw new NotFoundException('Paciente não encontrado');
+    }
     return patient;
   }
 

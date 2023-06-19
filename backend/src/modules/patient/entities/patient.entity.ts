@@ -1,9 +1,10 @@
 import { MaritalState } from '../../../shared/enums/marital-states.enum';
 import { Race } from '../../../shared/enums/race.enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IPatient } from '../../../shared/models/patient/patient.interface';
 
 @Entity('patients')
-export class Patient {
+export class Patient implements IPatient {
   @PrimaryGeneratedColumn('uuid', { name: 'patient_id' })
   patientId: string;
 

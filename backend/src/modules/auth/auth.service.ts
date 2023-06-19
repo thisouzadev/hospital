@@ -21,6 +21,7 @@ export class AuthService {
 
     const user = await this.userRepository.findOne({
       where: { email },
+      relations: ['employee', 'employee.hospital'],
     });
 
     if (user) {
