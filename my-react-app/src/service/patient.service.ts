@@ -1,16 +1,21 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 import {ICreatePatient} from '../../../backend/src/shared/interfaces/create-patient.interface'
 
 
-class PatientService {
+const patientService = {
   async create(patientData:ICreatePatient) {
-    const response = await axios({
-      method: 'post',
-      url: 'http://localhost:3000/patients',
-      data: patientData,
-    });
-    return response.data;
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:3000/patients',
+        data: patientData,
+      });
+      return response.data;
+      
+    } catch (error: any) {
+      return error.response?.data;
+    }
   }}
 
-export default PatientService;
+export default patientService;

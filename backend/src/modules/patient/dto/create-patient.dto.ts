@@ -1,9 +1,12 @@
-import { IsDateString, IsString } from 'class-validator';
+import { IsDateString, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { Gender } from 'src/shared/enums/gender.enum';
+import { MaritalState } from 'src/shared/enums/marital-states.enum';
+import { Race } from 'src/shared/enums/race.enum';
 import { ICreatePatient } from '../../../shared/interfaces/create-patient.interface';
-import { Race } from '../entities/patient.entity';
 
 export class CreatePatientDto implements ICreatePatient {
   @IsString()
+  @IsNotEmpty()
   name: string;
 
   @IsString()
@@ -27,17 +30,17 @@ export class CreatePatientDto implements ICreatePatient {
   @IsString()
   occupation: string;
 
-  @IsString()
-  gender: string;
+  @IsEnum(Gender)
+  gender: Gender;
 
   @IsString()
   cns: string;
 
-  @IsString()
+  @IsEnum(Race)
   race: Race;
 
-  @IsString()
-  maritalState: string;
+  @IsEnum(MaritalState)
+  maritalState: MaritalState;
 
   @IsString()
   placeOfBirth: string;

@@ -2,18 +2,27 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 import { useForm, SubmitHandler,  } from 'react-hook-form';
 
-import PatientService from '../../service/patient.service'
 
 import {ICreatePatient} from '../../../../backend/src/shared/interfaces/create-patient.interface'
+import patientService from "../../service/patient.service";
+import { useState } from "react";
 
 function Patients() {
   const {
-    register, handleSubmit, reset
+    register, handleSubmit, reset,
   } = useForm<ICreatePatient>({
     // defaultValues: curriculum,
   });
 
-  const onSubmit: SubmitHandler<ICreatePatient> = (data) => (new PatientService).create(data);
+  const [errors, setErrors] = useState<string[]>([])
+
+  const onSubmit: SubmitHandler<ICreatePatient> = async (data) => {
+    setErrors([]);
+    const result = await patientService.create(data);
+    if(result.error){
+      setErrors(result.message)
+    }
+  };
 
   return (
     <div className="w-full mt-20">
@@ -57,6 +66,9 @@ function Patients() {
           <div className="flex gap-6 justify-center">
             <Button type="submit">Incluir</Button>
             <Button onClick={()=> reset()}>Limpar</Button>
+          </div>
+          <div className="flex flex-col">
+            {errors.map((error) => <span key={error} className="text-red-500">{error}</span>)}
           </div>
         </form>
       </div>
