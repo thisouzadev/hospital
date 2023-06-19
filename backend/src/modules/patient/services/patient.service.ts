@@ -19,7 +19,7 @@ export class PatientService {
   }
 
   findAll() {
-    return this.patientRepository.find();
+    return this.patientRepository.find({ order: { createdAt: 'DESC' } });
   }
 
   async findOne(patientId: string) {
