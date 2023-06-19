@@ -21,7 +21,7 @@ const Header: React.FC = () => {
             Meu Site
           </Link>
           <button className="btn btn-link" onClick={handleLogout}>
-            <FiLogOut />
+            <FiLogOut size={30} />
           </button>
         </div>
       </nav>
