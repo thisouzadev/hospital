@@ -18,7 +18,7 @@ const Header: React.FC = () => {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container d-flex justify-content-between">
           <Link to="/admin/manage" className="navbar-brand align-self-center">
-            {user.role}
+            {user?.role}
           </Link>
           <button className="btn btn-link" onClick={handleLogout}>
             <FiLogOut size={30} />

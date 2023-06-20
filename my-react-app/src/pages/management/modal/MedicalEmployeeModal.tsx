@@ -117,7 +117,7 @@ const MedicalEmployeeModal: React.FC<Props> = ({ show, onClose, onSave }) => {
                 </Form.Control>
               </Form.Group>
             </Row>
-            <Row>
+            { cargo==='Médico' && <Row>
               <Form.Group as={Col} controlId="docTipo">
                 <Form.Label>Doc. MED/Tipo</Form.Label>
                 <Form.Control
@@ -142,7 +142,7 @@ const MedicalEmployeeModal: React.FC<Props> = ({ show, onClose, onSave }) => {
                   onChange={(e) => setCNS(e.target.value)}
                 />
               </Form.Group>
-            </Row>
+            </Row>}
 
             <Form.Group as={Col} controlId="mat">
               <Form.Label>Mat</Form.Label>

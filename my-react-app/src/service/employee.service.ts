@@ -12,7 +12,7 @@ class EmployeeService {
 
   async deletedEmployee(id: string) {
     const response = await axios({
-      method: 'del',
+      method: 'delete',
       url: `http://localhost:3000/employees/${id}`,
       data: {},
     });

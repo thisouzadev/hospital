@@ -17,7 +17,9 @@ export class Doctor {
   @Column({ name: 'employee_id' })
   employeeId: string;
 
-  @OneToOne(() => Employee, (employee) => employee.doctor)
+  @OneToOne(() => Employee, (employee) => employee.doctor, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'employee_id', referencedColumnName: 'employeeId' })
   employee: Employee;
 

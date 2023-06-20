@@ -67,12 +67,12 @@ function Management() {
     console.log("deleted", id);
 
     // Lógica para excluir o funcionário com o ID fornecido
-    // try {
-    //   const service = new EmployeeService();
-    //   return await service.deletedEmployee(id);
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      const service = new EmployeeService();
+      return await service.deletedEmployee(id);
+    } catch (error) {
+      console.log(error);
+    }
     setShowDeleteModal(false);
   };
   if (loading) {
@@ -118,17 +118,16 @@ function Management() {
               <tr key={employee.employeeId}>
                 <td>{employee.name}</td>
                 <td>{employee.user.role}</td>
-                <td>
-                  <Button variant="primary" style={{ marginRight: "10px" }}>
-                    <BsPencilFill /> Editar
+                <td className="flex">
+                  <Button variant="primary" style={{ marginRight: "10px"}} className="d-flex items-center gap-2" >
+                    <BsPencilFill />Editar
                   </Button>
                   <Button
                     onClick={() => setShowDeleteModal(true)}
                     variant="danger"
+                    className="d-flex items-center gap-2"
                   >
-                    <span>
-                      <BsTrashFill /> Deletar
-                    </span>
+                    <BsTrashFill /> Deletar
                   </Button>
                   <ConfirmationModal
                     show={showDeleteModal}
