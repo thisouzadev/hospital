@@ -22,6 +22,7 @@ type Employee = {
   userId: string;
   name: string;
   user: string;
+  employeeId: string;
 };
 
 type CreateEmployee = {
@@ -114,7 +115,7 @@ function Management() {
           </thead>
           <tbody>
             {employees.map((employee) => (
-              <tr key={employee.userId}>
+              <tr key={employee.employeeId}>
                 <td>{employee.name}</td>
                 <td>{employee.user.role}</td>
                 <td>
@@ -132,7 +133,9 @@ function Management() {
                   <ConfirmationModal
                     show={showDeleteModal}
                     onCancel={() => setShowDeleteModal(false)}
-                    onConfirm={handleConfirmDeleteEmployee}
+                    onConfirm={() =>
+                      handleConfirmDeleteEmployee(employee.employeeId)
+                    }
                   />
                 </td>
               </tr>
