@@ -19,22 +19,6 @@ const Login: React.FC = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const userLocal = getLocalStorage("user");
-    if (userLocal) {
-      if (userLocal.stayLoggedIn) {
-        // Se o usuário estiver conectado, redirecione para a página apropriada
-        switch (userLocal.role) {
-          case "admin":
-            navigate("/admin/manage");
-            break;
-          default:
-            break;
-        }
-      }
-    }
-  }, [navigate]);
-
   const signup = (event: React.FormEvent) => {
     event.preventDefault();
     new UserService()
@@ -46,7 +30,7 @@ const Login: React.FC = () => {
         setLocalStorage("user", { ...user, stayLoggedIn });
         setUser(user);
         switch (user.role) {
-          case "admin":
+          case "administrador":
             navigate("/admin/manage");
             break;
           default:

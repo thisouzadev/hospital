@@ -2,14 +2,15 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
+import { setLocalStorage } from "../../utils/functions/setLocalStorage";
 
 const Header: React.FC = () => {
-  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     // Lógica de logout, como remover token ou limpar dados de autenticação
-    setUser(null);
+    // setLocalStorage("token", null);
+    // setLocalStorage("user", null);
     navigate("/login");
   };
 

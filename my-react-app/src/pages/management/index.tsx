@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../../components/header";
 import EmployeeServiceModal from "./modal/EmployeeServiceModal";
 import MedicalEmployeeModal from "./modal/MedicalEmployeeModal";
 import { Button } from "react-bootstrap";
 import ConfirmationModal from "./modal/ConfirmationModal";
+import EmployeeService from "../../service/employee.service";
+import Loading from "../../components/loading";
 
 type CreateEmployeeService = {
   cpf: string;
@@ -33,7 +35,23 @@ function Management() {
   const [showModalService, setShowModalService] = useState(false);
   const [showModalDoctor, setShowModalDoctor] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const service = new EmployeeService();
+        const response = await service.getAllEmployee();
+        setEmployees(response.data);
+        setLoading(false); // Indicar que os dados foram carregados
+        console.log("employees", response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
+    fetchEmployees();
+  }, []);
   const handleSaveEmployeeService = (employee: CreateEmployeeService) => {
     // Lógica para salvar o funcionário
     console.log(employee);
@@ -50,13 +68,6 @@ function Management() {
 
     setShowDeleteModal(false);
   };
-  const employees: Employee[] = [
-    { id: 1, nome: "João", cargo: "Atendente" },
-    { id: 2, nome: "Maria", cargo: "Médica" },
-    { id: 3, nome: "Pedro", cargo: "Enfermeiro" },
-  ];
-
-  const keys = Object.keys(employees[0]) as (keyof Employee)[];
 
   return (
     <div>
@@ -86,8 +97,14 @@ function Management() {
           onSave={handleSaveEmployeeDoctor}
         />
       </div>
+    </div>
+  );
+}
 
-      <table className="table table-bordered table-striped">
+export default Management;
+
+{
+  /* <table className="table table-bordered table-striped">
         <thead className="table-dark">
           <tr>
             {keys.map((key) => (
@@ -120,9 +137,5 @@ function Management() {
             </tr>
           ))}
         </tbody>
-      </table>
-    </div>
-  );
+      </table> */
 }
-
-export default Management;
