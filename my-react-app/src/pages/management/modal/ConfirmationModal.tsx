@@ -4,7 +4,7 @@ import { Button, Modal } from "react-bootstrap";
 type Props = {
   show: boolean;
   onCancel: () => void;
-  onConfirm: (id: number) => void;
+  onConfirm: (id: string) => void;
 };
 
 const ConfirmationModal: React.FC<Props> = ({ show, onCancel, onConfirm }) => {
