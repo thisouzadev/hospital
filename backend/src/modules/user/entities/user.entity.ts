@@ -11,15 +11,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
-export enum UserRole {
-  Medico = 'médico',
-  Recepcionista = 'recepcionista',
-  Farmaceutico = 'farmaceutico',
-  Admin = 'administrador',
-  HospitalAdmin = 'administrador de hospital',
-  SuperAdmin = 'administrador do sistema',
-}
+import { UserRole } from 'src/shared/enums/user-role.enum';
 
 @Entity('users')
 export class User {
