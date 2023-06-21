@@ -7,18 +7,19 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   md?: number
   lg?: number
   asChild? : boolean
+  disabled?:boolean
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({
-    label, className, name, md, asChild, ...props
+    label, className, name, md, asChild,disabled, ...props
   }, forwardedRed) => {
     const Comp = asChild ? Slot : 'input';
     return (
       <div 
         className={
         clsx(
-          'group flex items-center h-9',
+          'group flex items-center h-9 bg-white rounded-md',
           { 'md:col-span-1': md === 1 },
           { 'md:col-span-2': md === 2 },
           { 'md:col-span-3': md === 3 },
@@ -31,7 +32,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           { 'md:col-span-10': md === 10 },
           { 'md:col-span-11': md === 11 },
           { 'md:col-span-12': md === 12 },
-          ''
+          className
         )
       }
       >
@@ -40,18 +41,19 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className={
             clsx(
               'flex items-center ring-1  h-9 px-1 gap-1  w-full',
-              'ring-black rounded-lg border-black text-black group-hover:ring-2 focus-within:ring-2'
+              'ring-black rounded-lg border-black text-black ',
+              {'group-hover:ring-2 focus-within:ring-2': !disabled}
             )
           }
         >
           <span className="whitespace-nowrap">{label}</span>
           <Comp
             name={name}
+            disabled= {disabled}
             {...props}
             className={
             clsx(
               'text-gray-700 w-full bg-transparent outline-none',
-              className,
             )
           }
             ref={forwardedRed}

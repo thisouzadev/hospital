@@ -19,7 +19,9 @@ export class ScheduleService {
   }
 
   findAll() {
-    return this.scheduleRepository.find({ relations: ['patient', 'doctor'] });
+    return this.scheduleRepository.find({
+      relations: ['patient', 'doctor', 'doctor.employee'],
+    });
   }
 
   async findOne(scheduleId: string) {

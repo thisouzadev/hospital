@@ -5,6 +5,7 @@ import Login from "./pages/login";
 import Management from "./pages/management";
 import CreatePatient from "./pages/patients/CreatePatient";
 import ListPatients from "./pages/patients/ListPatients";
+import CreateSchedule from "./pages/schedules/CreateSchedule";
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
           <Route path="/admin/manage" element={<Management />} />
           <Route path="/admin/pacientes/cadastrar" element={<CreatePatient />} />
           <Route path="/admin/pacientes" element={<ListPatients />} />
+          <Route path="/admin/agendamentos" element={<CreateSchedule />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<Login />} />
         </Route>
