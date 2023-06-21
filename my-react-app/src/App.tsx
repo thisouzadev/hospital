@@ -11,19 +11,34 @@ import Header from "./components/Header";
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <Header/>
       <Routes>
-        <Route >
+        <Route path="/login" element={<Login />} />
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Login />} />
           <Route path="/admin/manage" element={<Management />} />
-          <Route path="/admin/pacientes/cadastrar" element={<CreatePatient />} />
+          <Route
+            path="/admin/pacientes/cadastrar"
+            element={<CreatePatient />}
+          />
           <Route path="/admin/pacientes" element={<ListPatients />} />
           <Route path="/admin/agendamentos" element={<CreateSchedule />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Login />} />
         </Route>
       </Routes>
     </BrowserRouter>
   );
 };
-
+const MainLayout: React.FC = () => {
+  return (
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/admin/manage" element={<Management />} />
+        <Route path="/admin/pacientes/cadastrar" element={<CreatePatient />} />
+        <Route path="/admin/pacientes" element={<ListPatients />} />
+        <Route path="/admin/agendamentos" element={<CreateSchedule />} />
+      </Routes>
+    </>
+  );
+};
 export default App;
