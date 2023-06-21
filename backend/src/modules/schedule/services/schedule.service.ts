@@ -19,7 +19,7 @@ export class ScheduleService {
   }
 
   findAll() {
-    return this.scheduleRepository.find();
+    return this.scheduleRepository.find({ relations: ['patient', 'doctor'] });
   }
 
   async findOne(scheduleId: string) {

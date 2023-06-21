@@ -1,4 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Doctor } from 'src/modules/doctor/entities/doctor.entity';
+import { Patient } from 'src/modules/patient/entities/patient.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export enum ScheduleStatus {
   SCHEDULED = 'agendado',
@@ -15,8 +23,16 @@ export class Schedule {
   @Column({ name: 'doctor_id', nullable: true })
   doctorId: string;
 
+  @ManyToOne(() => Doctor)
+  @JoinColumn({ name: 'doctor_id', referencedColumnName: 'doctorId' })
+  doctor: Doctor;
+
   @Column({ name: 'patient_id' })
   patientId: string;
+
+  @ManyToOne(() => Patient)
+  @JoinColumn({ name: 'patient_id', referencedColumnName: 'patientId' })
+  patient: Patient;
 
   @Column({ name: 'schedule_date', type: 'date' })
   scheduleDate: Date;

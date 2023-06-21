@@ -1,4 +1,18 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateScheduleDto } from './create-schedule.dto';
+import { IsDateString, IsEnum, IsOptional, IsUUID } from 'class-validator';
+import { ScheduleStatus } from '../entities/schedule.entity';
 
-export class UpdateScheduleDto extends PartialType(CreateScheduleDto) {}
+export class UpdateScheduleDto {
+  @IsUUID()
+  @IsOptional()
+  doctorId: string;
+
+  @IsDateString()
+  scheduleDate: Date;
+
+  @IsOptional()
+  scheduleTime: Date;
+
+  @IsOptional()
+  @IsEnum(ScheduleStatus)
+  status: ScheduleStatus;
+}
