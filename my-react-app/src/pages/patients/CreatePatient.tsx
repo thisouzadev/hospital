@@ -13,7 +13,6 @@ import {MaritalState} from '../../../../backend/src/shared/enums/marital-states.
 
 import patientService from "../../service/patient.service";
 import { useState } from "react";
-import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 
 function CreatePatient() {
@@ -38,7 +37,6 @@ function CreatePatient() {
 
   return (
     <div className="w-full">
-      <Header></Header>
       <div className="max-w-5xl m-auto pt-20">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
           <div className="grid grid-cols-12 gap-2">

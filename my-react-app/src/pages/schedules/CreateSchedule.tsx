@@ -6,9 +6,7 @@ import {ICreateScheduleDto} from '../../types/backend.interfaces'
 
 import patientService from "../../service/patient.service";
 import { useEffect, useState } from "react";
-import Header from "../patients/Header";
 import { useNavigate } from "react-router-dom";
-import { Race } from "../../../../backend/src/shared/enums/race.enum";
 import doctorsService from "../../service/doctors.service";
 import scheduleService from "../../service/schedule.service";
 
@@ -79,7 +77,6 @@ function CreateSchedule() {
 
   return (
     <div className="w-full">
-      <Header></Header>
       <div className="max-w-5xl m-auto pt-20">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
           <div className="grid grid-cols-12 gap-2">

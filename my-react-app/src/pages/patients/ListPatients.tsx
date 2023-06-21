@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from "react";
 import patientService from "../../service/patient.service";
-import Header from "./Header";
 import scheduleService from "../../service/schedule.service";
 
 interface IPatient {name:string, createdAd: Date}
@@ -26,7 +25,6 @@ function ListPatients() {
 
   return (
     <div className="w-full">
-      <Header></Header>
       <div className="max-w-5xl m-auto pt-32">
         <div className="h-10 bg-[#D9D9D970] mb-2 flex justify-between items-center">
           <button className="h-full bg-white rounded-md px-12">Últimas 5 entradas / Adulto</button>

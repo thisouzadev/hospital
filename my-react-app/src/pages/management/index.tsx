@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../components/header";
 import EmployeeServiceModal from "./modal/EmployeeServiceModal";
 import MedicalEmployeeModal from "./modal/MedicalEmployeeModal";
 import { Button } from "react-bootstrap";
@@ -80,7 +79,6 @@ function Management() {
   }
   return (
     <div>
-      <Header />
       <div
         style={{
           display: "flex",
