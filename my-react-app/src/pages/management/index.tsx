@@ -6,6 +6,11 @@ import { Button } from "react-bootstrap";
 import ConfirmationModal from "./modal/ConfirmationModal";
 import EmployeeService from "../../service/employee.service";
 import Loading from "../../components/loading";
+import {
+  BsFillPersonPlusFill,
+  BsTrashFill,
+  BsPencilFill,
+} from "react-icons/bs";
 
 type CreateEmployeeService = {
   cpf: string;
@@ -14,12 +19,13 @@ type CreateEmployeeService = {
 };
 
 type Employee = {
-  id: number;
-  nome: string;
-  cargo: string;
+  userId: string;
+  name: string;
+  user: string;
+  employeeId: string;
 };
 
-type CreateEmployeeMedic = {
+type CreateEmployee = {
   nome: string;
   cpf: string;
   rg: string;
@@ -32,8 +38,7 @@ type CreateEmployeeMedic = {
   email: string;
 };
 function Management() {
-  const [showModalService, setShowModalService] = useState(false);
-  const [showModalDoctor, setShowModalDoctor] = useState(false);
+  const [showModalCreatEmployeer, setShowModalCreatEmployeer] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
@@ -52,23 +57,27 @@ function Management() {
 
     fetchEmployees();
   }, []);
-  const handleSaveEmployeeService = (employee: CreateEmployeeService) => {
-    // Lógica para salvar o funcionário
-    console.log(employee);
-  };
-  const handleSaveEmployeeDoctor = (employee: CreateEmployeeMedic) => {
+
+  const handleSaveEmployee = (employee: CreateEmployee) => {
     // Lógica para salvar o funcionário
     console.log(employee);
   };
 
-  const handleConfirmDeleteEmployee = (id: number) => {
-    console.log(id);
+  const handleConfirmDeleteEmployee = async (id: string) => {
+    console.log("deleted", id);
 
     // Lógica para excluir o funcionário com o ID fornecido
-
+    try {
+      const service = new EmployeeService();
+      return await service.deletedEmployee(id);
+    } catch (error) {
+      console.log(error);
+    }
     setShowDeleteModal(false);
   };
-
+  if (loading) {
+    return <Loading />;
+  }
   return (
     <div>
       <Header />
@@ -80,62 +89,61 @@ function Management() {
           marginBottom: "20px",
         }}
       >
-        <Button onClick={() => setShowModalService(true)} variant="primary">
-          Registrar Funcionário de atendimento
-        </Button>
-        <EmployeeServiceModal
-          show={showModalService}
-          onClose={() => setShowModalService(false)}
-          onSave={handleSaveEmployeeService}
-        />
-        <Button onClick={() => setShowModalDoctor(true)} variant="primary">
-          Registrar Funcionário de Medicina
+        <Button
+          onClick={() => setShowModalCreatEmployeer(true)}
+          variant="primary"
+        >
+          <BsFillPersonPlusFill /> Registrar Funcionário
         </Button>
         <MedicalEmployeeModal
-          show={showModalDoctor}
-          onClose={() => setShowModalDoctor(false)}
-          onSave={handleSaveEmployeeDoctor}
+          show={showModalCreatEmployeer}
+          onClose={() => setShowModalCreatEmployeer(false)}
+          onSave={handleSaveEmployee}
         />
+      </div>
+      <div
+        className="table-responsive-md mx-auto"
+        style={{ width: "fit-content" }}
+      >
+        <table className="table table-bordered table-striped table-hover ">
+          <thead className="table-dark">
+            <tr>
+              <th>Nome</th>
+              <th>Cargo</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((employee) => (
+              <tr key={employee.employeeId}>
+                <td>{employee.name}</td>
+                <td>{employee.user.role}</td>
+                <td className="flex">
+                  <Button variant="primary" style={{ marginRight: "10px"}} className="d-flex items-center gap-2" >
+                    <BsPencilFill />Editar
+                  </Button>
+                  <Button
+                    onClick={() => setShowDeleteModal(true)}
+                    variant="danger"
+                    className="d-flex items-center gap-2"
+                  >
+                    <BsTrashFill /> Deletar
+                  </Button>
+                  <ConfirmationModal
+                    show={showDeleteModal}
+                    onCancel={() => setShowDeleteModal(false)}
+                    onConfirm={() =>
+                      handleConfirmDeleteEmployee(employee.employeeId)
+                    }
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 }
 
 export default Management;
-
-{
-  /* <table className="table table-bordered table-striped">
-        <thead className="table-dark">
-          <tr>
-            {keys.map((key) => (
-              <th key={key}>{key}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.id}>
-              {keys.map((key) => (
-                <td key={key}>{employee[key]}</td>
-              ))}
-              <td>
-                <Button variant="primary" style={{ marginRight: "10px" }}>
-                  Editar
-                </Button>
-                <Button
-                  onClick={() => setShowDeleteModal(true)}
-                  variant="danger"
-                >
-                  Deletar
-                </Button>
-                <ConfirmationModal
-                  show={showDeleteModal}
-                  onCancel={() => setShowDeleteModal(false)}
-                  onConfirm={handleConfirmDeleteEmployee}
-                />
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */
-}

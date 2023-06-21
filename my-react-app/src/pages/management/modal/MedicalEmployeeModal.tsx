@@ -117,32 +117,33 @@ const MedicalEmployeeModal: React.FC<Props> = ({ show, onClose, onSave }) => {
                 </Form.Control>
               </Form.Group>
             </Row>
-              <Row>
-                <Form.Group as={Col} controlId="docTipo">
-                  <Form.Label>Doc. MED/Tipo</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={docTipo}
-                    onChange={(e) => setDocTipo(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="docNumero">
-                  <Form.Label>Doc. N°</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={docNumero}
-                    onChange={(e) => setDocNumero(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group as={Col} controlId="cns">
-                  <Form.Label>CNS</Form.Label>
-                  <Form.Control
-                    type="text"
-                    value={cns}
-                    onChange={(e) => setCNS(e.target.value)}
-                  />
-                </Form.Group>
-              </Row>
+            { cargo==='Médico' && <Row>
+              <Form.Group as={Col} controlId="docTipo">
+                <Form.Label>Doc. MED/Tipo</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={docTipo}
+                  onChange={(e) => setDocTipo(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group as={Col} controlId="docNumero">
+                <Form.Label>Doc. N°</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={docNumero}
+                  onChange={(e) => setDocNumero(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group as={Col} controlId="cns">
+                <Form.Label>CNS</Form.Label>
+                <Form.Control
+                  type="text"
+                  value={cns}
+                  onChange={(e) => setCNS(e.target.value)}
+                />
+              </Form.Group>
+            </Row>}
+
             <Form.Group as={Col} controlId="mat">
               <Form.Label>Mat</Form.Label>
               <Form.Control
