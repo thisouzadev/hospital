@@ -1,5 +1,9 @@
 
-import {ICreatePatient} from '../../../backend/src/shared/interfaces/create-patient.interface';
+import {ICreatePatientDTO} from '../../../backend/src/shared/interfaces/create-patient.interface';
 
 
-export interface ICreatePatient;
+
+import {ICreateEmployeeDTO} from '../../../backend/src/shared/interfaces/create-employee.interface'
+
+
+export type {ICreateEmployeeDTO, ICreatePatientDTO}

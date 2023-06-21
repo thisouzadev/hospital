@@ -2,9 +2,9 @@ import { IsDateString, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { Gender } from 'src/shared/enums/gender.enum';
 import { MaritalState } from 'src/shared/enums/marital-states.enum';
 import { Race } from 'src/shared/enums/race.enum';
-import { ICreatePatient } from '../../../shared/interfaces/create-patient.interface';
+import { ICreatePatientDTO } from '../../../shared/interfaces/create-patient.interface';
 
-export class CreatePatientDto implements ICreatePatient {
+export class CreatePatientDto implements ICreatePatientDTO {
   @IsString()
   @IsNotEmpty()
   name: string;

@@ -11,6 +11,7 @@ class UserService {
       },
     });
     return response;
-  }}
+  }
+}
 
 export default UserService;
