@@ -25,7 +25,7 @@ function CreateSchedule() {
 
   const [doctors, setDoctors] = useState<any[]>([])
 
-  const [patient, setPatient] = useState<any>({})
+  const [patient, setPatient] = useState<any>(null)
   const [cpf, setCpf] = useState('')
 
 
@@ -41,16 +41,22 @@ function CreateSchedule() {
 
   const handleCpfChange = async (e:any)=> {
     const newCpf = e.target.value;
-    setCpf(newCpf);
 
-    if(newCpf.length !== 11){
-      return
+    if(newCpf.length <= 11){
+      setCpf(newCpf);
     }
-    console.log(newCpf);
-    const response = await patientService.getByCPF(newCpf);
-    console.log(response);
-    setPatient(response);
-    setValue('patientId', patient.patientId)
+
+    if(newCpf.length === 11){
+      const response = await patientService.getByCPF(newCpf);
+      if(response.error){
+        setErrors([response.message])
+        setPatient(null)
+        return
+      }
+      setPatient(response);
+      setErrors([]);
+      setValue('patientId', patient.patientId)
+    }
   }
 
   const onSubmit: SubmitHandler<ICreateScheduleDto> = async (data) => {
@@ -81,12 +87,13 @@ function CreateSchedule() {
               <Input md={6} label="CPF:" value={cpf} onChange={handleCpfChange} ></Input>
               <Input md={6} label="CNS:" className="mb-10"></Input>
 
-              <Input md={9} label="Nome:" disabled value={patient?.name} ></Input>
+              <Input md={9} label="Nome:" disabled value={patient? patient?.name : ''} ></Input>
               <Input md={3} label="Nascimento:" type="date" className="mb-10" disabled value={patient?.birth}></Input>
 
               <Input md={6} label="Agendamento:" type="Date" {...register('scheduleDate')} ></Input>
               <Input md={6} label="Médico:" asChild {...register('doctorId')}>
                 <select defaultValue={''}>
+                  <option  value={''} className="bg-transparent appearance-none" disabled>Selection um médico</option>
                   {
                     doctors.map(doctor => ( 
                       <option key={doctor.doctorId} value={doctor.doctorId} className="bg-transparent appearance-none">{doctor.employee.name}</option>

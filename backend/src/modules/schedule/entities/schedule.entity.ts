@@ -23,14 +23,14 @@ export class Schedule {
   @Column({ name: 'doctor_id', nullable: true })
   doctorId: string;
 
-  @ManyToOne(() => Doctor)
+  @ManyToOne(() => Doctor, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'doctor_id', referencedColumnName: 'doctorId' })
   doctor: Doctor;
 
   @Column({ name: 'patient_id' })
   patientId: string;
 
-  @ManyToOne(() => Patient)
+  @ManyToOne(() => Patient, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'patient_id', referencedColumnName: 'patientId' })
   patient: Patient;
 

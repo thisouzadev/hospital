@@ -11,7 +11,7 @@ export class Patient implements IPatient {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'date' })
   birth: Date;
 
   @Column({ nullable: true, default: '' })
