@@ -49,7 +49,7 @@ function Management() {
     };
 
     fetchEmployees();
-  }, []);
+  }, [showDeleteModal]);
 
   const handleSaveEmployee = (employee: CreateEmployee) => {
     // Lógica para salvar o funcionário
