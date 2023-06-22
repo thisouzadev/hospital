@@ -7,6 +7,7 @@ import CreatePatient from "./pages/patients/CreatePatient";
 import ListPatients from "./pages/patients/ListPatients";
 import CreateSchedule from "./pages/schedules/CreateSchedule";
 import Header from "./components/Header";
+import CreateEmployee from "./pages/management/CreateEmployee";
 
 const App: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: React.FC = () => {
             path="/admin/pacientes/cadastrar"
             element={<CreatePatient />}
           />
+          <Route path="/admin/manage/cadastrar" element={<CreateEmployee />} />
           <Route path="/admin/pacientes" element={<ListPatients />} />
           <Route path="/admin/agendamentos" element={<CreateSchedule />} />
         </Route>
@@ -37,6 +39,7 @@ const MainLayout: React.FC = () => {
         <Route path="/admin/pacientes/cadastrar" element={<CreatePatient />} />
         <Route path="/admin/pacientes" element={<ListPatients />} />
         <Route path="/admin/agendamentos" element={<CreateSchedule />} />
+        <Route path="/admin/manage/cadastrar" element={<CreateEmployee />} />
       </Routes>
     </>
   );

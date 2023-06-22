@@ -1,10 +1,35 @@
 import { createContext, useContext, ReactNode, useState } from "react";
 
-type User = {
-  id: string;
+type Hospital = {
+  hospitalId: string;
+  nome: string;
+  endereco: string;
+  deletedAt: string | null;
+};
+
+type Employee = {
+  employeeId: string;
   name: string;
-  email: string;
+  cpf: string;
+  rg: string;
+  active: boolean;
+  hospitalId: string;
+  createdAt: string;
+  updatedAt: string;
+  leftAt: string | null;
+  hospital: Hospital;
+};
+
+type User = {
+  userId: string;
   role: string;
+  email: string;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string | null;
+  employee: Employee;
+  stayLoggedIn: boolean;
 };
 
 type AuthContextType = {
