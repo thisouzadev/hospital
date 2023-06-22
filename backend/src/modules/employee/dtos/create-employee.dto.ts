@@ -25,6 +25,12 @@ export class CreateEmployeeDto implements ICreateEmployeeDTO {
   @IsString()
   rg: string;
 
+  @IsString()
+  cns: string;
+
+  @IsString()
+  mat: string;
+
   @IsNotEmpty()
   @ValidateNested()
   @Type(() => CreateUserDto)

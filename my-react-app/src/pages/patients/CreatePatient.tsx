@@ -48,9 +48,6 @@ function CreatePatient() {
     setValue('address.stateId', Number(stateId));
     setValue('address.cityId', '');
 
-    console.log('state');
-    
-
     if(stateId){
       const citiesRes = await citiesService.getCities(stateId);
       if(citiesRes.error){

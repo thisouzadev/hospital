@@ -16,10 +16,11 @@ function CreateEmployee() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { register, handleSubmit, reset } = useForm<ICreateEmployeeDTO>({
-    defaultValues: { hospitalId: user?.employee.hospital.hospitalId },
+    defaultValues: { hospitalId: user?.employee.hospital.hospitalId , user:{password: '123456'}},
   });
 
   const [errors, setErrors] = useState<string[]>([]);
+
 
   const onSubmit: SubmitHandler<ICreatePatient> = async (data) => {
     setErrors([]);
