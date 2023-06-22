@@ -19,7 +19,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <div 
         className={
         clsx(
-          'group flex items-center h-9 bg-white rounded-md',
+          'group flex items-center h-9 bg-white rounded-md col-span-12',
           { 'md:col-span-1': md === 1 },
           { 'md:col-span-2': md === 2 },
           { 'md:col-span-3': md === 3 },

@@ -38,6 +38,9 @@ export class Patient implements IPatient {
   @Column()
   gender: string;
 
+  @Column({ nullable: true })
+  phone: string;
+
   @Column({ nullable: true, type: 'enum', enum: Race, default: Race.NI })
   race: Race;
 

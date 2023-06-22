@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Employee } from '../entities/employee.entity';
@@ -20,6 +24,14 @@ export class EmployeeService {
   ) {}
 
   async create(employeeDto: CreateEmployeeDto): Promise<Employee> {
+    const cpfExists = await this.employeeRepository.findOne({
+      where: { cpf: employeeDto.cpf },
+    });
+
+    if (cpfExists) {
+      throw new ConflictException('O funcionário já está cadastrado');
+    }
+
     const employee = this.employeeRepository.create(employeeDto);
 
     return this.employeeRepository.save(employee);

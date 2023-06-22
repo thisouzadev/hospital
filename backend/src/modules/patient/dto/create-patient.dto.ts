@@ -1,4 +1,13 @@
-import { IsDateString, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import { DiscriminatorDescriptor, Type } from 'class-transformer';
+import {
+  IsDateString,
+  IsEnum,
+  IsNotEmpty,
+  IsString,
+  Length,
+  ValidateNested,
+} from 'class-validator';
+import { CreateAddressDto } from 'src/modules/address/dto/create-address.dto';
 import { Gender } from 'src/shared/enums/gender.enum';
 import { MaritalState } from 'src/shared/enums/marital-states.enum';
 import { Race } from 'src/shared/enums/race.enum';
@@ -6,16 +15,17 @@ import { ICreatePatientDTO } from '../../../shared/interfaces/create-patient.int
 
 export class CreatePatientDto implements ICreatePatientDTO {
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'O nome não pode estar vazio' })
   name: string;
 
   @IsString()
+  @Length(11, 11, { message: 'CPF inválido' })
   cpf: string;
 
   @IsString()
   rg: string;
 
-  @IsDateString()
+  @IsDateString({ strict: true }, { message: 'Data de nascimento inválida' })
   birth: Date;
 
   @IsString()
@@ -30,18 +40,26 @@ export class CreatePatientDto implements ICreatePatientDTO {
   @IsString()
   occupation: string;
 
-  @IsEnum(Gender)
+  @IsString()
+  phone: string;
+
+  @IsEnum(Gender, { message: 'Sexo inválido' })
   gender: Gender;
 
   @IsString()
   cns: string;
 
-  @IsEnum(Race)
+  @IsEnum(Race, { message: 'Raça/cor inválido' })
   race: Race;
 
-  @IsEnum(MaritalState)
+  @IsEnum(MaritalState, { message: 'Estado civil inválido' })
   maritalState: MaritalState;
 
   @IsString()
   placeOfBirth: string;
+
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => CreateAddressDto)
+  address: CreateAddressDto;
 }
