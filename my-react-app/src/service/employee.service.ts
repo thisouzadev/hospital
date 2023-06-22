@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ICreateEmployeeDTO } from '../types/backend.interfaces';
 
 class EmployeeService {
   async getAllEmployee() {
@@ -10,14 +11,20 @@ class EmployeeService {
     return response;
   }
 
-  async deletedEmployee(id: string) {
-    const response = await axios({
-      method: 'delete',
-      url: `http://localhost:3000/employees/${id}`,
-      data: {},
-    });
-    return response;
-  }
+  async create(patientData:ICreateEmployeeDTO) {
+    try {
+      const response = await axios({
+        method: 'post',
+        url: 'http://localhost:3000/patients',
+        data: patientData,
+      });
+      return response.data;
+      
+    } catch (error: any) {
+      return error.response?.data;
+    }
+  },
+  
 }
 
 export default EmployeeService;

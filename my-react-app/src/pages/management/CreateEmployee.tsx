@@ -4,11 +4,11 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 import { ICreatePatient } from "../../../../backend/src/shared/interfaces/create-patient.interface";
 
-import patientService from "../../service/patient.service";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { specialties } from "./data";
 import { UserRole } from "../../types/backend.enums";
+import EmployeeService from "../../service/employee.service";
 
 function CreateEmployee() {
   const navigate = useNavigate();
@@ -21,8 +21,8 @@ function CreateEmployee() {
   const onSubmit: SubmitHandler<ICreatePatient> = async (data) => {
     setErrors([]);
     console.log(data);
-    return;
-    const result = await patientService.create(data);
+
+    const result = await EmployeeService.create(data);
     if (result.error) {
       setErrors(result.message);
       return;
@@ -39,10 +39,9 @@ function CreateEmployee() {
         >
           <div className="grid grid-cols-12 gap-2">
             <Input md={9} label="Nome:" {...register("name")}></Input>
-
             <Input md={3} label="CPF:" {...register("cpf")}></Input>
-            <Input md={2} label="RG:" {...register("rg")}></Input>
 
+            <Input md={4} label="RG:" {...register("rg")}></Input>
             <Input md={4} label="Cargo:" {...register("role")} asChild>
               <select defaultValue={""}>
                 {Object.values(UserRole).map((role) => (
@@ -66,6 +65,7 @@ function CreateEmployee() {
                 ))}
               </select>
             </Input>
+
             <Input
               md={3}
               label="Doc. MED/Tipo:"
@@ -73,10 +73,11 @@ function CreateEmployee() {
             ></Input>
             <Input md={3} label="Doc. N°:" {...register("doc.n°")}></Input>
             <Input md={3} label="CNS:" {...register("cns")}></Input>
+            <Input md={3} label="Mat:" {...register("mat")}></Input>
 
-            <Input md={2} label="CEP:" {...register("address.cep")}></Input>
+            <Input md={3} label="CEP:" {...register("address.cep")}></Input>
             <Input
-              md={7}
+              md={4}
               label="Endereço:"
               {...register("address.street")}
             ></Input>
@@ -87,16 +88,21 @@ function CreateEmployee() {
             ></Input>
 
             <Input
-              md={3}
+              md={4}
               label="Estado:"
               {...register("address.stateId")}
             ></Input>
+
             <Input
-              md={4}
+              md={6}
               label="Município:"
+              {...register("address.cityId")}
+            ></Input>
+            <Input
+              md={6}
+              label="Bairro:"
               {...register("address.district")}
             ></Input>
-            <Input md={5} label="Bairro:"></Input>
           </div>
           <div className="flex gap-6 justify-center">
             <Button type="submit">Incluir</Button>
