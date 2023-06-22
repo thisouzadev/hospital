@@ -31,6 +31,11 @@ export class PatientController {
     return this.patientService.findOne(id);
   }
 
+  @Get('cpf/:cpf')
+  findOneByCPF(@Param('cpf') cpf: string) {
+    return this.patientService.findOneByCPF(cpf);
+  }
+
   @Put(':id')
   update(@Param('id') id: string, @Body() updatePatientDto: UpdatePatientDto) {
     return this.patientService.update(id, updatePatientDto);

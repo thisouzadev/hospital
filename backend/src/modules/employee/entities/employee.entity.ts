@@ -56,7 +56,6 @@ export class Employee {
 
   @OneToOne(() => Address, {
     cascade: ['insert', 'update'],
-    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'address_id', referencedColumnName: 'addressId' })
   address: Address;

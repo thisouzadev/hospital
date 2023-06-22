@@ -1,6 +1,6 @@
-import { Race } from '../../modules/patient/entities/patient.entity';
+import { Race } from '../enums/race.enum';
 
-export interface ICreatePatient {
+export interface ICreatePatientDTO {
   name: string;
 
   cpf: string;

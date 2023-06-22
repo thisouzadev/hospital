@@ -1,23 +1,17 @@
+import { MaritalState } from '../../../shared/enums/marital-states.enum';
+import { Race } from '../../../shared/enums/race.enum';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-
-export enum Race {
-  BRANCA = 'branca',
-  AMARELA = 'amarela',
-  PRETA = 'preta',
-  PARDA = 'parda',
-  INDIGENA = 'indígena',
-  NI = 'não informada',
-}
+import { IPatient } from '../../../shared/models/patient/patient.interface';
 
 @Entity('patients')
-export class Patient {
+export class Patient implements IPatient {
   @PrimaryGeneratedColumn('uuid', { name: 'patient_id' })
   patientId: string;
 
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'date' })
   birth: Date;
 
   @Column({ nullable: true, default: '' })
@@ -47,8 +41,12 @@ export class Patient {
   @Column({ nullable: true, type: 'enum', enum: Race, default: Race.NI })
   race: Race;
 
-  @Column({ name: 'marital_state', nullable: true, default: '' })
-  maritalState: string;
+  @Column({
+    name: 'marital_state',
+    type: 'enum',
+    enum: MaritalState,
+  })
+  maritalState: MaritalState;
 
   @Column({ name: 'place_of_birth', nullable: true, default: '' })
   placeOfBirth: string;

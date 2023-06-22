@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Employee } from '../../employee/entities/employee.entity';
+import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 
 import {
@@ -11,14 +12,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-
-export enum UserRole {
-  Medico = 'médico',
-  Recepcionista = 'recepcionista',
-  Farmaceutico = 'farmaceutico',
-  Admin = 'administrador',
-  SuperAdmin = 'administrador do sistema',
-}
+import { UserRole } from 'src/shared/enums/user-role.enum';
 
 @Entity('users')
 export class User {
@@ -37,6 +31,7 @@ export class User {
 
   @Column()
   @IsString()
+  @Exclude()
   password: string;
 
   @Column({ default: true })

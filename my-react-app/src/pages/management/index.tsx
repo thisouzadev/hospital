@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Header from "../../components/header";
 import EmployeeServiceModal from "./modal/EmployeeServiceModal";
 import MedicalEmployeeModal from "./modal/MedicalEmployeeModal";
 import { Button } from "react-bootstrap";
@@ -11,12 +10,6 @@ import {
   BsTrashFill,
   BsPencilFill,
 } from "react-icons/bs";
-
-type CreateEmployeeService = {
-  cpf: string;
-  rg: string;
-  email: string;
-};
 
 type Employee = {
   userId: string;
@@ -80,7 +73,6 @@ function Management() {
   }
   return (
     <div>
-      <Header />
       <div
         style={{
           display: "flex",
@@ -119,8 +111,13 @@ function Management() {
                 <td>{employee.name}</td>
                 <td>{employee.user.role}</td>
                 <td className="flex">
-                  <Button variant="primary" style={{ marginRight: "10px"}} className="d-flex items-center gap-2" >
-                    <BsPencilFill />Editar
+                  <Button
+                    variant="primary"
+                    style={{ marginRight: "10px" }}
+                    className="d-flex items-center gap-2"
+                  >
+                    <BsPencilFill />
+                    Editar
                   </Button>
                   <Button
                     onClick={() => setShowDeleteModal(true)}
