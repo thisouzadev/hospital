@@ -1,4 +1,5 @@
-import { DiscriminatorDescriptor, Type } from 'class-transformer';
+import { Type } from 'class-transformer';
+import 'reflect-metadata';
 import {
   IsDateString,
   IsEnum,
@@ -7,10 +8,10 @@ import {
   Length,
   ValidateNested,
 } from 'class-validator';
-import { CreateAddressDto } from 'src/modules/address/dto/create-address.dto';
-import { Gender } from 'src/shared/enums/gender.enum';
-import { MaritalState } from 'src/shared/enums/marital-states.enum';
-import { Race } from 'src/shared/enums/race.enum';
+import { CreateAddressDto } from '../../../modules/address/dto/create-address.dto';
+import { Gender } from '../../../shared/enums/gender.enum';
+import { MaritalState } from '../../../shared/enums/marital-states.enum';
+import { Race } from '../../../shared/enums/race.enum';
 import { ICreatePatientDTO } from '../../../shared/interfaces/create-patient.interface';
 
 export class CreatePatientDto implements ICreatePatientDTO {
@@ -58,8 +59,7 @@ export class CreatePatientDto implements ICreatePatientDTO {
   @IsString()
   placeOfBirth: string;
 
-  @IsNotEmpty()
-  @ValidateNested()
   @Type(() => CreateAddressDto)
+  @ValidateNested()
   address: CreateAddressDto;
 }
