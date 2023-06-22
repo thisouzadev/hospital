@@ -9,11 +9,14 @@ import { useNavigate } from "react-router-dom";
 import { specialties } from "./data";
 import { UserRole } from "../../types/backend.enums";
 import EmployeeService from "../../service/employee.service";
+import { ICreateEmployeeDTO } from "../../types/backend.interfaces";
+import { useAuth } from "../../context/AuthContext";
 
 function CreateEmployee() {
   const navigate = useNavigate();
-  const { register, handleSubmit, reset } = useForm<ICreatePatient>({
-    defaultValues: { gender: "", race: "", maritalState: "" },
+  const { user } = useAuth();
+  const { register, handleSubmit, reset } = useForm<ICreateEmployeeDTO>({
+    defaultValues: { hospitalId: user?.employee.hospital.hospitalId },
   });
 
   const [errors, setErrors] = useState<string[]>([]);
@@ -38,11 +41,12 @@ function CreateEmployee() {
           className="flex flex-col gap-10"
         >
           <div className="grid grid-cols-12 gap-2">
-            <Input md={9} label="Nome:" {...register("name")}></Input>
+            <Input md={4} label="Nome:" {...register("name")}></Input>
+            <Input md={5} label="Email:" {...register("user.email")}></Input>
             <Input md={3} label="CPF:" {...register("cpf")}></Input>
 
             <Input md={4} label="RG:" {...register("rg")}></Input>
-            <Input md={4} label="Cargo:" {...register("role")} asChild>
+            <Input md={4} label="Cargo:" {...register("user.role")} asChild>
               <select defaultValue={""}>
                 {Object.values(UserRole).map((role) => (
                   <option key={role} value={role}>
@@ -71,7 +75,7 @@ function CreateEmployee() {
               label="Doc. MED/Tipo:"
               {...register("doctor.crm")}
             ></Input>
-            <Input md={3} label="Doc. N°:" {...register("doc.n°")}></Input>
+            <Input md={3} label="Doc. N°:" {...register("doctor.crm")}></Input>
             <Input md={3} label="CNS:" {...register("cns")}></Input>
             <Input md={3} label="Mat:" {...register("mat")}></Input>
 

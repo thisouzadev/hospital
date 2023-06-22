@@ -38,11 +38,10 @@ function Management() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const service = new EmployeeService();
-        const response = await service.getAllEmployee();
-        setEmployees(response.data);
+        const service = await EmployeeService.getAll();
+        setEmployees(service);
         setLoading(false); // Indicar que os dados foram carregados
-        console.log("employees", response.data);
+        console.log("employees", service);
       } catch (error) {
         console.log(error);
       }
