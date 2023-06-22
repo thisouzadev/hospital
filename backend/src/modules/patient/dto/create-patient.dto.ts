@@ -1,5 +1,4 @@
 import { Type } from 'class-transformer';
-import 'reflect-metadata';
 import {
   IsDateString,
   IsEnum,

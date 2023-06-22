@@ -3,12 +3,9 @@ import Button from "../../components/Button";
 import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
 
-
 import {Race} from '../../../../backend/src/shared/enums/race.enum'
 import {Gender} from '../../../../backend/src/shared/enums/gender.enum'
 import {MaritalState} from '../../../../backend/src/shared/enums/marital-states.enum'
-
-import { classValidatorResolver } from '@hookform/resolvers/class-validator';
 
 import patientService from "../../service/patient.service";
 import { useEffect, useState } from "react";
@@ -18,10 +15,26 @@ import { City, State } from "types/backend.models";
 import citiesService from "../../service/cities.service";
 
 import { ICreatePatientDTO } from "../../../../backend/src/shared/interfaces/create-patient.interface";
-
 import { CreatePatientDto } from "../../types/backend.dtos";
 
-const resolver = classValidatorResolver(CreatePatientDto, {transformer: {enableImplicitConversion: true , ignoreDecorators: true}, validator: {forbidNonWhitelisted: true}});
+import * as yup from "yup"
+import { yupResolver } from "@hookform/resolvers/yup";
+
+const schema = yup.object().shape({
+  name: yup.string().required(),
+  birth: yup.date().required(),
+  cpf: yup.string().required(),
+  gender: yup.string().required(),
+  race: yup.string().required(),
+  maritalState: yup.string().required(),
+  address: yup.object().shape({
+    street: yup.string().required(),
+    stateId: yup.number().required(),
+    cityId: yup.number().required(),
+    district: yup.string().required(),
+    cep: yup.string().length(8).required(),
+  })
+}).required();
 
 function CreatePatient() {
 
@@ -29,10 +42,8 @@ function CreatePatient() {
   const {
     register, handleSubmit, reset, setValue, control, formState: { errors }
   } = useForm<CreatePatientDto>({
-    defaultValues: {address: {}},
-    resolver: (...a)=> { return resolver(...a)}}
-    // resolver: (...a)=> { return resolver(...a)}}
-  );
+    resolver: yupResolver(schema),
+  });
 
   const [states, setStates] = useState<State[]>([]);
   const [cities, setCities] = useState<City[]>([]);
@@ -53,7 +64,7 @@ function CreatePatient() {
   const onChangeSelectedState = async (e:any) => {
     const stateId = e.target.value;
     setValue('address.stateId', Number(stateId));
-    setValue('address.cityId', '');
+    setValue('address.cityId', '' as any as number);
 
     if(stateId){
       const citiesRes = await citiesService.getCities(stateId);
@@ -64,8 +75,6 @@ function CreatePatient() {
     }
   } 
 
-  console.log(errors?.address)
-
   const onSubmit: SubmitHandler<ICreatePatientDTO> = async (data) => {
     setErrorsBack([]);
     console.log(data);
@@ -75,7 +84,7 @@ function CreatePatient() {
       setErrorsBack(result.message)
       return;
     }
-    navigate('/admin/pacientes')
+    navigate(-1)
   };
 
   return (
@@ -88,14 +97,14 @@ function CreatePatient() {
               <Input md={3} label="Especialidade:"></Input>
               <Input md={3} label="Usuário:"></Input>
            
-              <Input md={9} label="Nome:" {...register('name')} error={errors?.name} ></Input>
-              <Input md={3} label="Nascimento:" {...register('birth')} type="date" error={errors?.birth} ></Input>
+              <Input md={9} label="Nome:" {...register('name')} error={errors.name} ></Input>
+              <Input md={3} label="Nascimento:" {...register('birth')} type="date" error={errors.birth} ></Input>
             
               <Controller
                 control={control}
                 name="cpf"
                 render={({ field: { onChange, name, value } }) => (
-                  <Input md={3} label="CPF:" asChild error={errors?.cpf}  >
+                  <Input md={3} label="CPF:" asChild error={errors.cpf}  >
                     <PatternFormat
                       format="###.###.###-##"
                       name={name}
@@ -106,16 +115,16 @@ function CreatePatient() {
                   </Input>
                 )}
               />
-              <Input md={2} label="RG:"{...register('rg')} error={errors?.rg}  ></Input>
-              <Input md={3} label="CNS:" {...register('cns')} error={errors?.cns} ></Input>
-              <Input md={4} label="Profissão:" {...register('occupation')} error={errors?.occupation} ></Input>
+              <Input md={2} label="RG:"{...register('rg')} error={errors.rg}  ></Input>
+              <Input md={3} label="CNS:" {...register('cns')} error={errors.cns} ></Input>
+              <Input md={4} label="Profissão:" {...register('occupation')} error={errors.occupation} ></Input>
 
-              <Input md={12} label="Responsável:" {...register('responsible')} error={errors?.responsible} ></Input>
-              <Input md={12} label="Mãe:" {...register('mother')} error={errors?.mother} ></Input>
-              <Input md={12} label="Pai:" {...register('father')} error={errors?.father}  ></Input>
+              <Input md={12} label="Responsável:" {...register('responsible')} error={errors.responsible} ></Input>
+              <Input md={12} label="Mãe:" {...register('mother')} error={errors.mother} ></Input>
+              <Input md={12} label="Pai:" {...register('father')} error={errors.father}  ></Input>
 
-              <Input md={2} label="Sexo:" {...register('gender')} error={errors?.gender}  asChild>
-                <select defaultValue={''}>
+              <Input md={2} label="Sexo:" {...register('gender')} error={errors.gender}  asChild>
+                <select>
                     {
                       Object.values(Gender).map(gender => ( 
                         <option key={gender} value={gender}>{gender}</option>
@@ -123,7 +132,7 @@ function CreatePatient() {
                     }
                 </select>
               </Input>
-              <Input md={3} label="Raça/Cor:" {...register('race')} asChild error={errors?.race} >
+              <Input md={3} label="Raça/Cor:" {...register('race')} asChild error={errors.race} >
                 <select>
                     {
                       Object.values(Race).map(race => ( 
@@ -133,8 +142,8 @@ function CreatePatient() {
                 </select>
               </Input>
               <Input md={1} label="Idade:"  ></Input>
-              <Input md={3} label="Naturalidade:" {...register('placeOfBirth')} error={errors?.placeOfBirth} ></Input>
-              <Input md={3} label="Est Civil:" {...register('maritalState')} asChild  error={errors?.maritalState} >
+              <Input md={3} label="Naturalidade:" {...register('placeOfBirth')} error={errors.placeOfBirth} ></Input>
+              <Input md={3} label="Est Civil:" {...register('maritalState')} asChild  error={errors.maritalState} >
                 <select >
                     {
                       Object.values(MaritalState).map(maritalState => ( 
@@ -143,14 +152,14 @@ function CreatePatient() {
                     }
                 </select>
               </Input>
-              <Input md={7} label="Endereço:" {...register('address.street')} error={errors?.address?.street}  ></Input>
-              <Input md={1} label="N°:" {...register('address.streetNumber')} error={errors?.address?.streetNumber}></Input>
+              <Input md={7} label="Endereço:" {...register('address.street')} error={errors.address?.street}  ></Input>
+              <Input md={1} label="N°:" {...register('address.streetNumber')} error={errors.address?.streetNumber}></Input>
 
               <Controller
                 control={control}
                 name="address.cep"
                 render={({ field: { onChange, name, value } }) => (
-                  <Input md={2} label="CEP:"  asChild  error={errors?.address?.cep}>
+                  <Input md={2} label="CEP:"  asChild  error={errors.address?.cep}>
                     <PatternFormat
                       format="##.###-###"
                       name={name}
@@ -164,7 +173,7 @@ function CreatePatient() {
                 control={control}
                 name="phone"
                 render={({ field: { onChange, name, value } }) => (
-                  <Input md={2} label="Tel:"  asChild  error={errors?.phone}>
+                  <Input md={2} label="Tel:"  asChild  error={errors.phone}>
                     <PatternFormat
                       format="(##) #########"
                       name={name}
@@ -176,7 +185,7 @@ function CreatePatient() {
               />
               
 
-              <Input md={3} label="Estado:" asChild  onChange={onChangeSelectedState} error={errors?.address?.stateId}>
+              <Input md={3} label="Estado:" asChild  onChange={onChangeSelectedState} error={errors.address?.stateId}>
                 <select >
                   <option value={''} >Selecione um Estado</option> 
                   {
@@ -186,7 +195,7 @@ function CreatePatient() {
                   }
                 </select>
               </Input>
-              <Input md={4} label="Município:"  asChild {...register('address.cityId', {valueAsNumber: true})} error={errors?.address?.cityId} >
+              <Input md={4} label="Município:"  asChild {...register('address.cityId', {valueAsNumber: true})} error={errors.address?.cityId} >
                 <select >
                   <option value={''} >Selecione um Município</option> 
                   {
@@ -196,7 +205,7 @@ function CreatePatient() {
                   }
                 </select>
               </Input>
-              <Input md={5} label="Bairro:" {...register('address.district')} error={errors?.address?.district}></Input>
+              <Input md={5} label="Bairro:" {...register('address.district')} error={errors.address?.district}></Input>
           </div>
 
           <div className="flex gap-6 justify-center">
