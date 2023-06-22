@@ -15,7 +15,7 @@ export class AuthService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async signin(authCredentialsDto: AuthCredentialsDto): Promise<any> {
+  async signin(authCredentialsDto: AuthCredentialsDto) {
     const email: string = authCredentialsDto.email;
     const password: string = authCredentialsDto.password;
 
@@ -35,7 +35,7 @@ export class AuthService {
       const payload: UserJwtPayload = { email, role, userId };
       const { password: _, ...userData } = user;
       const accessToken: string = this.jwtService.sign(payload);
-      return { accessToken, user: userData };
+      return { accessToken, user };
     } else {
       throw new UnauthorizedException('email/senha inválidos!');
     }

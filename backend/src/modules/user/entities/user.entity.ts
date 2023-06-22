@@ -1,5 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Employee } from '../../employee/entities/employee.entity';
+import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 
 import {
@@ -30,6 +31,7 @@ export class User {
 
   @Column()
   @IsString()
+  @Exclude()
   password: string;
 
   @Column({ default: true })
