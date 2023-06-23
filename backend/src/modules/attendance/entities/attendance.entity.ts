@@ -8,17 +8,17 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-export enum ScheduleStatus {
+export enum AttendanceStatus {
   SCHEDULED = 'agendado',
   CONFIRMED = 'confirmado',
   FINISHED = 'finalizado',
   CANCELED = 'cancelado',
 }
 
-@Entity('schedules')
-export class Schedule {
-  @PrimaryGeneratedColumn('uuid', { name: 'schedule_id' })
-  scheduleId: string;
+@Entity('attendances')
+export class Attendance {
+  @PrimaryGeneratedColumn('uuid', { name: 'attendance_id' })
+  attendanceId: string;
 
   @Column({ name: 'doctor_id', nullable: true })
   doctorId: string;
@@ -34,11 +34,11 @@ export class Schedule {
   @JoinColumn({ name: 'patient_id', referencedColumnName: 'patientId' })
   patient: Patient;
 
-  @Column({ name: 'schedule_date', type: 'date' })
-  scheduleDate: Date;
+  @Column({ name: 'attendance_date', type: 'date' })
+  attendanceDate: Date;
 
-  @Column({ name: 'schedule_time', type: 'time', nullable: true })
-  scheduleTime: Date;
+  @Column({ name: 'attendance_time', type: 'time', nullable: true })
+  attendanceTime: Date;
 
   @Column({ name: 'order_number', nullable: true })
   orderNumber: number;
@@ -48,10 +48,10 @@ export class Schedule {
 
   @Column({
     type: 'enum',
-    enum: ScheduleStatus,
-    default: ScheduleStatus.SCHEDULED,
+    enum: AttendanceStatus,
+    default: AttendanceStatus.SCHEDULED,
   })
-  status: ScheduleStatus;
+  status: AttendanceStatus;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

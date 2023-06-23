@@ -1,7 +1,6 @@
 import { IsDateString, IsOptional, IsUUID } from 'class-validator';
-import { ICreateScheduleDto } from 'src/shared/interfaces/create-schedule.interface';
 
-export class CreateScheduleDto implements ICreateScheduleDto {
+export class CreateAttendanceDto {
   @IsUUID()
   @IsOptional()
   doctorId: string;
@@ -10,10 +9,10 @@ export class CreateScheduleDto implements ICreateScheduleDto {
   patientId: string;
 
   @IsDateString()
-  scheduleDate: Date;
+  attendanceDate: Date;
 
   @IsOptional()
-  scheduleTime: Date;
+  attendanceTime: Date;
 
   @IsOptional()
   orderNumber: number;
