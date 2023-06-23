@@ -7,10 +7,10 @@ export class UpdateAttendanceDto {
   doctorId: string;
 
   @IsDateString()
-  attendanceDate: Date;
+  attendanceDate: string;
 
   @IsOptional()
-  attendanceTime: Date;
+  attendanceTime: string;
 
   @IsOptional()
   @IsEnum(AttendanceStatus)

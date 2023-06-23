@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateAttendanceDto } from '../dto/create-attendance.dto';
+import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
 import { Attendance } from '../entities/attendance.entity';
 
@@ -18,8 +19,13 @@ export class AttendanceService {
     return attendance;
   }
 
-  findAll() {
+  findAll(query: ListAttendanceQueryDto) {
+    const { attendanceDate, doctorId, patientId } = query;
+    const { page = 1, perPage = 10 } = query;
     return this.attendanceRepository.find({
+      where: { attendanceDate, doctorId, patientId },
+      take: perPage,
+      skip: perPage * (page - 1),
       relations: ['patient', 'doctor', 'doctor.employee'],
     });
   }

@@ -8,13 +8,14 @@ import patientService from "../../service/patient.service";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import doctorsService from "../../service/doctors.service";
-import scheduleService from "../../service/schedule.service";
+import attendanceService from "../../service/attendance.service";
+import { CreateAttendanceDto } from "../../types/backend.dtos";
 
-function CreateSchedule() {
+function CreateAttendance() {
   const navigate = useNavigate()
   const {
     register, handleSubmit, reset,setValue
-  } = useForm<ICreateScheduleDto>({
+  } = useForm<CreateAttendanceDto>({
     defaultValues: {doctorId: ''},
   });
 
@@ -60,12 +61,12 @@ function CreateSchedule() {
   const onSubmit: SubmitHandler<ICreateScheduleDto> = async (data) => {
     setErrors([]);
     console.log(data)
-    const result = await scheduleService.create(data);
+    const result = await attendanceService.create(data);
     if(result.error){
       setErrors(result.message)
       return;
     }
-    navigate('/admin/pacientes')
+    navigate('/admin/agendamentos')
   };
 
   const onResetClick = ()=> {
@@ -87,7 +88,7 @@ function CreateSchedule() {
               <Input md={9} label="Nome:" disabled value={patient? patient?.name : ''} ></Input>
               <Input md={3} label="Nascimento:" type="date" className="mb-10" disabled value={patient?.birth}></Input>
 
-              <Input md={6} label="Agendamento:" type="Date" {...register('scheduleDate')} ></Input>
+              <Input md={6} label="Agendamento:" type="Date" {...register('attendanceDate')} ></Input>
               <Input md={6} label="Médico:" asChild {...register('doctorId')}>
                 <select defaultValue={''}>
                   <option  value={''} className="bg-transparent appearance-none" disabled>Selection um médico</option>
@@ -113,4 +114,4 @@ function CreateSchedule() {
   );
 }
 
-export default CreateSchedule;
+export default CreateAttendance;

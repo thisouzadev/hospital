@@ -9,10 +9,10 @@ export class CreateAttendanceDto {
   patientId: string;
 
   @IsDateString()
-  attendanceDate: Date;
+  attendanceDate: string;
 
   @IsOptional()
-  attendanceTime: Date;
+  attendanceTime: string;
 
   @IsOptional()
   orderNumber: number;

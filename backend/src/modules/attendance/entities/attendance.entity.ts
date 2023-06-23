@@ -35,10 +35,10 @@ export class Attendance {
   patient: Patient;
 
   @Column({ name: 'attendance_date', type: 'date' })
-  attendanceDate: Date;
+  attendanceDate: string;
 
   @Column({ name: 'attendance_time', type: 'time', nullable: true })
-  attendanceTime: Date;
+  attendanceTime: string;
 
   @Column({ name: 'order_number', nullable: true })
   orderNumber: number;

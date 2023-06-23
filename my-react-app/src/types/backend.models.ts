@@ -4,5 +4,8 @@ import {City} from '@modules/address/entities/city.entity'
 
 import {Patient} from '@modules/patient/entities/patient.entity'
 
+import {Attendance} from '@modules/attendance/entities/attendance.entity'
 
-export {State, City, Patient}
+
+
+export {State, City, Patient,Attendance}
