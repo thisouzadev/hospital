@@ -10,6 +10,7 @@ import {
   BsTrashFill,
   BsPencilFill,
 } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 type Employee = {
   userId: string;
@@ -60,8 +61,8 @@ function Management() {
 
     // Lógica para excluir o funcionário com o ID fornecido
     try {
-      const service = new EmployeeService();
-      return await service.deletedEmployee(id);
+      await EmployeeService.delete(id);
+      setShowDeleteModal(false);
     } catch (error) {
       console.log(error);
     }
@@ -80,12 +81,11 @@ function Management() {
           marginBottom: "20px",
         }}
       >
-        <Button
-          onClick={() => setShowModalCreatEmployeer(true)}
-          variant="primary"
-        >
-          <BsFillPersonPlusFill /> Registrar Funcionário
-        </Button>
+        <Link to={"/admin/manage/cadastrar"}>
+          <Button className="d-flex items-center gap-2" variant="primary">
+            <BsFillPersonPlusFill /> Registrar Funcionário
+          </Button>
+        </Link>
         <MedicalEmployeeModal
           show={showModalCreatEmployeer}
           onClose={() => setShowModalCreatEmployeer(false)}
@@ -110,14 +110,14 @@ function Management() {
                 <td>{employee.name}</td>
                 <td>{employee.user.role}</td>
                 <td className="flex">
-                  <Button
-                    variant="primary"
+                  <Link
+                    to={"/admin/manage/cadastrar/" + employee.employeeId}
                     style={{ marginRight: "10px" }}
                     className="d-flex items-center gap-2"
                   >
                     <BsPencilFill />
                     Editar
-                  </Button>
+                  </Link>
                   <Button
                     onClick={() => setShowDeleteModal(true)}
                     variant="danger"

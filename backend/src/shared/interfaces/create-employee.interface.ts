@@ -9,6 +9,10 @@ export interface ICreateEmployeeDTO {
 
   cpf: string;
 
+  cns: string;
+
+  mat: string;
+
   rg: string;
 
   user: ICreateUserDto;

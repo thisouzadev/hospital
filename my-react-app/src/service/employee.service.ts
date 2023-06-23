@@ -28,5 +28,30 @@ const EmployeeService = {
       return error.response?.data;
     }
   },
+  async getOne(employeeId: string) {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: 'http://localhost:3000/patients/' +  employeeId,
+      });
+      return response.data;
+      
+    } catch (error: any) {
+      return error.response?.data;
+    }
+  },
+  async delete(employeeId: string) {
+    try {
+      const response = await axios({
+        method: 'delete',
+        url: 'http://localhost:3000/employees/'+ employeeId,
+      
+      });
+      return response.data;
+      
+    } catch (error: any) {
+      return error.response?.data;
+    }
+  },
 }
 export default EmployeeService;
