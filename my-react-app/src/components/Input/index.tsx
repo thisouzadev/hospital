@@ -9,11 +9,12 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   asChild? : boolean
   disabled?:boolean
   error?: any;
+  isLoading?:boolean;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({
-    label, className, name, md, asChild,disabled,error , ...props
+    label, className, name, md, asChild,disabled,error , isLoading, ...props
   }, forwardedRed) => {
     const Comp = asChild ? Slot : 'input';
     return (
@@ -52,17 +53,22 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           }
         >
           <span className="whitespace-nowrap">{label}</span>
-          <Comp
-            name={name}
-            disabled= {disabled}
-            {...props}
-            className={
-            clsx(
-              'text-gray-700 w-full bg-transparent outline-none',
-            )
+          {isLoading ? 
+            <span>Carregando...</span>
+            :
+            <Comp
+              name={name}
+              disabled= {disabled}
+              {...props}
+              className={
+              clsx(
+                'text-gray-700 w-full bg-transparent outline-none',
+              )
+            }
+              ref={forwardedRed}
+            />
+
           }
-            ref={forwardedRed}
-          />
         </label>
       </div>
     );

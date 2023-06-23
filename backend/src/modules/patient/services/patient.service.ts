@@ -35,7 +35,10 @@ export class PatientService {
   }
 
   async findOne(patientId: string) {
-    const patient = await this.patientRepository.findOneBy({ patientId });
+    const patient = await this.patientRepository.findOne({
+      where: { patientId },
+      relations: ['address'],
+    });
     if (!patient) {
       throw new NotFoundException('Paciente não encontrado');
     }
