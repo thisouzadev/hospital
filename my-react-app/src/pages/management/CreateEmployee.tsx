@@ -1,28 +1,33 @@
-import Input from "../../components/Input";
-import Button from "../../components/Button";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from 'react-hook-form';
 
-import { ICreatePatient } from "../../../../backend/src/shared/interfaces/create-patient.interface";
-
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { specialties } from "./data";
-import { UserRole } from "../../types/backend.enums";
-import EmployeeService from "../../service/employee.service";
-import { ICreateEmployeeDTO } from "../../types/backend.interfaces";
-import { useAuth } from "../../context/AuthContext";
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CreatePatientDto } from '@modules/patient/dto/create-patient.dto';
+import { useAppStore } from '../../store';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import { specialties } from './data';
+import { UserRole } from '../../types/backend.enums';
+import EmployeeService from '../../service/employee.service';
 
 function CreateEmployee() {
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { register, handleSubmit, reset } = useForm<ICreateEmployeeDTO>({
-    defaultValues: { hospitalId: user?.employee.hospital.hospitalId , user:{password: '123456'}},
-  });
 
+  const [state] = useAppStore();
+
+  console.log(state);
+
+  const { currentUser } = state;
+
+  const {
+    register, handleSubmit, reset, watch,
+  } = useForm<CreatePatientDto>({
+    defaultValues: { hospitalId: currentUser.employee.hospital.hospitalId, user: { password: '123456' } },
+  });
+  console.log(watch());
   const [errors, setErrors] = useState<string[]>([]);
 
-
-  const onSubmit: SubmitHandler<ICreatePatient> = async (data) => {
+  const onSubmit: SubmitHandler<CreatePatientDto> = async (data) => {
     setErrors([]);
     console.log(data);
 
@@ -31,7 +36,7 @@ function CreateEmployee() {
       setErrors(result.message);
       return;
     }
-    navigate("/admin/pacientes");
+    navigate('/admin/pacientes');
   };
 
   return (
@@ -42,13 +47,13 @@ function CreateEmployee() {
           className="flex flex-col gap-10"
         >
           <div className="grid grid-cols-12 gap-2">
-            <Input md={4} label="Nome:" {...register("name")}></Input>
-            <Input md={5} label="Email:" {...register("user.email")}></Input>
-            <Input md={3} label="CPF:" {...register("cpf")}></Input>
+            <Input md={4} label="Nome:" {...register('name')} />
+            <Input md={5} label="Email:" {...register('user.email')} />
+            <Input md={3} label="CPF:" {...register('cpf')} />
 
-            <Input md={4} label="RG:" {...register("rg")}></Input>
-            <Input md={4} label="Cargo:" {...register("user.role")} asChild>
-              <select defaultValue={""}>
+            <Input md={4} label="RG:" {...register('rg')} />
+            <Input md={4} label="Cargo:" {...register('user.role')} asChild>
+              <select defaultValue="">
                 {Object.values(UserRole).map((role) => (
                   <option key={role} value={role}>
                     {role}
@@ -59,10 +64,10 @@ function CreateEmployee() {
             <Input
               md={4}
               label="Especialidade:"
-              {...register("doctor.specialty")}
+              {...register('doctor.specialty')}
               asChild
             >
-              <select defaultValue={""}>
+              <select defaultValue="">
                 {specialties.map((specialtie) => (
                   <option key={specialtie} value={specialtie}>
                     {specialtie}
@@ -74,40 +79,40 @@ function CreateEmployee() {
             <Input
               md={3}
               label="Doc. MED/Tipo:"
-              {...register("doctor.crm")}
-            ></Input>
-            <Input md={3} label="Doc. N°:" {...register("doctor.crm")}></Input>
-            <Input md={3} label="CNS:" {...register("cns")}></Input>
-            <Input md={3} label="Mat:" {...register("mat")}></Input>
+              {...register('doctor.crm')}
+            />
+            <Input md={3} label="Doc. N°:" {...register('doctor.crm')} />
+            <Input md={3} label="CNS:" {...register('cns')} />
+            <Input md={3} label="Mat:" {...register('mat')} />
 
-            <Input md={3} label="CEP:" {...register("address.cep")}></Input>
+            <Input md={3} label="CEP:" {...register('address.cep')} />
             <Input
               md={4}
               label="Endereço:"
-              {...register("address.street")}
-            ></Input>
+              {...register('address.street')}
+            />
             <Input
               md={1}
               label="N°:"
-              {...register("address.streetNumber")}
-            ></Input>
+              {...register('address.streetNumber')}
+            />
 
             <Input
               md={4}
               label="Estado:"
-              {...register("address.stateId")}
-            ></Input>
+              {...register('address.stateId')}
+            />
 
             <Input
               md={6}
               label="Município:"
-              {...register("address.cityId")}
-            ></Input>
+              {...register('address.cityId')}
+            />
             <Input
               md={6}
               label="Bairro:"
-              {...register("address.district")}
-            ></Input>
+              {...register('address.district')}
+            />
           </div>
           <div className="flex gap-6 justify-center">
             <Button type="submit">Incluir</Button>

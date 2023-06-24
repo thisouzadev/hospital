@@ -1,6 +1,8 @@
 function NotFound() {
   return (
-    <div>Página não encontrada</div>
+    <div className="m-auto w-full text-center pt-40 text-orange-800 text-2xl drop-shadow-md">
+      Página não encontrada
+    </div>
   );
 }
 

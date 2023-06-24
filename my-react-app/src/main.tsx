@@ -1,16 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import "./index.css"
-import "bootstrap/dist/css/bootstrap.min.css";
-import { AuthProvider } from "./context/AuthContext";
+import { createRoot } from 'react-dom/client';
+import App from './App';
+import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-ReactDOM.render(
-  <React.StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+const container = document.getElementById('root');
+const root = createRoot(container!); // createRoot(container!) if you use TypeScript
+root.render(<App />);

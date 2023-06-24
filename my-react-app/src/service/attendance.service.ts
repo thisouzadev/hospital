@@ -20,7 +20,6 @@ const attendanceService = {
 
     const objString = `?${(new URLSearchParams(objectFieldsToString(o))).toString()}`;
 
-    console.log(objString);
     try {
       const response = await axios({
         method: 'get',

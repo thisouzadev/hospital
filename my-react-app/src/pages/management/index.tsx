@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react";
-import EmployeeServiceModal from "./modal/EmployeeServiceModal";
-import MedicalEmployeeModal from "./modal/MedicalEmployeeModal";
-import { Button } from "react-bootstrap";
-import ConfirmationModal from "./modal/ConfirmationModal";
-import EmployeeService from "../../service/employee.service";
-import Loading from "../../components/loading";
+import React, { useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import {
   BsFillPersonPlusFill,
   BsTrashFill,
   BsPencilFill,
-} from "react-icons/bs";
+} from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
+import EmployeeServiceModal from './modal/EmployeeServiceModal';
+import MedicalEmployeeModal from './modal/MedicalEmployeeModal';
+import ConfirmationModal from './modal/ConfirmationModal';
+import EmployeeService from '../../service/employee.service';
+import Loading from '../../components/loading';
 
 type Employee = {
   userId: string;
@@ -35,13 +36,15 @@ function Management() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
         const service = await EmployeeService.getAll();
         setEmployees(service);
         setLoading(false); // Indicar que os dados foram carregados
-        console.log("employees", service);
+        console.log('employees', service);
       } catch (error) {
         console.log(error);
       }
@@ -56,7 +59,7 @@ function Management() {
   };
 
   const handleConfirmDeleteEmployee = async (id: string) => {
-    console.log("deleted", id);
+    console.log('deleted', id);
 
     // Lógica para excluir o funcionário com o ID fornecido
     try {
@@ -74,17 +77,19 @@ function Management() {
     <div>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          marginTop: "20px",
-          marginBottom: "20px",
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          marginTop: '20px',
+          marginBottom: '20px',
         }}
       >
         <Button
-          onClick={() => setShowModalCreatEmployeer(true)}
+          onClick={() => navigate('cadastrar')}
           variant="primary"
         >
-          <BsFillPersonPlusFill /> Registrar Funcionário
+          <BsFillPersonPlusFill />
+          {' '}
+          Registrar Funcionário
         </Button>
         <MedicalEmployeeModal
           show={showModalCreatEmployeer}
@@ -94,7 +99,7 @@ function Management() {
       </div>
       <div
         className="table-responsive-md mx-auto"
-        style={{ width: "fit-content" }}
+        style={{ width: 'fit-content' }}
       >
         <table className="table table-bordered table-striped table-hover ">
           <thead className="table-dark">
@@ -112,7 +117,7 @@ function Management() {
                 <td className="flex">
                   <Button
                     variant="primary"
-                    style={{ marginRight: "10px" }}
+                    style={{ marginRight: '10px' }}
                     className="d-flex items-center gap-2"
                   >
                     <BsPencilFill />
@@ -123,14 +128,14 @@ function Management() {
                     variant="danger"
                     className="d-flex items-center gap-2"
                   >
-                    <BsTrashFill /> Deletar
+                    <BsTrashFill />
+                    {' '}
+                    Deletar
                   </Button>
                   <ConfirmationModal
                     show={showDeleteModal}
                     onCancel={() => setShowDeleteModal(false)}
-                    onConfirm={() =>
-                      handleConfirmDeleteEmployee(employee.employeeId)
-                    }
+                    onConfirm={() => handleConfirmDeleteEmployee(employee.employeeId)}
                   />
                 </td>
               </tr>
