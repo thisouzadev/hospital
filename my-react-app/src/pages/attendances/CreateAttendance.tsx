@@ -8,26 +8,25 @@ import patientService from "../../service/patient.service";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import doctorsService from "../../service/doctors.service";
-import scheduleService from "../../service/schedule.service";
+import attendanceService from "../../service/attendance.service";
+import { CreateAttendanceDto } from "../../types/backend.dtos";
+import { Doctor, Patient } from "types/backend.models";
+import { PatternFormat } from "react-number-format";
 
-function CreateSchedule() {
+function CreateAttendance() {
   const navigate = useNavigate()
   const {
     register, handleSubmit, reset,setValue
-  } = useForm<ICreateScheduleDto>({
-    defaultValues: {doctorId: ''},
+  } = useForm<CreateAttendanceDto>({
   });
 
-  const [errors, setErrors] = useState<string[]>([])
+  const [errors, setErrors] = useState<string[]>([]);
 
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
 
-  const [doctors, setDoctors] = useState<any[]>([])
+  const [patient, setPatient] = useState<Patient>()
 
-  const [patient, setPatient] = useState<any>(null)
   const [cpf, setCpf] = useState('')
-
-
-
 
   useEffect(()=> {
     const fetchData = async () => {
@@ -37,8 +36,8 @@ function CreateSchedule() {
     fetchData()
   },[])
 
-  const handleCpfChange = async (e:any)=> {
-    const newCpf = e.target.value;
+  const handleCpfChange = async (newCpf:string)=> {
+    // const newCpf = e.target.value;
 
     if(newCpf.length <= 11){
       setCpf(newCpf);
@@ -47,30 +46,37 @@ function CreateSchedule() {
     if(newCpf.length === 11){
       const response = await patientService.getByCPF(newCpf);
       if(response.error){
-        setErrors([response.message])
-        setPatient(null)
-        return
+        setErrors([response.message]);
+        setPatient(undefined);
+        return;
       }
       setPatient(response);
       setErrors([]);
-      setValue('patientId', patient.patientId)
+      setValue('patientId', response.patientId);
+    }else{
+      setPatient(undefined);
+      setValue('patientId', '');
     }
   }
 
-  const onSubmit: SubmitHandler<ICreateScheduleDto> = async (data) => {
+  const onSubmit = async (data: CreateAttendanceDto) => {
     setErrors([]);
-    console.log(data)
-    const result = await scheduleService.create(data);
+
+    if(!data.doctorId){
+      delete data.doctorId;
+    }
+
+    const result = await attendanceService.create(data);
     if(result.error){
       setErrors(result.message)
       return;
     }
-    navigate('/admin/pacientes')
+    navigate('/admin/agendamentos')
   };
 
   const onResetClick = ()=> {
     setCpf('')
-    setPatient({})
+    setPatient(undefined)
     setErrors([])
     reset()
   }
@@ -81,13 +87,24 @@ function CreateSchedule() {
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
           <div className="grid grid-cols-12 gap-2">
 
-              <Input md={6} label="CPF:" value={cpf} onChange={handleCpfChange} ></Input>
+              <Input md={6} label="CPF:" asChild>
+                <PatternFormat
+                  format="###.###.###-##"
+                  value={cpf}
+                  // onChange={onChange}
+                  onValueChange={v => {handleCpfChange(v.value)}}
+                />
+              </Input>
               <Input md={6} label="CNS:" className="mb-10"></Input>
 
-              <Input md={9} label="Nome:" disabled value={patient? patient?.name : ''} ></Input>
-              <Input md={3} label="Nascimento:" type="date" className="mb-10" disabled value={patient?.birth}></Input>
+              {patient && 
+                <>  
+                  <Input md={9} label="Nome:" disabled value={patient? patient?.name : ''} ></Input>
+                  <Input md={3} label="Nascimento:" type="date" className="mb-10" disabled value={patient?.birth}></Input>
+                </>
+              }
 
-              <Input md={6} label="Agendamento:" type="Date" {...register('scheduleDate')} ></Input>
+              <Input md={6} label="Agendamento:" type="Date" {...register('attendanceDate')} ></Input>
               <Input md={6} label="Médico:" asChild {...register('doctorId')}>
                 <select defaultValue={''}>
                   <option  value={''} className="bg-transparent appearance-none" disabled>Selection um médico</option>
@@ -113,4 +130,4 @@ function CreateSchedule() {
   );
 }
 
-export default CreateSchedule;
+export default CreateAttendance;

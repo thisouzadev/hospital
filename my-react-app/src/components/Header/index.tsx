@@ -1,4 +1,5 @@
 import AddPatientImg from "../../assets/addPartient.svg";
+import PatientsImg from "../../assets/patients.svg";
 import ProfileImg from "../../assets/profile.svg";
 import BackImg from "../../assets/back.svg";
 import ExitImg from "../../assets/exit.svg";
@@ -14,6 +15,9 @@ const Header = () => {
           <img src={ProfileImg} alt="" />
           <Link to={"/admin/pacientes/cadastrar"}>
             <img src={AddPatientImg} alt="" />
+          </Link>
+          <Link to={"/admin/pacientes"}>
+            <img src={PatientsImg} alt="" />
           </Link>
           <Link to={"/admin/agendamentos"}>
             <img src={ScheduleImg} alt="" />

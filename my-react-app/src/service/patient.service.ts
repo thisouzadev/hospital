@@ -14,6 +14,7 @@ const patientService = {
       return response.data;
       
     } catch (error: any) {
+      console.log(error)
       return error.response?.data;
     }
   },
@@ -41,7 +42,34 @@ const patientService = {
     } catch (error: any) {
       return error.response?.data;
     }
-  }
+  },
+  async getOne(patientId: string) {
+    try {
+      const response = await axios({
+        method: 'get',
+        url: 'http://localhost:3000/patients/' +  patientId,
+      });
+      return response.data;
+      
+    } catch (error: any) {
+      return error.response?.data;
+    }
+  },
+  async update(patientId: string, patientData:any) {
+    try {
+      const response = await axios({
+        method: 'put',
+        url: 'http://localhost:3000/patients/' +  patientId,
+        data: patientData,
+      });
+      return response.data;
+      
+    } catch (error: any) {
+      console.log(error)
+      return error.response?.data;
+    }
+  },
+
 }
 
 export default patientService;

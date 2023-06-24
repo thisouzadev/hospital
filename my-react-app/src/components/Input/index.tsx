@@ -8,18 +8,23 @@ interface InputProps extends React.HTMLProps<HTMLInputElement> {
   lg?: number
   asChild? : boolean
   disabled?:boolean
+  error?: any;
+  isLoading?:boolean;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({
-    label, className, name, md, asChild,disabled, ...props
+    label, className, name, md, asChild,disabled,error , isLoading, ...props
   }, forwardedRed) => {
     const Comp = asChild ? Slot : 'input';
     return (
       <div 
         className={
         clsx(
-          'group flex items-center h-9 bg-white rounded-md',
+          'group flex items-center h-9  rounded-md col-span-12',
+          {'bg-red-200': error},
+          {'bg-white': !error},
+
           { 'md:col-span-1': md === 1 },
           { 'md:col-span-2': md === 2 },
           { 'md:col-span-3': md === 3 },
@@ -42,22 +47,28 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             clsx(
               'flex items-center ring-1  h-9 px-1 gap-1  w-full',
               'ring-black rounded-lg border-black text-black ',
-              {'group-hover:ring-2 focus-within:ring-2': !disabled}
+              {'group-hover:ring-2 focus-within:ring-2': !disabled},
+              {'ring-red-700': error}
             )
           }
         >
           <span className="whitespace-nowrap">{label}</span>
-          <Comp
-            name={name}
-            disabled= {disabled}
-            {...props}
-            className={
-            clsx(
-              'text-gray-700 w-full bg-transparent outline-none',
-            )
+          {isLoading ? 
+            <span>Carregando...</span>
+            :
+            <Comp
+              name={name}
+              disabled= {disabled}
+              {...props}
+              className={
+              clsx(
+                'text-gray-700 w-full bg-transparent outline-none',
+              )
+            }
+              ref={forwardedRed}
+            />
+
           }
-            ref={forwardedRed}
-          />
         </label>
       </div>
     );

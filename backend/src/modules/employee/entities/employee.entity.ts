@@ -26,6 +26,12 @@ export class Employee {
   @Column()
   rg: string;
 
+  @Column({ nullable: true })
+  mat: string;
+
+  @Column({ nullable: true })
+  cns: string;
+
   @Column({ default: true })
   active: boolean;
 

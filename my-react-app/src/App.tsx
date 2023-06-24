@@ -3,10 +3,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Login from "./pages/login";
 import Management from "./pages/management";
-import CreatePatient from "./pages/patients/CreatePatient";
 import ListPatients from "./pages/patients/ListPatients";
-import CreateSchedule from "./pages/schedules/CreateSchedule";
+import ListAttendances from "./pages/attendances/ListAttendances";
 import Header from "./components/Header";
+import CreateEmployee from "./pages/management/CreateEmployee";
+import UpdatePatient from "./pages/patients/UpdatePatient";
+import CreatePatient from "./pages/patients/CreatePatient";
+import CreateAttendance from "./pages/attendances/CreateAttendance";
 
 const App: React.FC = () => {
   return (
@@ -20,8 +23,12 @@ const App: React.FC = () => {
             path="/admin/pacientes/cadastrar"
             element={<CreatePatient />}
           />
+          <Route path="/admin/manage/cadastrar" element={<CreateEmployee />} />
+          <Route path="/admin/pacientes/detalhes/:patientId" element={<UpdatePatient />} />
           <Route path="/admin/pacientes" element={<ListPatients />} />
-          <Route path="/admin/agendamentos" element={<CreateSchedule />} />
+          <Route path="/admin/agendamentos" element={<ListAttendances />} />
+          <Route path="/admin/agendamentos/novo" element={<CreateAttendance />} />
+
         </Route>
       </Routes>
     </BrowserRouter>
@@ -35,8 +42,11 @@ const MainLayout: React.FC = () => {
         <Route path="/" element={<Login />} />
         <Route path="/admin/manage" element={<Management />} />
         <Route path="/admin/pacientes/cadastrar" element={<CreatePatient />} />
+        <Route path="/admin/pacientes/detalhes/:patientId" element={<UpdatePatient />} />
         <Route path="/admin/pacientes" element={<ListPatients />} />
-        <Route path="/admin/agendamentos" element={<CreateSchedule />} />
+        <Route path="/admin/agendamentos" element={<ListAttendances />} />
+        <Route path="/admin/agendamentos/novo" element={<CreateAttendance />} />
+        <Route path="/admin/manage/cadastrar" element={<CreateEmployee />} />
       </Routes>
     </>
   );
