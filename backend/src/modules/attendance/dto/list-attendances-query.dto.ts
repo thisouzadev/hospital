@@ -6,9 +6,6 @@ import {
   IsUUID,
   IsIn,
   IsEnum,
-  IsNumber,
-  isIn,
-  ValidateIf,
 } from 'class-validator';
 import { AttendanceStatus } from '../entities/attendance.entity';
 
