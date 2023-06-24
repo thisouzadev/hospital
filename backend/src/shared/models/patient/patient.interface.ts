@@ -6,7 +6,7 @@ export interface IPatient {
 
   name: string;
 
-  birth: Date;
+  birth: string;
 
   cpf: string;
 

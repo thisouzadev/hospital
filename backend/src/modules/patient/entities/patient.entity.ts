@@ -20,7 +20,7 @@ export class Patient implements IPatient {
   name: string;
 
   @Column({ type: 'date' })
-  birth: Date;
+  birth: string;
 
   @Column({ nullable: true, default: '' })
   cpf: string;
