@@ -10,6 +10,7 @@ import {
   isIn,
   ValidateIf,
 } from 'class-validator';
+import { AttendanceStatus } from '../entities/attendance.entity';
 
 enum ValidOrderBy {
   attendanceDate,
@@ -20,6 +21,10 @@ export class ListAttendanceQueryDto {
   @IsUUID()
   @IsOptional()
   doctorId?: string;
+
+  @IsOptional()
+  @IsEnum(AttendanceStatus)
+  status: AttendanceStatus;
 
   @IsUUID()
   @IsOptional()
