@@ -94,9 +94,11 @@ function ListAttendances() {
         <div className="shadow-md bg-[#D9D9D970] py-3">
             <AttendanceTable attendances={attendances}></AttendanceTable>
         </div>
-        <Link to='novo' className="no-underline">
-          <Button className="mt-10 no-underline">Agendar</Button>
-        </Link>
+          <Button className="mt-10 no-underline">
+            <Link to='novo' className="no-underline text-inherit">
+                Agendar
+            </Link> 
+          </Button>
       </div>
     </div>
   );

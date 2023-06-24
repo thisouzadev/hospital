@@ -10,25 +10,23 @@ import { useNavigate } from "react-router-dom";
 import doctorsService from "../../service/doctors.service";
 import attendanceService from "../../service/attendance.service";
 import { CreateAttendanceDto } from "../../types/backend.dtos";
+import { Doctor, Patient } from "types/backend.models";
+import { PatternFormat } from "react-number-format";
 
 function CreateAttendance() {
   const navigate = useNavigate()
   const {
     register, handleSubmit, reset,setValue
   } = useForm<CreateAttendanceDto>({
-    defaultValues: {doctorId: ''},
   });
 
-  const [errors, setErrors] = useState<string[]>([])
+  const [errors, setErrors] = useState<string[]>([]);
 
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
 
-  const [doctors, setDoctors] = useState<any[]>([])
+  const [patient, setPatient] = useState<Patient>()
 
-  const [patient, setPatient] = useState<any>(null)
   const [cpf, setCpf] = useState('')
-
-
-
 
   useEffect(()=> {
     const fetchData = async () => {
@@ -38,8 +36,8 @@ function CreateAttendance() {
     fetchData()
   },[])
 
-  const handleCpfChange = async (e:any)=> {
-    const newCpf = e.target.value;
+  const handleCpfChange = async (newCpf:string)=> {
+    // const newCpf = e.target.value;
 
     if(newCpf.length <= 11){
       setCpf(newCpf);
@@ -48,19 +46,26 @@ function CreateAttendance() {
     if(newCpf.length === 11){
       const response = await patientService.getByCPF(newCpf);
       if(response.error){
-        setErrors([response.message])
-        setPatient(null)
-        return
+        setErrors([response.message]);
+        setPatient(undefined);
+        return;
       }
       setPatient(response);
       setErrors([]);
-      setValue('patientId', patient.patientId)
+      setValue('patientId', response.patientId);
+    }else{
+      setPatient(undefined);
+      setValue('patientId', '');
     }
   }
 
-  const onSubmit: SubmitHandler<ICreateScheduleDto> = async (data) => {
+  const onSubmit = async (data: CreateAttendanceDto) => {
     setErrors([]);
-    console.log(data)
+
+    if(!data.doctorId){
+      delete data.doctorId;
+    }
+
     const result = await attendanceService.create(data);
     if(result.error){
       setErrors(result.message)
@@ -71,7 +76,7 @@ function CreateAttendance() {
 
   const onResetClick = ()=> {
     setCpf('')
-    setPatient({})
+    setPatient(undefined)
     setErrors([])
     reset()
   }
@@ -82,11 +87,22 @@ function CreateAttendance() {
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
           <div className="grid grid-cols-12 gap-2">
 
-              <Input md={6} label="CPF:" value={cpf} onChange={handleCpfChange} ></Input>
+              <Input md={6} label="CPF:" asChild>
+                <PatternFormat
+                  format="###.###.###-##"
+                  value={cpf}
+                  // onChange={onChange}
+                  onValueChange={v => {handleCpfChange(v.value)}}
+                />
+              </Input>
               <Input md={6} label="CNS:" className="mb-10"></Input>
 
-              <Input md={9} label="Nome:" disabled value={patient? patient?.name : ''} ></Input>
-              <Input md={3} label="Nascimento:" type="date" className="mb-10" disabled value={patient?.birth}></Input>
+              {patient && 
+                <>  
+                  <Input md={9} label="Nome:" disabled value={patient? patient?.name : ''} ></Input>
+                  <Input md={3} label="Nascimento:" type="date" className="mb-10" disabled value={patient?.birth}></Input>
+                </>
+              }
 
               <Input md={6} label="Agendamento:" type="Date" {...register('attendanceDate')} ></Input>
               <Input md={6} label="Médico:" asChild {...register('doctorId')}>
