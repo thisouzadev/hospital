@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import attendanceService from "../../service/attendance.service";
 
 import scheduleImg from "../../assets/schedule.svg";
-import { Attendance } from "types/backend.models";
+import { Attendance } from "../../types/backend.models";
 import { getDate } from "../../utils/date";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
@@ -50,7 +50,7 @@ function ListAttendances() {
 
   const [selectedDate, setSelectedDate] = useState(getDate(new Date()))
 
-
+  // console.log(Object.keys(Attendance))
     
 
   useEffect(()=>{

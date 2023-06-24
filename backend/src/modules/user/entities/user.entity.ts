@@ -12,7 +12,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserRole } from 'src/shared/enums/user-role.enum';
+import { UserRole } from '../../../shared/enums/user-role.enum';
 
 @Entity('users')
 export class User {

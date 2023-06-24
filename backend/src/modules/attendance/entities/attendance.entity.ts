@@ -1,5 +1,5 @@
-import { Doctor } from 'src/modules/doctor/entities/doctor.entity';
-import { Patient } from 'src/modules/patient/entities/patient.entity';
+import { Doctor } from '../../../modules/doctor/entities/doctor.entity';
+import { Patient } from '../../../modules/patient/entities/patient.entity';
 import {
   Column,
   Entity,

@@ -20,10 +20,10 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "baseUrl": "./src",
+    // "baseUrl": "./src",
 
     "paths": {
-      "@modules/*": ["../../backend/src/modules/*"]
+      "@modules/*": ["../backend/src/modules/*"]
     }
   },
   "include": ["src"],

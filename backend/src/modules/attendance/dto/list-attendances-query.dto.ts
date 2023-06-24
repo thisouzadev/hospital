@@ -2,12 +2,19 @@ import { Type } from 'class-transformer';
 import {
   IsDateString,
   IsInt,
-  IsNumber,
-  IsNumberString,
   IsOptional,
-  IsPositive,
   IsUUID,
+  IsIn,
+  IsEnum,
+  IsNumber,
+  isIn,
+  ValidateIf,
 } from 'class-validator';
+
+enum ValidOrderBy {
+  attendanceDate,
+  createdAt,
+}
 
 export class ListAttendanceQueryDto {
   @IsUUID()
@@ -21,6 +28,15 @@ export class ListAttendanceQueryDto {
   @IsDateString()
   @IsOptional()
   attendanceDate?: string;
+
+  @IsOptional()
+  @IsIn(['attendanceDate', 'createdAt'])
+  orderBy?: string = 'createdAt';
+
+  @IsOptional()
+  @IsIn(['ASC', 'DESC'])
+  // @ValidateIf((o) => !o.orderBy)
+  orderType?: string = 'DESC';
 
   @IsInt()
   @IsOptional()

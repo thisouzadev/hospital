@@ -22,11 +22,16 @@ export class AttendanceService {
   findAll(query: ListAttendanceQueryDto) {
     const { attendanceDate, doctorId, patientId } = query;
     const { page = 1, perPage = 10 } = query;
+    const { orderBy, orderType } = query;
+
     return this.attendanceRepository.find({
       where: { attendanceDate, doctorId, patientId },
       take: perPage,
       skip: perPage * (page - 1),
       relations: ['patient', 'doctor', 'doctor.employee'],
+      order: {
+        [orderBy]: orderType,
+      },
     });
   }
 
