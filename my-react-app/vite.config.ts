@@ -7,7 +7,10 @@ import * as path from 'path'
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: [{ find: '@modules', replacement: path.resolve(__dirname, '..', '..', 'backend', 'src', 'modules') }],
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@modules':  path.resolve(__dirname, '..', 'backend', 'src', 'modules') 
+    },
   },
   css: {
     postcss: {
@@ -15,3 +18,4 @@ export default defineConfig({
     },
   },
 })
+
