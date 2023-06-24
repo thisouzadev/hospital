@@ -1,13 +1,12 @@
-import {  SubmitHandler } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
 
-import patientService from "../../service/patient.service";
+import { Patient } from 'types/backend.models';
 
-import PatientForm from "./PatientForm";
-import { Patient } from "types/backend.models";
-
-import * as yup from "yup"
+import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import PatientForm from './PatientForm';
+import patientService from '../../service/patient.service';
 import Loading from '../../components/loading';
 
 const createSchema = {
@@ -24,39 +23,38 @@ const createSchema = {
     cityId: yup.number().required(),
     district: yup.string().required(),
     cep: yup.string().length(8).required(),
-  })
-}
+  }),
+};
 
 function UpdatePatient() {
-  const {patientId} = useParams()
+  const { patientId } = useParams();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [patient,setPatient] = useState<Patient>();
+  const [patient, setPatient] = useState<Patient>();
 
   const [isLoading, setIsLoading] = useState(true);
-  
+
   useEffect(() => {
-    const fetchPatient = async ()=> {
-      if(!patientId) {
+    const fetchPatient = async () => {
+      if (!patientId) {
         return;
       }
       const patientData = await patientService.getOne(patientId);
-      setPatient(patientData)
-      setIsLoading(false)
-    }
+      setPatient(patientData);
+      setIsLoading(false);
+    };
 
-    if(patientId){
-      fetchPatient()
+    if (patientId) {
+      fetchPatient();
     }
-  },[patientId])
-
+  }, [patientId]);
 
   const onSubmit: SubmitHandler<Patient> = async (data) => {
-    if(!patient){
-      return
+    if (!patient) {
+      return;
     }
- 
+
     const {
       name,
       birth,
@@ -71,12 +69,14 @@ function UpdatePatient() {
       placeOfBirth,
       race,
       responsible,
-      rg
-    } = data
+      rg,
+    } = data;
 
-    const {addressId,cep,cityId,district,stateId,street,streetNumber} = data.address
+    const {
+      addressId, cep, cityId, district, stateId, street, streetNumber,
+    } = data.address;
 
-    const result = await patientService.update(patient.patientId ,{
+    const result = await patientService.update(patient.patientId, {
       name,
       birth,
       cns,
@@ -91,26 +91,30 @@ function UpdatePatient() {
       race,
       responsible,
       rg,
-      address:{
-        addressId,cep,cityId,district,stateId,street,streetNumber
-      }
+      address: {
+        addressId, cep, cityId, district, stateId, street, streetNumber,
+      },
     });
-    if(result.error){
-      console.log(result.message)
+    if (result.error) {
+      console.log(result.message);
       return;
     }
-    navigate('/admin/pacientes')
-
+    navigate('/admin/pacientes');
   };
 
-  if(isLoading){
-    return <Loading />
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (
     <div className="w-full">
       <div className="max-w-5xl m-auto pt-20">
-        <PatientForm patient={patient} handleFormSubmit={onSubmit} schema={createSchema} isUpdating={true} />
+        <PatientForm
+          patient={patient}
+          handleFormSubmit={onSubmit}
+          schema={createSchema}
+          isUpdating
+        />
       </div>
     </div>
   );

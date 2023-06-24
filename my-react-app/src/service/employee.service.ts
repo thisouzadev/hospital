@@ -10,7 +10,6 @@ const EmployeeService = {
         data: employeeData,
       });
       return response.data;
-      
     } catch (error: any) {
       return error.response?.data;
     }
@@ -20,13 +19,12 @@ const EmployeeService = {
       const response = await axios({
         method: 'get',
         url: 'http://localhost:3000/employees',
-      
+
       });
       return response.data;
-      
     } catch (error: any) {
       return error.response?.data;
     }
   },
-}
+};
 export default EmployeeService;

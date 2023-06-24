@@ -5,7 +5,8 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "airbnb-typescript"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -13,14 +14,16 @@
             "jsx": true
         },
         "ecmaVersion": "latest",
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": "./tsconfig.json",
+        "tsconfigRootDir": "./"
     },
     "plugins": [
         "react",
         "@typescript-eslint"
     ],
     "rules": {
-        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
         "react/react-in-jsx-scope": "off",
         "import/extensions": [
             "error",
@@ -32,9 +35,14 @@
               "tsx": "never"
             }
          ],
-         "react/jsx-props-no-spreading": "off"
+         "react/jsx-props-no-spreading": "off",
+         "react/require-default-props": "off",
+         "import/no-extraneous-dependencies": "off"
     },
     "settings": {
+        "react": {
+            "version": "detect"
+        },
         "import/resolver": {
           "node": {
             "extensions": [".js", ".jsx", ".ts", ".tsx"]

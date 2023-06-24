@@ -1,12 +1,10 @@
-import {  SubmitHandler } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
 
-import patientService from "../../service/patient.service";
-
-import PatientForm from "./PatientForm";
-import { Patient } from "types/backend.models";
-
-import * as yup from "yup"
+import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import PatientForm from './PatientForm';
+import patientService from '../../service/patient.service';
+import { Patient } from '../../types/backend.models';
 
 const createSchema = {
   name: yup.string().required(),
@@ -22,26 +20,24 @@ const createSchema = {
     cityId: yup.number().required(),
     district: yup.string().required(),
     cep: yup.string().length(8).required(),
-  })
-}
+  }),
+};
 
 function CreatePatient() {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<Patient> = async (data) => {
- 
     const result = await patientService.create(data);
-    if(result.error){
+    if (result.error) {
       return;
     }
-    navigate('/admin/pacientes')
+    navigate('/admin/pacientes');
   };
 
   return (
     <div className="w-full">
       <div className="max-w-5xl m-auto pt-20">
-        <PatientForm  handleFormSubmit={onSubmit} schema={createSchema} />
+        <PatientForm handleFormSubmit={onSubmit} schema={createSchema} />
       </div>
     </div>
   );

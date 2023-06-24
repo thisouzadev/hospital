@@ -1,4 +1,4 @@
-import axios, {  } from 'axios';
+import axios from 'axios';
 
 const doctorsService = {
 
@@ -9,11 +9,10 @@ const doctorsService = {
         url: 'http://localhost:3000/doctors',
       });
       return response.data;
-      
     } catch (error: any) {
       return error.response?.data;
     }
-  }
-}
+  },
+};
 
 export default doctorsService;

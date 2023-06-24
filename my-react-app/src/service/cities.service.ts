@@ -1,4 +1,4 @@
-import axios, {  } from 'axios';
+import axios from 'axios';
 import { City, State } from 'types/backend.models';
 
 const citiesService = {
@@ -20,11 +20,10 @@ const citiesService = {
         url: `http://localhost:3000/cities?stateId=${stateId}`,
       });
       return response.data as City[];
-      
     } catch (error: any) {
       return error.response?.data;
     }
-  }
-}
+  },
+};
 
 export default citiesService;

@@ -1,7 +1,5 @@
-import axios, {  } from 'axios';
+import axios, { } from 'axios';
 import { ICreatePatientDTO } from '../types/backend.interfaces';
-
-
 
 const patientService = {
   async create(patientData:ICreatePatientDTO) {
@@ -12,9 +10,8 @@ const patientService = {
         data: patientData,
       });
       return response.data;
-      
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
       return error.response?.data;
     }
   },
@@ -23,10 +20,9 @@ const patientService = {
       const response = await axios({
         method: 'get',
         url: 'http://localhost:3000/patients',
-      
+
       });
       return response.data;
-      
     } catch (error: any) {
       return error.response?.data;
     }
@@ -35,10 +31,9 @@ const patientService = {
     try {
       const response = await axios({
         method: 'get',
-        url: 'http://localhost:3000/patients/cpf/' +  cpf,
+        url: `http://localhost:3000/patients/cpf/${cpf}`,
       });
       return response.data;
-      
     } catch (error: any) {
       return error.response?.data;
     }
@@ -47,10 +42,9 @@ const patientService = {
     try {
       const response = await axios({
         method: 'get',
-        url: 'http://localhost:3000/patients/' +  patientId,
+        url: `http://localhost:3000/patients/${patientId}`,
       });
       return response.data;
-      
     } catch (error: any) {
       return error.response?.data;
     }
@@ -59,17 +53,16 @@ const patientService = {
     try {
       const response = await axios({
         method: 'put',
-        url: 'http://localhost:3000/patients/' +  patientId,
+        url: `http://localhost:3000/patients/${patientId}`,
         data: patientData,
       });
       return response.data;
-      
     } catch (error: any) {
-      console.log(error)
+      console.log(error);
       return error.response?.data;
     }
   },
 
-}
+};
 
 export default patientService;
