@@ -59,12 +59,10 @@ function Management() {
   };
 
   const handleConfirmDeleteEmployee = async (id: string) => {
-    console.log('deleted', id);
-
     // Lógica para excluir o funcionário com o ID fornecido
     try {
-      const service = new EmployeeService();
-      return await service.deletedEmployee(id);
+      await EmployeeService.delete(id);
+      setShowDeleteModal(false);
     } catch (error) {
       console.log(error);
     }

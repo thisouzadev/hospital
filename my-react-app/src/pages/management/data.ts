@@ -1,4 +1,4 @@
-export const specialties = [
+const specialties = [
   'Acupuntura',
   'Alergia e Imunologia',
   'Anestesiologia',
@@ -55,3 +55,5 @@ export const specialties = [
   'Reumatologia',
   'Urologia',
 ];
+
+export default specialties;
