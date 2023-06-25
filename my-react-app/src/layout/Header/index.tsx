@@ -10,6 +10,12 @@ import ManageImg from '../../assets/manage.svg';
 import AgendaImg from '../../assets/agenda.svg';
 import { useEventLogout } from '../../hooks';
 
+const HeaderItem = ({ children, to }:PropsWithChildren<{ to:string }>) => (
+  <Link to={to} className="hover:drop-shadow-lg transition-shadow">
+    {children}
+  </Link>
+);
+
 const Header = ({ children }:PropsWithChildren) => {
   const onLogout = useEventLogout();
   return (
@@ -17,29 +23,30 @@ const Header = ({ children }:PropsWithChildren) => {
       <div className="flex justify-between p-3 m-auto max-w-7xl">
         <div className="flex gap-5 items-center">
           <img src={ProfileImg} alt="" />
-          <Link to="/admin/pacientes/cadastrar">
+          <HeaderItem to="/admin/pacientes/cadastrar">
             <img src={AddPatientImg} alt="" />
-          </Link>
-          <Link to="/admin/pacientes">
+          </HeaderItem>
+
+          <HeaderItem to="/admin/pacientes">
             <img src={PatientsImg} alt="" />
-          </Link>
-          <Link to="/admin/agendamentos">
+          </HeaderItem>
+          <HeaderItem to="/admin/agendamentos">
             <img src={ScheduleImg} alt="" />
-          </Link>
-          <Link to="/admin/manage">
+          </HeaderItem>
+          <HeaderItem to="/admin/manage">
             <img src={ManageImg} alt="" />
-          </Link>
-          <Link to="/agenda-medica">
+          </HeaderItem>
+          <HeaderItem to="/agenda-medica">
             <img src={AgendaImg} alt="" />
-          </Link>
+          </HeaderItem>
           <div>
             {children}
           </div>
         </div>
         <div className="flex gap-5 items-center">
-          <Link to="..">
+          <HeaderItem to="..">
             <img src={BackImg} alt="" />
-          </Link>
+          </HeaderItem>
           <button type="button" onClick={onLogout}>
             <img src={ExitImg} alt="" />
           </button>
