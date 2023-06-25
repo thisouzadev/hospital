@@ -6,14 +6,12 @@ import { CreateAttendanceDto } from '../dto/create-attendance.dto';
 import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
 import { Attendance } from '../entities/attendance.entity';
-import { Request } from 'express';
 
 @Injectable({ scope: Scope.REQUEST })
 export class AttendanceService {
   constructor(
     @InjectRepository(Attendance)
     private readonly attendanceRepository: Repository<Attendance>,
-    @Inject(REQUEST) private readonly request: Request,
   ) {}
   async create(createAttendanceDto: CreateAttendanceDto) {
     const attendance = this.attendanceRepository.create(createAttendanceDto);
@@ -23,7 +21,6 @@ export class AttendanceService {
   }
 
   findAll(query: ListAttendanceQueryDto) {
-    console.log(this.request.headers);
     const { attendanceDate, doctorId, patientId, status } = query;
     const { page = 1, perPage = 10 } = query;
     const { orderBy, orderType } = query;
