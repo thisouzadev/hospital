@@ -36,20 +36,20 @@ export class HospitalController {
   }
 
   @Get(':id')
-  async getHospitalById(@Param('id') id: number): Promise<Hospital> {
+  async getHospitalById(@Param('id') id: string): Promise<Hospital> {
     return this.hospitalService.getHospitalById(id);
   }
 
   @Put(':id')
   async updateHospital(
-    @Param('id') id: number,
+    @Param('id') id: string,
     @Body() updatedData: Hospital,
   ): Promise<Hospital> {
     return this.hospitalService.updateHospital(id, updatedData);
   }
 
   @Delete(':id')
-  async deleteHospital(@Param('id') id: number): Promise<void> {
+  async deleteHospital(@Param('id') id: string): Promise<void> {
     return this.hospitalService.deleteHospital(id);
   }
 }

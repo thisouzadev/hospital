@@ -20,7 +20,7 @@ export class HospitalService {
     }
   }
 
-  async getHospitalById(id: number): Promise<Hospital> {
+  async getHospitalById(id: string): Promise<Hospital> {
     try {
       return await this.hospitalRepository.findOne({
         where: { hospitalId: id },
@@ -38,7 +38,7 @@ export class HospitalService {
     }
   }
 
-  async updateHospital(id: number, updatedData: Hospital): Promise<Hospital> {
+  async updateHospital(id: string, updatedData: Hospital): Promise<Hospital> {
     try {
       await this.hospitalRepository.update(id, updatedData);
       return await this.getHospitalById(id);
@@ -47,7 +47,7 @@ export class HospitalService {
     }
   }
 
-  async deleteHospital(id: number): Promise<void> {
+  async deleteHospital(id: string): Promise<void> {
     try {
       await this.hospitalRepository.softDelete(id);
     } catch (error) {

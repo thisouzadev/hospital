@@ -10,7 +10,7 @@ import { Employee } from '../../employee/entities/employee.entity';
 @Entity()
 export class Hospital {
   @PrimaryGeneratedColumn('uuid', { name: 'hospital_id' })
-  hospitalId: number;
+  hospitalId: string;
 
   @Column()
   nome: string;
