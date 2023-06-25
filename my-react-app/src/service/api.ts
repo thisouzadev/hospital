@@ -1,6 +1,7 @@
-import axios, { AxiosRequestConfig } from 'axios';
+import axios, { InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'react-toastify';
 import { localStorageGet } from '../utils/localStorage';
+import { sessionStorageGet } from '../utils/sessionStorage';
 
 const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
@@ -14,19 +15,20 @@ const api = () => {
     // },
   };
 
+  const reqInterceptor = (config: InternalAxiosRequestConfig) => {
+    const token = localStorageGet('token') || sessionStorageGet('token');
+    if (token) {
+      // eslint-disable-next-line no-param-reassign
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  };
+
   const instance = axios.create(defaultOptions);
 
-  instance.interceptors.request.use((config: AxiosRequestConfig) => {
-    const sessionParsed = localStorageGet('token') as any;
-    if (sessionParsed) {
-      if (sessionParsed?.token && config?.headers) {
-        // eslint-disable-next-line no-param-reassign
-        config.headers.Authorization = `Bearer ${sessionParsed.token}`;
-      }
-    }
-
-    return config;
-  });
+  instance.interceptors.request.use(
+    reqInterceptor,
+  );
 
   instance.interceptors.response.use(
     (config) => config,

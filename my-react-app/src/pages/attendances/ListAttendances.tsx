@@ -49,8 +49,6 @@ function ListAttendances() {
 
   const [selectedDate, setSelectedDate] = useState(getDate(new Date()));
 
-  // console.log(Object.keys(Attendance))
-
   useEffect(() => {
     const fetchData = async () => {
       const attendancesData = await attendanceService.getAll({ page: 1, perPage: 10 });

@@ -33,7 +33,7 @@ function Routes() {
   //     });
   //   }
   // }, [state.isAuthenticated, dispatch]);
-  console.log('Routes() - isAuthenticated:', state.isAuthenticated);
+  // console.log('Routes() - isAuthenticated:', state.isAuthenticated);
 
   if (state.isAuthenticated) {
     return <PrivateRoutes />;
