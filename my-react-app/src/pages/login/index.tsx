@@ -20,9 +20,7 @@ const Login: React.FC = () => {
   const signup = async (event: React.FormEvent) => {
     event.preventDefault();
     const res = await AuthService.login(email, password);
-    console.log(res);
-    return;
-    if (res.error) {
+    if (res?.error) {
       setError(true);
       setMessageError(res.message);
       return;
