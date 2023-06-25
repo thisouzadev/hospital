@@ -69,7 +69,7 @@ function ListAttendances() {
 
   return (
     <div className="w-full">
-      <div className="max-w-5xl m-auto pt-10">
+      <div className="max-w-5xl m-auto">
         <div className="h-10 bg-[#D9D9D970] mb-2 flex justify-between items-center">
           <button type="button" className="h-full bg-white rounded-md px-12">Últimos 5 agendamentos</button>
           <button type="button" className="h-full bg-white rounded-md px-12">Exibir todos</button>

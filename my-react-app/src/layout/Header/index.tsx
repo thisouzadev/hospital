@@ -7,6 +7,7 @@ import BackImg from '../../assets/back.svg';
 import ExitImg from '../../assets/exit.svg';
 import ScheduleImg from '../../assets/schedule.svg';
 import ManageImg from '../../assets/manage.svg';
+import AgendaImg from '../../assets/agenda.svg';
 import { useEventLogout } from '../../hooks';
 
 const Header = ({ children }:PropsWithChildren) => {
@@ -27,6 +28,9 @@ const Header = ({ children }:PropsWithChildren) => {
           </Link>
           <Link to="/admin/manage">
             <img src={ManageImg} alt="" />
+          </Link>
+          <Link to="/agenda-medica">
+            <img src={AgendaImg} alt="" />
           </Link>
           <div>
             {children}

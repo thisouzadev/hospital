@@ -29,7 +29,11 @@ const PrivateLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
           <span>{currentUser?.employee.hospital.nome}</span>
         </div>
       </Header>
-      <ErrorBoundary name="Content">{children}</ErrorBoundary>
+      <ErrorBoundary name="Content">
+        <div className="m-auto max-w-5xl pt-20">
+          {children}
+        </div>
+      </ErrorBoundary>
     </div>
   );
 };

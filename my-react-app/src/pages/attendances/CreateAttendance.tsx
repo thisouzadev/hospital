@@ -82,7 +82,7 @@ function CreateAttendance() {
 
   return (
     <div className="w-full">
-      <div className="max-w-5xl m-auto pt-20">
+      <div className="max-w-5xl m-auto">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
           <div className="grid grid-cols-12 gap-2">
 
