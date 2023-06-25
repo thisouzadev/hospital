@@ -7,7 +7,7 @@ export interface ICreatePatientDTO {
 
   rg: string;
 
-  birth: Date;
+  birth: string;
 
   responsible: string;
 

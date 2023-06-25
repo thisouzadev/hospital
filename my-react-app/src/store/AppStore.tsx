@@ -6,6 +6,7 @@ import {
   Dispatch,
   PropsWithChildren,
 } from 'react';
+import { User } from '@modules/user/entities/user.entity';
 import { sessionStorageGet } from '../utils/sessionStorage';
 import { AuthReturnDto } from '../types/backend.dtos';
 import AppReducer from './AppReducer';
@@ -17,7 +18,7 @@ import { localStorageGet } from '../utils/localStorage';
 export interface AppStoreState {
   darkMode: boolean;
   isAuthenticated: boolean;
-  currentUser?: AuthReturnDto['user'] | undefined;
+  currentUser?: User;
   token?: string;
 }
 const INITIAL_APP_STATE: AppStoreState = {
@@ -41,7 +42,7 @@ const AppStoreProvider: FunctionComponent<PropsWithChildren> = ({ children }) =>
     ...INITIAL_APP_STATE,
     darkMode: previousDarkMode,
     isAuthenticated: tokenExists,
-    currentUser: previousUser,
+    currentUser: previousUser as AuthReturnDto['user'] || undefined,
     token: previousToken,
   };
   const value: AppContextReturningType = useReducer(AppReducer, initialState);

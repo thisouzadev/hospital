@@ -21,9 +21,7 @@ export function dateToString(dateOrString: string | Date, dateFormat = FORMAT_DA
   return result;
 }
 
-
 export function getDate(date: Date, dateFormat = FORMAT_DATE_ONLY, fallbackValue = ''): string {
-  
   let result;
   try {
     result = format(date, dateFormat);

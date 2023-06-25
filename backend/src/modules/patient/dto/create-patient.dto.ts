@@ -26,7 +26,7 @@ export class CreatePatientDto implements ICreatePatientDTO {
   rg: string;
 
   @IsDateString({ strict: true }, { message: 'Data de nascimento inválida' })
-  birth: Date;
+  birth: string;
 
   @IsString()
   responsible: string;

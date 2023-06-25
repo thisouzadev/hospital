@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { PropsWithChildren } from 'react';
 import AddPatientImg from '../../assets/addPartient.svg';
 import PatientsImg from '../../assets/patients.svg';
 import ProfileImg from '../../assets/profile.svg';
@@ -8,12 +9,12 @@ import ScheduleImg from '../../assets/schedule.svg';
 import ManageImg from '../../assets/manage.svg';
 import { useEventLogout } from '../../hooks';
 
-const Header = () => {
+const Header = ({ children }:PropsWithChildren) => {
   const onLogout = useEventLogout();
   return (
     <header className="">
       <div className="flex justify-between p-3 m-auto max-w-7xl">
-        <div className="flex gap-5">
+        <div className="flex gap-5 items-center">
           <img src={ProfileImg} alt="" />
           <Link to="/admin/pacientes/cadastrar">
             <img src={AddPatientImg} alt="" />
@@ -27,8 +28,11 @@ const Header = () => {
           <Link to="/admin/manage">
             <img src={ManageImg} alt="" />
           </Link>
+          <div>
+            {children}
+          </div>
         </div>
-        <div className="flex gap-5">
+        <div className="flex gap-5 items-center">
           <Link to="..">
             <img src={BackImg} alt="" />
           </Link>

@@ -1,7 +1,7 @@
 import {
   FunctionComponent, PropsWithChildren,
 } from 'react';
-import Header from '../components/Header';
+import Header from './Header';
 import ErrorBoundary from '../components/ErrorBoundary';
 import { useAppStore } from '../store';
 // import { UserRole } from '../services/user.service';
@@ -15,14 +15,20 @@ const TITLE_PRIVATE = 'Hospital Admin'; // Title for pages after authentication
 const PrivateLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   const [state] = useAppStore();
 
-  const role = state.currentUser?.role;
+  const { currentUser } = state;
 
   const title = TITLE_PRIVATE;
   document.title = title; // Also Update Tab Title
 
   return (
     <div>
-      <Header />
+      <Header>
+        <div className="flex flex-col bg-[#ffffff20] px-2 rounded-md shadow-sm">
+          <span>{currentUser?.employee.name}</span>
+          <span>{currentUser?.role}</span>
+          <span>{currentUser?.employee.hospital.nome}</span>
+        </div>
+      </Header>
       <ErrorBoundary name="Content">{children}</ErrorBoundary>
     </div>
   );
