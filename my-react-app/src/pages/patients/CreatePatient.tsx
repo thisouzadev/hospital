@@ -36,7 +36,7 @@ function CreatePatient() {
 
   return (
     <div className="w-full">
-      <div className="max-w-5xl m-auto pt-20">
+      <div className="max-w-5xl m-auto">
         <PatientForm handleFormSubmit={onSubmit} schema={createSchema} />
       </div>
     </div>

@@ -75,109 +75,108 @@ function PatientForm({
   };
 
   return (
-    <div className="w-full">
-      <div className="max-w-5xl m-auto pt-20">
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-10">
-          <div className="grid grid-cols-12 gap-2">
-            <Input md={3} label="Data:" />
-            <Input md={3} label="Prontuário:" />
-            <Input md={3} label="Especialidade:" />
-            <Input md={3} label="Usuário:" />
 
-            <Input md={9} label="Nome:" {...register('name')} error={errors.name} />
-            <Input md={3} label="Nascimento:" {...register('birth')} type="date" error={errors.birth} />
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="flex flex-col gap-10">
+      <div className="grid grid-cols-12 gap-2">
+        <Input md={3} label="Data:" />
+        <Input md={3} label="Prontuário:" />
+        <Input md={3} label="Especialidade:" />
+        <Input md={3} label="Usuário:" />
 
-            <Controller
-              control={control}
-              name="cpf"
-              render={({ field: { onChange, name, value } }) => (
-                <Input md={3} label="CPF:" asChild error={errors.cpf}>
-                  <PatternFormat
-                    format="###.###.###-##"
-                    name={name}
-                    value={value}
+        <Input md={9} label="Nome:" {...register('name')} error={errors.name} />
+        <Input md={3} label="Nascimento:" {...register('birth')} type="date" error={errors.birth} />
+
+        <Controller
+          control={control}
+          name="cpf"
+          render={({ field: { onChange, name, value } }) => (
+            <Input md={3} label="CPF:" asChild error={errors.cpf}>
+              <PatternFormat
+                format="###.###.###-##"
+                name={name}
+                value={value}
                       // onChange={onChange}
-                    onValueChange={(v) => { onChange({ target: { value: v.value } }); }}
-                  />
-                </Input>
-              )}
-            />
-            <Input md={2} label="RG:" {...register('rg')} error={errors.rg} />
-            <Input md={3} label="CNS:" {...register('cns')} error={errors.cns} />
-            <Input md={4} label="Profissão:" {...register('occupation')} error={errors.occupation} />
+                onValueChange={(v) => { onChange({ target: { value: v.value } }); }}
+              />
+            </Input>
+          )}
+        />
+        <Input md={2} label="RG:" {...register('rg')} error={errors.rg} />
+        <Input md={3} label="CNS:" {...register('cns')} error={errors.cns} />
+        <Input md={4} label="Profissão:" {...register('occupation')} error={errors.occupation} />
 
-            <Input md={12} label="Responsável:" {...register('responsible')} error={errors.responsible} />
-            <Input md={12} label="Mãe:" {...register('mother')} error={errors.mother} />
-            <Input md={12} label="Pai:" {...register('father')} error={errors.father} />
+        <Input md={12} label="Responsável:" {...register('responsible')} error={errors.responsible} />
+        <Input md={12} label="Mãe:" {...register('mother')} error={errors.mother} />
+        <Input md={12} label="Pai:" {...register('father')} error={errors.father} />
 
-            <Input md={2} label="Sexo:" {...register('gender')} error={errors.gender} asChild>
-              <select>
-                <option hidden value="">{' '}</option>
-                {
+        <Input md={2} label="Sexo:" {...register('gender')} error={errors.gender} asChild>
+          <select>
+            <option hidden value="">{' '}</option>
+            {
                       Object.values(Gender).map((gender) => (
                         <option key={gender} value={gender}>{gender}</option>
                       ))
                     }
-              </select>
-            </Input>
-            <Input md={3} label="Raça/Cor:" {...register('race')} asChild error={errors.race}>
-              <select>
-                <option hidden value="">{' '}</option>
-                {
+          </select>
+        </Input>
+        <Input md={3} label="Raça/Cor:" {...register('race')} asChild error={errors.race}>
+          <select>
+            <option hidden value="">{' '}</option>
+            {
                         Object.values(Race).map((race) => (
                           <option key={race} value={race} className="bg-transparent appearance-none">{race}</option>
                         ))
                     }
-              </select>
-            </Input>
-            <Input md={1} label="Idade:" />
-            <Input md={3} label="Naturalidade:" {...register('placeOfBirth')} error={errors.placeOfBirth} />
-            <Input md={3} label="Est Civil:" {...register('maritalState')} asChild error={errors.maritalState}>
-              <select placeholder="Selecione um município">
-                <option hidden value="">{' '}</option>
-                {
+          </select>
+        </Input>
+        <Input md={1} label="Idade:" />
+        <Input md={3} label="Naturalidade:" {...register('placeOfBirth')} error={errors.placeOfBirth} />
+        <Input md={3} label="Est Civil:" {...register('maritalState')} asChild error={errors.maritalState}>
+          <select placeholder="Selecione um município">
+            <option hidden value="">{' '}</option>
+            {
                     Object.values(MaritalState).map((maritalState) => (
                       <option key={maritalState} value={maritalState}>{maritalState}</option>
                     ))
                   }
-              </select>
+          </select>
+        </Input>
+        <Input md={7} label="Endereço:" {...register('address.street')} error={errors.address?.street} />
+        <Input md={1} label="N°:" {...register('address.streetNumber')} error={errors.address?.streetNumber} />
+
+        <Controller
+          control={control}
+          name="address.cep"
+          render={({ field: { onChange, name, value } }) => (
+            <Input md={2} label="CEP:" asChild error={errors.address?.cep}>
+              <PatternFormat
+                format="##.###-###"
+                name={name}
+                value={value}
+                onValueChange={(v) => { onChange({ target: { value: v.value } }); }}
+              />
             </Input>
-            <Input md={7} label="Endereço:" {...register('address.street')} error={errors.address?.street} />
-            <Input md={1} label="N°:" {...register('address.streetNumber')} error={errors.address?.streetNumber} />
+          )}
+        />
+        <Controller
+          control={control}
+          name="phone"
+          render={({ field: { onChange, name, value } }) => (
+            <Input md={2} label="Tel:" asChild error={errors.phone}>
+              <PatternFormat
+                format="(##) #########"
+                name={name}
+                value={value}
+                onValueChange={(v) => { onChange({ target: { value: v.value } }); }}
+              />
+            </Input>
+          )}
+        />
 
-            <Controller
-              control={control}
-              name="address.cep"
-              render={({ field: { onChange, name, value } }) => (
-                <Input md={2} label="CEP:" asChild error={errors.address?.cep}>
-                  <PatternFormat
-                    format="##.###-###"
-                    name={name}
-                    value={value}
-                    onValueChange={(v) => { onChange({ target: { value: v.value } }); }}
-                  />
-                </Input>
-              )}
-            />
-            <Controller
-              control={control}
-              name="phone"
-              render={({ field: { onChange, name, value } }) => (
-                <Input md={2} label="Tel:" asChild error={errors.phone}>
-                  <PatternFormat
-                    format="(##) #########"
-                    name={name}
-                    value={value}
-                    onValueChange={(v) => { onChange({ target: { value: v.value } }); }}
-                  />
-                </Input>
-              )}
-            />
-
-            <Input md={3} label="Estado:" asChild onChange={onChangeSelectedState} error={errors.address?.stateId} isLoading={isLoadingStates}>
-              <select {...register('address.stateId', { valueAsNumber: true })}>
-                <option hidden value="">{' '}</option>
-                {
+        <Input md={3} label="Estado:" asChild onChange={onChangeSelectedState} error={errors.address?.stateId} isLoading={isLoadingStates}>
+          <select {...register('address.stateId', { valueAsNumber: true })}>
+            <option hidden value="">{' '}</option>
+            {
                     states.map((state) => (
                       <option
                         key={state.stateId}
@@ -187,30 +186,29 @@ function PatientForm({
                       </option>
                     ))
                   }
-              </select>
-            </Input>
-            <Input md={4} label="Município:" asChild error={errors.address?.cityId} isLoading={isLoadingCities}>
-              <select {...register('address.cityId', { valueAsNumber: true })}>
-                <option hidden value="">{' '}</option>
-                {
+          </select>
+        </Input>
+        <Input md={4} label="Município:" asChild error={errors.address?.cityId} isLoading={isLoadingCities}>
+          <select {...register('address.cityId', { valueAsNumber: true })}>
+            <option hidden value="">{' '}</option>
+            {
                     cities.map((city) => (
                       <option key={city.cityId} value={city.cityId}>{city.name}</option>
                     ))
                   }
-              </select>
-            </Input>
-            <Input md={5} label="Bairro:" {...register('address.district')} error={errors.address?.district} />
-          </div>
-
-          <div className="flex gap-6 justify-center">
-            <Button type="submit">{isUpdating ? 'Salvar' : 'Incluir'}</Button>
-            {!isUpdating
-              && <Button onClick={() => reset()}>Limpar</Button>}
-          </div>
-
-        </form>
+          </select>
+        </Input>
+        <Input md={5} label="Bairro:" {...register('address.district')} error={errors.address?.district} />
       </div>
-    </div>
+
+      <div className="flex gap-6 justify-center">
+        <Button type="submit">{isUpdating ? 'Salvar' : 'Incluir'}</Button>
+        {!isUpdating
+              && <Button onClick={() => reset()}>Limpar</Button>}
+      </div>
+
+    </form>
+
   );
 }
 

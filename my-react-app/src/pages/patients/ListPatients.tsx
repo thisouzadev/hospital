@@ -16,7 +16,7 @@ function ListPatients() {
 
   return (
     <div className="w-full">
-      <div className="max-w-5xl m-auto pt-32">
+      <div className="max-w-5xl m-auto">
         <div className="h-10 bg-[#D9D9D970] mb-2 flex justify-between items-center">
           <button type="button" className="h-full bg-white rounded-md px-12">LIsta de Pacientes</button>
 

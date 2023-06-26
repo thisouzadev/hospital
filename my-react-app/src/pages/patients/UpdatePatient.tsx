@@ -108,7 +108,7 @@ function UpdatePatient() {
 
   return (
     <div className="w-full">
-      <div className="max-w-5xl m-auto pt-20">
+      <div className="max-w-5xl m-auto">
         <PatientForm
           patient={patient}
           handleFormSubmit={onSubmit}
