@@ -16,7 +16,7 @@ function Button({
         clsx(
           'flex items-center justify-center gap-1 ',
           'rounded-full border-stone-300  transition-colors bg-[#0799C7CF] hover:bg-[#079ac7] shadow-md',
-          'w-40 h-14',
+          'w-40 h-10',
           className,
         )
       }

@@ -3,18 +3,19 @@ import clsx from 'clsx';
 import { forwardRef } from 'react';
 
 interface InputProps extends React.HTMLProps<HTMLInputElement> {
-  label: string
+  label?: string
   md?: number
   lg?: number
   asChild? : boolean
   disabled?:boolean
   error?: any;
   isLoading?:boolean;
+  textCenter?:boolean;
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
   ({
-    label, className, name, md, asChild, disabled, error, isLoading, ...props
+    label, className, name, md, asChild, disabled, error, isLoading, textCenter, ...props
   }, forwardedRed) => {
     const Comp = asChild ? Slot : 'input';
     return (
@@ -22,8 +23,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         className={
         clsx(
           'group flex items-center h-9  rounded-md col-span-12',
-          { 'bg-red-200': error },
-          { 'bg-white': !error },
 
           { 'md:col-span-1': md === 1 },
           { 'md:col-span-2': md === 2 },
@@ -37,7 +36,6 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           { 'md:col-span-10': md === 10 },
           { 'md:col-span-11': md === 11 },
           { 'md:col-span-12': md === 12 },
-          className,
         )
       }
       >
@@ -48,11 +46,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               'flex items-center ring-1  h-9 px-1 gap-1  w-full',
               'ring-black rounded-lg border-black text-black ',
               { 'group-hover:ring-2 focus-within:ring-2': !disabled },
-              { 'ring-red-700': error },
+              { 'bg-red-200 ring-red-700': error },
+              { 'bg-[#f0f0f0]': !error },
+              className,
             )
           }
         >
-          <span className="whitespace-nowrap">{label}</span>
+          {label
+          && <span className="whitespace-nowrap">{label}</span>}
           {isLoading
             ? <span>Carregando...</span>
             : (
@@ -63,6 +64,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                 className={
               clsx(
                 'text-gray-700 w-full bg-transparent outline-none',
+                { 'text-center': textCenter },
               )
             }
                 ref={forwardedRed}
