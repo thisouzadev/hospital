@@ -1,39 +1,46 @@
-import { useForm, Controller } from 'react-hook-form';
-import { PatternFormat } from 'react-number-format';
+import { useForm, Controller } from "react-hook-form";
+import { PatternFormat } from "react-number-format";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-import * as yup from 'yup';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { UserRole } from '../../types/backend.enums';
-import {
-  City, Employee, State,
-} from '../../types/backend.models';
-import citiesService from '../../service/cities.service';
-import Button from '../../components/Button';
-import Input from '../../components/Input';
-import specialties from './data';
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { UserRole } from "../../types/backend.enums";
+import { City, Employee, State } from "../../types/backend.models";
+import citiesService from "../../service/cities.service";
+import Button from "../../components/Button";
+import Input from "../../components/Input";
+import specialties from "./data";
 
 interface Props {
-  employee?: Employee
-  handleFormSubmit: (patient:Employee)=>void
-  schema: Record<string, any>,
+  employee?: Employee;
+  handleFormSubmit: (patient: Employee) => void;
+  schema: Record<string, any>;
 
-  isUpdating?:boolean
+  isUpdating?: boolean;
 }
 
 function EmployeeForm({
-  employee, handleFormSubmit, schema, isUpdating,
-}:Props) {
+  employee,
+  handleFormSubmit,
+  schema,
+  isUpdating,
+}: Props) {
   const {
-    register, handleSubmit, reset, setValue, control, formState: { errors }, clearErrors, watch,
+    register,
+    handleSubmit,
+    reset,
+    setValue,
+    control,
+    formState: { errors },
+    clearErrors,
+    watch,
   } = useForm<Employee>({
     defaultValues: employee,
     resolver: yupResolver(yup.object().shape(schema).required()),
   });
 
   console.log(errors);
-  console.log(watch());
 
   const [states, setStates] = useState<State[]>([]);
   const [cities, setCities] = useState<City[]>([]);
@@ -51,15 +58,15 @@ function EmployeeForm({
     setIsLoadingCities(false);
   };
 
-  const onRoleChange = (e:any) => {
+  const onRoleChange = (e: any) => {
     const newRole = e.target.value as UserRole;
-    setValue('user.role', newRole);
+    setValue("user.role", newRole);
     if (newRole !== UserRole.Medico) {
-      setValue('doctor', undefined);
-      clearErrors('doctor');
+      setValue("doctor", undefined);
+      clearErrors("doctor");
     }
     if (newRole) {
-      clearErrors('user.role');
+      clearErrors("user.role");
     }
   };
 
@@ -71,7 +78,7 @@ function EmployeeForm({
       }
       setStates(statesRes);
       setIsLoadingStates(false);
-      const stateId = watch('address.stateId');
+      const stateId = watch("address.stateId");
       if (isUpdating && stateId) {
         await loadCities(stateId);
       }
@@ -80,11 +87,11 @@ function EmployeeForm({
     fetchStates();
   }, [employee, reset]);
 
-  const onChangeSelectedState = async (e:any) => {
+  const onChangeSelectedState = async (e: any) => {
     const stateId = e.target.value;
-    setValue('address.stateId', Number(stateId));
-    setValue('address.cityId', '' as any as number);
-    clearErrors('address.stateId');
+    setValue("address.stateId", Number(stateId));
+    setValue("address.cityId", "" as any as number);
+    clearErrors("address.stateId");
 
     if (stateId) {
       loadCities(stateId);
@@ -102,13 +109,13 @@ function EmployeeForm({
             <Input
               md={4}
               label="Nome:"
-              {...register('name')}
+              {...register("name")}
               error={errors.name}
             />
             <Input
               md={5}
               label="Email:"
-              {...register('user.email')}
+              {...register("user.email")}
               error={errors.user?.email}
             />
             <Controller
@@ -131,26 +138,27 @@ function EmployeeForm({
             <Input
               md={3}
               label="Mat:"
-              {...register('mat')}
+              {...register("mat")}
               error={errors.mat}
             />
 
-            <Input
-              md={3}
-              label="RG:"
-              {...register('rg')}
-              error={errors.rg}
-            />
+            <Input md={3} label="RG:" {...register("rg")} error={errors.rg} />
             <Input
               md={3}
               label="CNS:"
-              {...register('cns')}
+              {...register("cns")}
               error={errors.cns}
             />
 
             <Input md={3} label="Cargo:" asChild error={errors?.user?.role}>
-              <select defaultValue="" onChange={onRoleChange} value={watch('user.role')}>
-                <option hidden value="">{' '}</option>
+              <select
+                defaultValue=""
+                onChange={onRoleChange}
+                value={watch("user.role")}
+              >
+                <option hidden value="">
+                  {" "}
+                </option>
                 {Object.values(UserRole).map((role) => (
                   <option key={role} value={role}>
                     {role}
@@ -159,17 +167,18 @@ function EmployeeForm({
               </select>
             </Input>
 
-            { watch('user.role') === UserRole.Medico
-              && (
+            {watch("user.role") === UserRole.Medico && (
               <>
                 <Input
                   md={4}
                   label="Especialidade:"
-                  {...register('doctor.specialty')}
+                  {...register("doctor.specialty")}
                   asChild
                 >
                   <select defaultValue="">
-                    <option hidden value="">{' '}</option>
+                    <option hidden value="">
+                      {" "}
+                    </option>
                     {specialties.map((specialty: string) => (
                       <option key={specialty} value={specialty}>
                         {specialty}
@@ -181,18 +190,20 @@ function EmployeeForm({
                 <Input
                   md={4}
                   label="CRM:"
-                  {...register('doctor.crm')}
+                  {...register("doctor.crm")}
                   error={errors.doctor?.crm}
                 />
                 <Input
                   md={4}
                   label="Estado CRM:"
-                  {...register('doctor.crmStateId', { valueAsNumber: true })}
+                  {...register("doctor.crmStateId", { valueAsNumber: true })}
                   error={errors.doctor?.crmStateId}
                   asChild
                 >
                   <select>
-                    <option hidden value="">{' '}</option>
+                    <option hidden value="">
+                      {" "}
+                    </option>
                     {states.map((state) => (
                       <option key={state.stateId} value={state.stateId}>
                         {state.abbreviation}
@@ -201,7 +212,7 @@ function EmployeeForm({
                   </select>
                 </Input>
               </>
-              )}
+            )}
 
             <Controller
               control={control}
@@ -222,13 +233,13 @@ function EmployeeForm({
             <Input
               md={6}
               label="Endereço:"
-              {...register('address.street')}
+              {...register("address.street")}
               error={errors.address?.street}
             />
             <Input
               md={1}
               label="N°:"
-              {...register('address.streetNumber')}
+              {...register("address.streetNumber")}
               error={errors.address?.streetNumber}
             />
             <Input
@@ -237,10 +248,12 @@ function EmployeeForm({
               asChild
               onChange={onChangeSelectedState}
               error={errors.address?.stateId}
+              isLoading={isLoadingStates}
             >
-              <select>
-
-                <option hidden value="">{' '}</option>
+              <select {...register("address.stateId")}>
+                <option hidden value="">
+                  {" "}
+                </option>
                 {states.map((state) => (
                   <option key={state.stateId} value={state.stateId}>
                     {state.abbreviation}
@@ -253,11 +266,13 @@ function EmployeeForm({
               md={6}
               label="Município:"
               asChild
-              {...register('address.cityId', { valueAsNumber: true })}
+              {...register("address.cityId", { valueAsNumber: true })}
               error={errors.address?.cityId}
             >
               <select>
-                <option hidden value="">{' '}</option>
+                <option hidden value="">
+                  {" "}
+                </option>
                 {cities.map((city) => (
                   <option key={city.cityId} value={city.cityId}>
                     {city.name}
@@ -268,7 +283,7 @@ function EmployeeForm({
             <Input
               md={6}
               label="Bairro:"
-              {...register('address.district')}
+              {...register("address.district")}
               error={errors.address?.district}
             />
           </div>
@@ -276,7 +291,6 @@ function EmployeeForm({
             <Button type="submit">Incluir</Button>
             <Button onClick={() => reset()}>Limpar</Button>
           </div>
-
         </form>
       </div>
     </div>
