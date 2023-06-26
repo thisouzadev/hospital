@@ -1,4 +1,4 @@
 export class UpdateHospitalDto {
-  nome?: string;
+  name?: string;
   endereco?: string;
 }

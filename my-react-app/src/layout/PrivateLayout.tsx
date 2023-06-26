@@ -26,7 +26,7 @@ const PrivateLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
         <div className="flex flex-col bg-[#ffffff20] px-2 rounded-md shadow-sm">
           <span>{currentUser?.employee.name}</span>
           <span>{currentUser?.role}</span>
-          <span>{currentUser?.employee.hospital.nome}</span>
+          <span>{currentUser?.employee.hospital.name}</span>
         </div>
       </Header>
       <ErrorBoundary name="Content">

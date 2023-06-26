@@ -13,7 +13,7 @@ export class Hospital {
   hospitalId: string;
 
   @Column()
-  nome: string;
+  name: string;
 
   @Column()
   endereco: string;

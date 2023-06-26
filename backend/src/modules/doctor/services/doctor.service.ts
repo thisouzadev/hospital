@@ -11,7 +11,9 @@ export class DoctorService {
   ) {}
 
   findAll() {
-    return this.doctorRepository.find({ relations: ['employee'] });
+    return this.doctorRepository.find({
+      relations: ['employee', 'employee.hospital'],
+    });
   }
 
   findOne(doctorId: string) {
