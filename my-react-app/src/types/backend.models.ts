@@ -9,7 +9,8 @@ import { Attendance } from '@modules/attendance/entities/attendance.entity';
 import { Doctor } from '@modules/doctor/entities/doctor.entity';
 
 import { Employee } from '@modules/employee/entities/employee.entity';
+import { DoctorSchedule } from '@modules/doctor/entities/doctor-schedule.entity';
 
 export {
-  State, City, Patient, Attendance, Doctor, Employee,
+  State, City, Patient, Attendance, Doctor, Employee, DoctorSchedule,
 };

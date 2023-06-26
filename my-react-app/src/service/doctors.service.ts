@@ -8,6 +8,12 @@ const doctorsService = {
     return response.data;
   },
 
+  async removeSchedule(id: string) {
+    const response = await api.delete(`/doctor-schedules/${id}`);
+
+    return response.data;
+  },
+
 };
 
 export default doctorsService;

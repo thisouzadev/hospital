@@ -12,7 +12,12 @@ export class DoctorService {
 
   findAll() {
     return this.doctorRepository.find({
-      relations: ['employee', 'employee.hospital'],
+      relations: ['employee', 'employee.hospital', 'schedules'],
+      order: {
+        schedules: {
+          weekDay: 'ASC',
+        },
+      },
     });
   }
 

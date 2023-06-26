@@ -29,7 +29,8 @@ export class DoctorScheduleController {
   }
 
   @Delete(':id')
-  findOne(@Param() { id }: UuidParamValidator) {
-    return this.doctorScheduleService.remove(id);
+  async findOne(@Param() { id }: UuidParamValidator) {
+    await this.doctorScheduleService.remove(id);
+    return { success: true };
   }
 }

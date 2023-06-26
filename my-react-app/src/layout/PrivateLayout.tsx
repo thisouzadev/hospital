@@ -30,7 +30,7 @@ const PrivateLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
         </div>
       </Header>
       <ErrorBoundary name="Content">
-        <div className="m-auto max-w-5xl pt-20">
+        <div className="m-auto max-w-6xl pt-20 text-lg">
           {children}
         </div>
       </ErrorBoundary>

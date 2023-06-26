@@ -5,9 +5,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { DoctorSchedule } from './doctor-schedule.entity';
 
 @Entity('doctors')
 export class Doctor {
@@ -35,6 +37,9 @@ export class Doctor {
   @ManyToOne(() => State)
   @JoinColumn({ name: 'crm_state_id', referencedColumnName: 'stateId' })
   crmState: State;
+
+  @OneToMany(() => DoctorSchedule, (schedule) => schedule.doctor)
+  schedules: DoctorSchedule[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
