@@ -4,19 +4,21 @@ import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from 'react';
 interface Props extends
   DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
   icon?: ReactNode
+  variant?: 'small' | 'big'
 }
 
 function Button({
-  type, children, icon, className, ...restOfProps
+  type, children, icon, className, variant = 'big', ...restOfProps
 }: Props) {
   return (
     <button
       type={type === 'submit' ? 'submit' : 'button'}
       className={
         clsx(
-          'flex items-center justify-center gap-1 ',
+          'flex items-center justify-center gap-1 w-40 ',
           'rounded-full border-stone-300  transition-colors bg-[#0799C7CF] hover:bg-[#079ac7] shadow-md',
-          'w-40 h-10',
+          { 'h-10': variant === 'small' },
+          { 'h-14': variant === 'big' },
           className,
         )
       }
