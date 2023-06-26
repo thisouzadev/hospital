@@ -46,6 +46,7 @@ export class EmployeeService {
   async findOne(id: string): Promise<Employee> {
     const employee = await this.employeeRepository.findOne({
       where: { employeeId: id },
+      relations: ['address', 'user', 'doctor'],
     });
     console.log(employee);
     if (!employee) {
@@ -60,7 +61,7 @@ export class EmployeeService {
   ): Promise<Employee> {
     const employee = await this.employeeRepository.findOne({
       where: { employeeId },
-      relations: ['user', 'address'],
+      relations: ['user', 'address', 'doctor'],
     });
     if (!employee) {
       throw new NotFoundException('Funcionário não encontrado');
