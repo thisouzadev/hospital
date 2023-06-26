@@ -1,14 +1,19 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsString, IsUUID, ValidateNested } from 'class-validator';
-import { UpdateAddressDto } from 'src/modules/address/dto/update-address.dto';
-import { UpdateUserDto } from 'src/modules/user/dto/update-user.dto';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
+import { CreateAddressDto } from '../../address/dto/create-address.dto';
+
+import { CreateDoctorDto } from '../../doctor/dto/create-doctor.dto';
+import { CreateUserDto } from '../../user/dto/create-user.dto';
 
 export class UpdateEmployeeDto {
   @IsNotEmpty()
   name: string;
-
-  @IsUUID()
-  hospitalId: string;
 
   @IsString()
   cpf: string;
@@ -16,13 +21,24 @@ export class UpdateEmployeeDto {
   @IsString()
   rg: string;
 
-  @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => UpdateUserDto)
-  user: UpdateUserDto;
+  @IsString()
+  cns: string;
+
+  @IsString()
+  mat: string;
 
   @IsNotEmpty()
   @ValidateNested()
-  @Type(() => UpdateAddressDto)
-  address: UpdateAddressDto;
+  @Type(() => CreateUserDto)
+  user: CreateUserDto;
+
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => CreateAddressDto)
+  address: CreateAddressDto;
+
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => CreateDoctorDto)
+  doctor: CreateDoctorDto;
 }

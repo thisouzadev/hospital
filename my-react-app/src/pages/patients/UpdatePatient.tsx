@@ -1,13 +1,13 @@
-import { SubmitHandler } from 'react-hook-form';
+import { SubmitHandler } from "react-hook-form";
 
-import { Patient } from 'types/backend.models';
+import { Patient } from "types/backend.models";
 
-import * as yup from 'yup';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import PatientForm from './PatientForm';
-import patientService from '../../service/patient.service';
-import Loading from '../../components/loading';
+import * as yup from "yup";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import PatientForm from "./PatientForm";
+import patientService from "../../service/patient.service";
+import Loading from "../../components/loading";
 
 const createSchema = {
   name: yup.string().required(),
@@ -72,9 +72,8 @@ function UpdatePatient() {
       rg,
     } = data;
 
-    const {
-      addressId, cep, cityId, district, stateId, street, streetNumber,
-    } = data.address;
+    const { addressId, cep, cityId, district, stateId, street, streetNumber } =
+      data.address;
 
     const result = await patientService.update(patient.patientId, {
       name,
@@ -92,14 +91,20 @@ function UpdatePatient() {
       responsible,
       rg,
       address: {
-        addressId, cep, cityId, district, stateId, street, streetNumber,
+        addressId,
+        cep,
+        cityId,
+        district,
+        stateId,
+        street,
+        streetNumber,
       },
     });
     if (result.error) {
       console.log(result.message);
       return;
     }
-    navigate('/admin/pacientes');
+    navigate("/admin/pacientes");
   };
 
   if (isLoading) {
