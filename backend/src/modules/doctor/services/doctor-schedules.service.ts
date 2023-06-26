@@ -3,17 +3,18 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DoctorSchedule } from '../entities/doctor-schedule.entity';
 import { CreateDoctorScheduleDto } from '../dto/create-doctor-schedule.dto';
+import { ListDoctorSchedulesQueryDto } from '../dto/list-doctor-schedules-query.dto';
 
 @Injectable()
-export class DoctorScheduleScheduleService {
+export class DoctorScheduleService {
   constructor(
     @InjectRepository(DoctorSchedule)
     private readonly doctorScheduleRepository: Repository<DoctorSchedule>,
   ) {}
 
-  findAll() {
+  findAll(query: ListDoctorSchedulesQueryDto) {
     return this.doctorScheduleRepository.find({
-      relations: [],
+      where: query,
     });
   }
 

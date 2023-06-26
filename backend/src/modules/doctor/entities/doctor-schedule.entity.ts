@@ -2,7 +2,7 @@ import {
   Column,
   Entity,
   JoinColumn,
-  OneToOne,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Doctor } from './doctor.entity';
@@ -16,16 +16,16 @@ export class DoctorSchedule {
   @Column({ name: 'doctor_id' })
   doctorId: string;
 
-  @OneToOne(() => Doctor, (doctor) => doctor, {
+  @ManyToOne(() => Doctor, (doctor) => doctor, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'doctor_id', referencedColumnName: 'doctorId' })
   doctor: Doctor;
 
-  @Column({ name: 'hospital_id' })
+  @Column({ name: 'hospital_id', nullable: true })
   hospitalId: string;
 
-  @OneToOne(() => Hospital, (hospital) => hospital, {
+  @ManyToOne(() => Hospital, (hospital) => hospital, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'hospital_id', referencedColumnName: 'hospitalId' })
@@ -34,13 +34,13 @@ export class DoctorSchedule {
   @Column({ name: 'week_day', type: 'integer' })
   weekDay: number;
 
-  @Column({ name: 'start_at' })
+  @Column({ name: 'start_at', type: 'time' })
   startAt: string;
 
-  @Column({ name: 'end_day' })
+  @Column({ name: 'end_day', type: 'time' })
   endAt: string;
 
-  @Column({})
+  @Column()
   vacancies: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

@@ -1,11 +1,13 @@
-import { IsInt, IsNotEmpty, IsString } from 'class-validator';
+import { IsInt, IsNotEmpty, IsString, Max, Min } from 'class-validator';
 
 export class CreateDoctorScheduleDto {
   @IsString()
   @IsNotEmpty()
   doctorId: string;
 
-  @IsString()
+  @IsInt()
+  @Max(6)
+  @Min(0)
   weekDay: number;
 
   @IsString()
@@ -15,5 +17,6 @@ export class CreateDoctorScheduleDto {
   endAt: string;
 
   @IsInt()
+  @Min(0)
   vacancies: number;
 }
