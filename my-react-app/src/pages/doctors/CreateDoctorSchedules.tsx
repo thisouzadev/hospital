@@ -2,6 +2,7 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { CreateDoctorScheduleDto } from 'types/backend.dtos';
+import { toast } from 'react-toastify';
 import weekDays from '../../types/date';
 import doctorsService from '../../service/doctors.service';
 import { Doctor, DoctorSchedule } from '../../types/backend.models';
@@ -96,9 +97,26 @@ const CreateDoctorSchedules = () => {
     fetchData();
   }, []);
 
-  const handleAddSchedule = (data: CreateDoctorScheduleDto) => {
-    console.log('add schedule');
-    console.log(data);
+  const handleAddSchedule = async (data: CreateDoctorScheduleDto) => {
+    const response = await doctorsService.createSchedule(data);
+    if (response.success) {
+      toast.success('Agenda criada com sucesso');
+      const resultSchedule = response.result as DoctorSchedule;
+
+      const updatedDoctor = doctors.find((d) => d.doctorId === resultSchedule.doctorId);
+
+      if (updatedDoctor) {
+        updatedDoctor.schedules.push(resultSchedule);
+
+        updatedDoctor.schedules = updatedDoctor.schedules.sort((a, b) => a.weekDay - b.weekDay);
+
+        const newDoctors = doctors.map((d) => (
+          d.doctorId === updatedDoctor.doctorId ? updatedDoctor : d
+        ));
+        setDoctors(newDoctors);
+        setSelectedDoctor(updatedDoctor);
+      }
+    }
   };
   const handleUpdateSchedule = (data: CreateDoctorScheduleDto) => {
     console.log('update schedule');
@@ -242,7 +260,7 @@ const CreateDoctorSchedules = () => {
           textCenter
           className="ring-blue-300 bg-[#D9D9D980] text-xl a"
           placeholder="Dia da Semana"
-          {...register('weekDay')}
+          {...register('weekDay', { valueAsNumber: true })}
           md={2}
           asChild
         >
@@ -276,7 +294,7 @@ const CreateDoctorSchedules = () => {
           className="ring-blue-300 bg-[#D9D9D980] text-xl a"
           label="Vagas:"
           type="number"
-          {...register('vacancies')}
+          {...register('vacancies', { valueAsNumber: true })}
           md={2}
         />
 
