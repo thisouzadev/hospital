@@ -8,7 +8,6 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { Transform } from 'class-transformer';
 import { UuidParamValidator } from '../../../shared/validators/uuid-param.validator';
 import { CreateDoctorScheduleDto } from '../dto/create-doctor-schedule.dto';
 import { ListDoctorSchedulesQueryDto } from '../dto/list-doctor-schedules-query.dto';
@@ -24,22 +23,28 @@ class SuccessResult<T> {
   public result: T;
 }
 
+const successResult = <T>(data: T = undefined, message?: string) => {
+  return {
+    success: true,
+    message,
+    result: data,
+  };
+};
+
 @Controller('doctor-schedules')
 export class DoctorScheduleController {
   constructor(private readonly doctorScheduleService: DoctorScheduleService) {}
 
   @Post()
-  async create(
-    @Body() doctorScheduleDto: CreateDoctorScheduleDto,
-  ): Promise<SuccessResult<DoctorSchedule>> {
-    const schedule = await this.doctorScheduleService.create(doctorScheduleDto);
-    return new SuccessResult(schedule);
+  async create(@Body() doctorScheduleDto: CreateDoctorScheduleDto) {
+    return successResult(
+      await this.doctorScheduleService.create(doctorScheduleDto),
+    );
   }
 
   @Get()
   async findAll(@Query() query: ListDoctorSchedulesQueryDto) {
-    const result = await this.doctorScheduleService.findAll(query);
-    return result;
+    return successResult(await this.doctorScheduleService.findAll(query));
   }
 
   @Put(':id')
@@ -47,17 +52,13 @@ export class DoctorScheduleController {
     @Param() { id }: UuidParamValidator,
     @Body() updatePatientDto: UpdateDoctorScheduleDto,
   ) {
-    const result = await this.doctorScheduleService.update(
-      id,
-      updatePatientDto,
+    return successResult(
+      await this.doctorScheduleService.update(id, updatePatientDto),
     );
-
-    return new SuccessResult(result);
   }
 
   @Delete(':id')
   async findOne(@Param() { id }: UuidParamValidator) {
-    await this.doctorScheduleService.remove(id);
-    return { success: true };
+    return successResult(await this.doctorScheduleService.remove(id));
   }
 }
