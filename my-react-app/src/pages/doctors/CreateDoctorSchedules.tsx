@@ -58,8 +58,6 @@ const CreateDoctorSchedules = () => {
 
   });
 
-  console.log(touchedFields);
-
   const [selectedScheduleId, setSelectedScheduleId] = useState('');
 
   const handleChangeFilter = (item: keyof IDoctorFilter, e:any) => {
