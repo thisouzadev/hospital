@@ -5,11 +5,14 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
 } from '@nestjs/common';
+import { Transform } from 'class-transformer';
 import { UuidParamValidator } from '../../../shared/validators/uuid-param.validator';
 import { CreateDoctorScheduleDto } from '../dto/create-doctor-schedule.dto';
 import { ListDoctorSchedulesQueryDto } from '../dto/list-doctor-schedules-query.dto';
+import { UpdateDoctorScheduleDto } from '../dto/update-doctor-schedule.dto';
 import { DoctorSchedule } from '../entities/doctor-schedule.entity';
 import { DoctorScheduleService } from '../services/doctor-schedules.service';
 
@@ -34,8 +37,22 @@ export class DoctorScheduleController {
   }
 
   @Get()
-  findAll(@Query() query: ListDoctorSchedulesQueryDto) {
-    return this.doctorScheduleService.findAll(query);
+  async findAll(@Query() query: ListDoctorSchedulesQueryDto) {
+    const result = await this.doctorScheduleService.findAll(query);
+    return result;
+  }
+
+  @Put(':id')
+  async update(
+    @Param() { id }: UuidParamValidator,
+    @Body() updatePatientDto: UpdateDoctorScheduleDto,
+  ) {
+    const result = await this.doctorScheduleService.update(
+      id,
+      updatePatientDto,
+    );
+
+    return new SuccessResult(result);
   }
 
   @Delete(':id')

@@ -3,6 +3,8 @@ import { PropsWithChildren, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { CreateDoctorScheduleDto } from 'types/backend.dtos';
 import { toast } from 'react-toastify';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import weekDays from '../../types/date';
 import doctorsService from '../../service/doctors.service';
 import { Doctor, DoctorSchedule } from '../../types/backend.models';
@@ -12,6 +14,14 @@ import SearchImg from '../../assets/search.svg';
 import DoctorImg from '../../assets/doctor.svg';
 import EditImg from '../../assets/edit.svg';
 import DeleteImg from '../../assets/delete.svg';
+
+const scheduleSchema = {
+  doctorId: yup.string().required(),
+  weekDay: yup.number().required(),
+  startAt: yup.string().required(),
+  endAt: yup.string().required(),
+  vacancies: yup.number().required(),
+};
 
 const Field = ({ children }:PropsWithChildren) => (
   <div className="rounded-lg bg-[#f0f0f0] w-full text-center p-1 ring-1 ring-blue-300 h-10 text-xl">{children}</div>
@@ -41,12 +51,14 @@ const CreateDoctorSchedules = () => {
   const [showDoctorData, setShowDoctorData] = useState(false);
 
   const {
-    register, handleSubmit, reset, watch,
+    register, handleSubmit, reset, formState: { errors, touchedFields },
   } = useForm<CreateDoctorScheduleDto>({
     defaultValues: defaultScheduleValues as any as CreateDoctorScheduleDto,
+    resolver: yupResolver(yup.object().shape(scheduleSchema).required()),
+
   });
 
-  console.log(watch());
+  console.log(touchedFields);
 
   const [selectedScheduleId, setSelectedScheduleId] = useState('');
 
@@ -118,9 +130,36 @@ const CreateDoctorSchedules = () => {
       }
     }
   };
-  const handleUpdateSchedule = (data: CreateDoctorScheduleDto) => {
-    console.log('update schedule');
-    console.log(data);
+  const handleUpdateSchedule = async (data: CreateDoctorScheduleDto) => {
+    if (!selectedScheduleId) {
+      return;
+    }
+
+    const isFormTouched = Object.keys(touchedFields).length > 0;
+    if (!isFormTouched) {
+      return;
+    }
+    const response = await doctorsService.updateSchedule(selectedScheduleId, data);
+
+    if (response.success) {
+      toast.success('Agenda atualizada com sucesso');
+    }
+    const resultSchedule = response.result as DoctorSchedule;
+
+    const updatedDoctor = doctors.find((d) => d.doctorId === resultSchedule.doctorId);
+
+    if (updatedDoctor) {
+      updatedDoctor.schedules = updatedDoctor.schedules.map((s) => (
+        s.scheduleId === resultSchedule.scheduleId ? resultSchedule : s));
+
+      updatedDoctor.schedules = updatedDoctor.schedules.sort((a, b) => a.weekDay - b.weekDay);
+
+      const newDoctors = doctors.map((d) => (
+        d.doctorId === updatedDoctor.doctorId ? updatedDoctor : d
+      ));
+      setDoctors(newDoctors);
+      setSelectedDoctor(updatedDoctor);
+    }
   };
 
   const handleSelectSchedule = (schedule: DoctorSchedule) => {
@@ -221,6 +260,7 @@ const CreateDoctorSchedules = () => {
           md={8}
           // {...register('doctorId')}
           {...doctorIdRegister}
+          error={errors.doctorId}
           onChange={(e) => { doctorIdRegister.onChange(e); handleChangeDoctor(e); }}
           asChild
         >
@@ -261,6 +301,7 @@ const CreateDoctorSchedules = () => {
           className="ring-blue-300 bg-[#D9D9D980] text-xl a"
           placeholder="Dia da Semana"
           {...register('weekDay', { valueAsNumber: true })}
+          error={errors.weekDay}
           md={2}
           asChild
         >
@@ -279,6 +320,7 @@ const CreateDoctorSchedules = () => {
           label="Início:"
           type="time"
           {...register('startAt')}
+          error={errors.startAt}
           md={2}
         />
         <Input
@@ -287,6 +329,7 @@ const CreateDoctorSchedules = () => {
           label="Fim:"
           type="time"
           {...register('endAt')}
+          error={errors.endAt}
           md={2}
         />
         <Input
@@ -295,11 +338,12 @@ const CreateDoctorSchedules = () => {
           label="Vagas:"
           type="number"
           {...register('vacancies', { valueAsNumber: true })}
+          error={errors.vacancies}
           md={2}
         />
 
         <div className="flex justify-center gap-10 py-8 w-full col-span-12">
-          <Button variant="small" onClick={handleSubmit(handleUpdateSchedule)}>Editar</Button>
+          <Button variant="small" onClick={handleSubmit(handleUpdateSchedule)} disabled={!selectedScheduleId}>Editar</Button>
           <Button variant="small" onClick={handleSubmit(handleAddSchedule)}>Incluir</Button>
           <Button variant="small" onClick={() => handleResetSchedule()}>Limpar</Button>
         </div>

@@ -8,17 +8,19 @@ interface Props extends
 }
 
 function Button({
-  type, children, icon, className, variant = 'big', ...restOfProps
+  type, children, icon, className, variant = 'big', disabled, ...restOfProps
 }: Props) {
   return (
     <button
       type={type === 'submit' ? 'submit' : 'button'}
+      disabled={disabled}
       className={
         clsx(
-          'flex items-center justify-center gap-1 w-40 ',
+          'flex items-center justify-center gap-1 w-40 disabled:pointer-events-none',
           'rounded-full border-stone-300  transition-colors bg-[#0799C7CF] hover:bg-[#079ac7] shadow-md',
           { 'h-10': variant === 'small' },
           { 'h-14': variant === 'big' },
+          { 'bg-gray-400': disabled },
           className,
         )
       }
