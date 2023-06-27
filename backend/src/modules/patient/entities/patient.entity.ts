@@ -4,12 +4,14 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { IPatient } from '../../../shared/models/patient/patient.interface';
 import { Address } from '../../../modules/address/entities/address.entity';
 import { Gender } from '../../../shared/enums/gender.enum';
+import { Attendance } from 'src/modules/attendance/entities/attendance.entity';
 
 @Entity('patients')
 export class Patient implements IPatient {
@@ -71,6 +73,9 @@ export class Patient implements IPatient {
   })
   @JoinColumn({ name: 'address_id', referencedColumnName: 'addressId' })
   address: Address;
+
+  @OneToMany(() => Attendance, (attendance) => attendance.patient)
+  attendances: Attendance[];
 
   @Column({
     type: 'timestamp',

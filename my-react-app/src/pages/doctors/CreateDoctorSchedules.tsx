@@ -102,7 +102,7 @@ const CreateDoctorSchedules = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await doctorsService.getAll();
-      setDoctors(response);
+      setDoctors(response.result);
     };
     fetchData();
   }, []);

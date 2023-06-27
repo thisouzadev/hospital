@@ -9,7 +9,7 @@ function ListPatients() {
   useEffect(() => {
     const fetchData = async () => {
       const patientsData:Patient[] = await patientService.getAll();
-      setPatients(patientsData);
+      setPatients(patientsData.result);
     };
     fetchData();
   }, []);

@@ -15,14 +15,6 @@ import { UpdateDoctorScheduleDto } from '../dto/update-doctor-schedule.dto';
 import { DoctorSchedule } from '../entities/doctor-schedule.entity';
 import { DoctorScheduleService } from '../services/doctor-schedules.service';
 
-class SuccessResult<T> {
-  constructor(data: T) {
-    this.result = data;
-  }
-  public success = true;
-  public result: T;
-}
-
 const successResult = <T>(data: T = undefined, message?: string) => {
   return {
     success: true,

@@ -1,5 +1,8 @@
 import axios, { } from 'axios';
+import { SearchPatientQueryDto } from '../types/backend.dtos';
 import { ICreatePatientDTO } from '../types/backend.interfaces';
+import api from './api';
+import { objectFieldsToString } from '../utils/object';
 
 const patientService = {
   async create(patientData:ICreatePatientDTO) {
@@ -14,6 +17,20 @@ const patientService = {
       return error.response?.data;
     }
   },
+
+  async searchPatients(query: SearchPatientQueryDto) {
+    const o = { ...query };
+
+    console.log(o);
+    const objString = `?${(new URLSearchParams(objectFieldsToString(o))).toString()}`;
+
+    console.log(objString);
+
+    const response = await api.get(`/patients${objString}`);
+
+    return response.data;
+  },
+
   async getAll() {
     try {
       const response = await axios({

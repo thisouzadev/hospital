@@ -19,6 +19,7 @@ const attendanceService = {
   async getAll(query:ListAttendanceQueryDto) {
     const o = { ...query };
     const objString = `?${(new URLSearchParams(objectFieldsToString(o))).toString()}`;
+
     const response = await api.get(`/attendances${objString}`);
 
     return response.data;

@@ -20,6 +20,9 @@ export class Attendance {
   @PrimaryGeneratedColumn('uuid', { name: 'attendance_id' })
   attendanceId: string;
 
+  @PrimaryGeneratedColumn({ name: 'attendance_number' })
+  attendanceNumber: number;
+
   @Column({ name: 'doctor_id', nullable: true })
   doctorId: string;
 
@@ -55,4 +58,7 @@ export class Attendance {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+}
+function GeneratedColumn(arg0: string, arg1: { name: string }) {
+  throw new Error('Function not implemented.');
 }
