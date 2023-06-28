@@ -39,4 +39,21 @@ export class UserController {
   remove(@Param('id') id: string) {
     return this.userService.remove(id);
   }
+
+  @Post('password-recovery')
+  async sendPasswordRecoveryEmail(@Body() body: { email: string }) {
+    const { email } = body;
+    await this.userService.sendPasswordRecoveryEmail(email);
+    return { message: 'E-mail de recuperação de senha enviado com sucesso.' };
+  }
+
+  // @Patch('reset-password/:token')
+  // async resetPassword(
+  //   @Param('token') token: string,
+  //   @Body() body: { password: string },
+  // ) {
+  //   const { password } = body;
+  //   await this.userService.resetPassword(token, password);
+  //   return { message: 'Senha redefinida com sucesso.' };
+  // }
 }
