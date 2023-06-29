@@ -7,7 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { DoctorSchedule } from 'src/modules/doctor/entities/doctor-schedule.entity';
+import { DoctorSchedule } from '../../doctor/entities/doctor-schedule.entity';
 
 export enum AttendanceStatus {
   SCHEDULED = 'agendado',

@@ -11,7 +11,7 @@ import {
 import { IPatient } from '../../../shared/models/patient/patient.interface';
 import { Address } from '../../../modules/address/entities/address.entity';
 import { Gender } from '../../../shared/enums/gender.enum';
-import { Attendance } from 'src/modules/attendance/entities/attendance.entity';
+import { Attendance } from '../../attendance/entities/attendance.entity';
 
 @Entity('patients')
 export class Patient implements IPatient {

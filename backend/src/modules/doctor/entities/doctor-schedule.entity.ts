@@ -7,8 +7,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Doctor } from './doctor.entity';
-import { Hospital } from 'src/modules/hospital/entities/hospital.entity';
-import { Attendance } from 'src/modules/attendance/entities/attendance.entity';
+import { Hospital } from '../../hospital/entities/hospital.entity';
+import { Attendance } from '../../attendance/entities/attendance.entity';
 
 @Entity('doctor_schedules')
 export class DoctorSchedule {

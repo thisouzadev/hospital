@@ -1,5 +1,4 @@
-import { PropsWithChildren, useEffect, useState } from 'react';
-import clsx from 'clsx';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   format, lastDayOfMonth, setMonth, addDays,
@@ -13,18 +12,13 @@ import {
   Panel, PanelContent, PanelHeader, PanelSubHeader,
 } from '../../components/Panel';
 
-import scheduleImg from '../../assets/schedule2.svg';
-import confirmationImg from '../../assets/confirmation.svg';
 import { Doctor, DoctorSchedule, Patient } from '../../types/backend.models';
 import { getDate } from '../../utils/date';
 import Input from '../../components/Input';
 import { CreateAttendanceDto, SearchPatientQueryDto } from '../../types/backend.dtos';
-import weekDays from '../../types/date';
 
-interface AttendanceTableProps {
-  patients:Patient[]
-  onSelectPatient: (patient:Patient) => void
-}
+import AttendanceTable from './components/AttendanceTable';
+import AvailableSchedules, { IAvailableSchedules } from './components/AvailableSchedules';
 
 interface SelectableInterval {
   firstDay: string;
@@ -37,76 +31,6 @@ const selectableIntervals: SelectableInterval[] = [...Array(10).keys()].map((ite
   }));
 
 const DEBUG_MODE = false;
-
-const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>) => (
-  <td className={
-    clsx(
-      'h-11 bg-[#D9D9D9] rounded-xl border-2 border-blue-400 group-hover:bg-[#f3f2f2]',
-      className,
-    )
-  }
-  >
-    {children}
-  </td>
-);
-
-const Field = ({ children }:PropsWithChildren) => (
-  <div className="rounded-lg bg-[#f0f0f0] w-full text-center p-1 ring-1 ring-blue-300 h-10 text-xl">{children}</div>
-);
-
-function AttendanceTable({ patients, onSelectPatient }:AttendanceTableProps) {
-  return (
-    <table className="w-full text-center align-middle border-spacing-y-1 border-separate">
-      <thead>
-        <tr className="h-10 group font-bold">
-          <Cell className="w-1/2">
-            Nome
-          </Cell>
-          <Cell className="w-1/4">
-            Nascimento
-          </Cell>
-          <Cell>
-            No atendimento:
-          </Cell>
-          <Cell className="border-none invisible">
-            <img src={scheduleImg} className="w-8 m-auto" alt="" />
-          </Cell>
-        </tr>
-      </thead>
-      <tbody className="">
-        {patients.map((patient) => (
-          <tr key={patient.patientId} className="h-10 group">
-            <Cell className="w-1/2">
-              {patient.name}
-            </Cell>
-            <Cell className="w-1/4">
-              <input type="date" value={patient.birth} className="bg-transparent text-center" disabled />
-            </Cell>
-            <Cell>
-              {patient.attendances[0]?.attendanceNumber}
-            </Cell>
-            <Cell className="border-none">
-              <button type="button" onClick={() => onSelectPatient(patient)}>
-                <img src={scheduleImg} className="w-8 m-auto" alt="" />
-              </button>
-            </Cell>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
-interface IAvailableSchedules {
-  scheduleId: string;
-  doctorName: string;
-  specialty: string;
-  date: Date;
-  isoDate: string;
-  weekDay: number;
-  vacancies: number;
-  available?: number;
-}
 
 function ListAttendances() {
   const [lastAttendances, setLastAttendances] = useState<Patient[]>([]);
@@ -354,95 +278,10 @@ function ListAttendances() {
         </div>
       </PanelSubHeader>
       <PanelSubHeader>
-        <div className="flex justify-evenly">
-          <div className="text-lg w-full">
-            <span className="text-xl">
-              Vagas
-            </span>
-            <table className="w-full text-center border-separate border-spacing-y-2 border-spacing-x-2">
-              <thead className="font-bold">
-                <tr>
-                  <td className="w-1/5 ">
-                    <Field>
-                      dia
-                    </Field>
-                  </td>
-                  <td className="w-1/5 ">
-                    <Field>
-                      Nome
-                    </Field>
-                  </td>
-                  <td className="w-1/5 ">
-                    <Field>
-                      Especialidade
-                    </Field>
-                  </td>
-                  <td className="w-1/5">
-                    <Field>
-                      dia da semana
-                    </Field>
-                  </td>
-                  <td className="w-1/12">
-                    <Field>
-                      Vagas
-                    </Field>
-                  </td>
-                  <td className="w-1/5">
-                    <button type="button" className="invisible">
-                      <img src={confirmationImg} alt="" className="mt-1" />
-                    </button>
-                  </td>
-                </tr>
-              </thead>
-              <tbody className="border">
-                {availableSchedules.length === 0
-                && (
-                <tr>
-                  <td>
-                    <span>Selecione mês e médico</span>
-                  </td>
-                </tr>
-                )}
-                {availableSchedules?.map((schedule) => (
-                  <tr key={schedule.isoDate} className="h-10  rounded-lg ring-2 ring-blue-300 ">
-                    <td className="w-1/5 ">
-                      <Field>
-                        {schedule.date.getDate()}
-                      </Field>
-                    </td>
-                    <td className="w-1/5 ">
-                      <Field>
-                        {schedule.doctorName}
-                      </Field>
-                    </td>
-                    <td className="w-1/5 ">
-                      <Field>
-                        {schedule.specialty}
-                      </Field>
-                    </td>
-                    <td className="w-1/5">
-                      <Field>
-                        {weekDays[schedule.weekDay]}
-                      </Field>
-                    </td>
-                    <td className="w-2/12">
-                      <Field>
-                        {schedule.vacancies}
-                      </Field>
-                    </td>
-                    <td className="w-1/5">
-                      <button type="button" onClick={() => setSelectedSchedule(schedule)}>
-                        <img src={confirmationImg} alt="" className="mt-1" />
-                      </button>
-                    </td>
-
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-          </div>
-        </div>
+        <AvailableSchedules
+          availableSchedules={availableSchedules}
+          onSelectSchedule={setSelectedSchedule}
+        />
       </PanelSubHeader>
     </Panel>
   );
