@@ -3,10 +3,12 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Doctor } from './doctor.entity';
 import { Hospital } from 'src/modules/hospital/entities/hospital.entity';
+import { Attendance } from 'src/modules/attendance/entities/attendance.entity';
 
 @Entity('doctor_schedules')
 export class DoctorSchedule {
@@ -42,6 +44,9 @@ export class DoctorSchedule {
 
   @Column()
   vacancies: number;
+
+  @OneToMany(() => Attendance, (attendance) => attendance.doctorSchedule)
+  attendances: Attendance[];
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

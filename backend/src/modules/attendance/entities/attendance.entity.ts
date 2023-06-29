@@ -7,6 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { DoctorSchedule } from 'src/modules/doctor/entities/doctor-schedule.entity';
 
 export enum AttendanceStatus {
   SCHEDULED = 'agendado',
@@ -25,6 +26,16 @@ export class Attendance {
 
   @Column({ name: 'doctor_id', nullable: true })
   doctorId: string;
+
+  @Column({ name: 'doctor_schedule_id', nullable: true })
+  doctorScheduleId: string;
+
+  @ManyToOne(() => DoctorSchedule, { onDelete: 'CASCADE' })
+  @JoinColumn({
+    name: 'doctor_schedule_id',
+    referencedColumnName: 'scheduleId',
+  })
+  doctorSchedule: DoctorSchedule;
 
   @ManyToOne(() => Doctor, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'doctor_id', referencedColumnName: 'doctorId' })
@@ -58,7 +69,4 @@ export class Attendance {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
-}
-function GeneratedColumn(arg0: string, arg1: { name: string }) {
-  throw new Error('Function not implemented.');
 }

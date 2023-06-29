@@ -1,10 +1,25 @@
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, IsUUID, Max, Min } from 'class-validator';
+import {
+  IsDateString,
+  IsInt,
+  IsOptional,
+  IsUUID,
+  Max,
+  Min,
+} from 'class-validator';
 
 export class ListDoctorSchedulesQueryDto {
   @IsUUID()
   @IsOptional()
   doctorId?: string;
+
+  @IsDateString()
+  @IsOptional()
+  attendanceStartDate?: string;
+
+  @IsDateString()
+  @IsOptional()
+  attendanceEndDate?: string;
 
   @IsOptional()
   @IsInt()
@@ -12,5 +27,5 @@ export class ListDoctorSchedulesQueryDto {
   @Type(() => Number)
   @Min(0)
   @Max(6)
-  weekDay: number;
+  weekDay?: number;
 }

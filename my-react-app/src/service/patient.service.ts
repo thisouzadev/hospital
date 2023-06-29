@@ -21,10 +21,7 @@ const patientService = {
   async searchPatients(query: SearchPatientQueryDto) {
     const o = { ...query };
 
-    console.log(o);
     const objString = `?${(new URLSearchParams(objectFieldsToString(o))).toString()}`;
-
-    console.log(objString);
 
     const response = await api.get(`/patients${objString}`);
 

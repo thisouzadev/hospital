@@ -17,3 +17,23 @@ a {
   visibility: hidden;
 }
 
+
+
+.react-datepicker__current-month{
+  font-size: 20px;
+}
+
+.react-datepicker__day-names,
+.react-datepicker__month,
+.react-datepicker__header {
+  font-size: 16px;
+}
+.react-datepicker__month-container{
+  background-color: #f0f0f0;
+  border-radius:4px;
+}
+
+.react-datepicker__day-name, .react-datepicker__day, .react-datepicker__time-name {
+  margin: 14px;
+}
+

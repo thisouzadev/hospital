@@ -5,16 +5,9 @@ import api from './api';
 
 const attendanceService = {
   async create(attendanceData:CreateAttendanceDto) {
-    try {
-      const response = await axios({
-        method: 'post',
-        url: 'http://localhost:3000/attendances',
-        data: attendanceData,
-      });
-      return response.data;
-    } catch (error: any) {
-      return error.response?.data;
-    }
+    const response = await api.post('/attendances', attendanceData);
+
+    return response.data;
   },
   async getAll(query:ListAttendanceQueryDto) {
     const o = { ...query };

@@ -1,10 +1,19 @@
-import { CreateDoctorScheduleDto } from '../types/backend.dtos';
+import { objectFieldsToString } from '../utils/object';
+import { CreateDoctorScheduleDto, ListDoctorSchedulesQueryDto } from '../types/backend.dtos';
 import api from './api';
 
 const doctorsService = {
 
   async getAll() {
     const response = await api.get('/doctors');
+
+    return response.data;
+  },
+
+  async getSchedules(query : ListDoctorSchedulesQueryDto) {
+    const o = { ...query };
+    const objString = `?${(new URLSearchParams(objectFieldsToString(o))).toString()}`;
+    const response = await api.get(`/doctor-schedules${objString}`);
 
     return response.data;
   },

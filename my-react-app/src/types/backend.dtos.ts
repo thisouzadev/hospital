@@ -6,6 +6,7 @@ import { AuthReturnDto } from '@modules/auth/dtos/auth-return.dto';
 import { CreateEmployeeDto } from '@modules/employee/dtos/create-employee.dto';
 import { CreateDoctorScheduleDto } from '@modules/doctor/dto/create-doctor-schedule.dto';
 import { SearchPatientQueryDto } from '@modules/patient/dto/search-patient-query.dto';
+import { ListDoctorSchedulesQueryDto } from '@modules/doctor/dto/list-doctor-schedules-query.dto';
 
 export {
   CreatePatientDto,
@@ -16,4 +17,5 @@ export {
   CreateEmployeeDto,
   CreateDoctorScheduleDto,
   SearchPatientQueryDto,
+  ListDoctorSchedulesQueryDto,
 };

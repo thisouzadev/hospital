@@ -8,7 +8,7 @@ function ListPatients() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const patientsData:Patient[] = await patientService.getAll();
+      const patientsData = await patientService.getAll();
       setPatients(patientsData.result);
     };
     fetchData();
