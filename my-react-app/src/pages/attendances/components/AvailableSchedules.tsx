@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
-import weekDays from '../../../types/date';
+import clsx from 'clsx';
+import { weekDays } from '../../../types/date';
 import confirmationImg from '../../../assets/confirmation.svg';
 
 export interface IAvailableSchedules {
@@ -15,14 +16,24 @@ export interface IAvailableSchedules {
 
 interface Props {
   availableSchedules: IAvailableSchedules[]
+  selectedSchedule?: IAvailableSchedules
   onSelectSchedule: (s: IAvailableSchedules) => void
+  emptyMessage?: string
 }
 
-const Field = ({ children }:PropsWithChildren) => (
-  <div className="rounded-lg bg-[#f0f0f0] w-full text-center p-1 ring-1 ring-blue-300 h-10 text-xl">{children}</div>
+const Field = ({ children, className }:PropsWithChildren<{ className?: string }>) => (
+  <div className={
+    clsx('rounded-lg bg-[#f0f0f0] w-full text-center p-1 ring-1 ring-blue-300 h-10 text-xl', className)
+  }
+  >
+    {children}
+
+  </div>
 );
 
-const AvailableSchedules = ({ availableSchedules, onSelectSchedule }:Props) => (
+const AvailableSchedules = ({
+  availableSchedules, onSelectSchedule, emptyMessage, selectedSchedule,
+}:Props) => (
   <div className="flex justify-evenly">
     <div className="text-lg w-full">
       <span className="text-xl">
@@ -64,16 +75,14 @@ const AvailableSchedules = ({ availableSchedules, onSelectSchedule }:Props) => (
           </tr>
         </thead>
         <tbody className="border">
-          {availableSchedules.length === 0
-                && (
-                <tr>
-                  <td>
-                    <span>Selecione mês e médico</span>
-                  </td>
-                </tr>
-                )}
           {availableSchedules?.map((schedule) => (
-            <tr key={schedule.isoDate} className="h-10  rounded-lg ring-2 ring-blue-300 ">
+            <tr
+              key={schedule.isoDate}
+              className={clsx(
+                'h-10  rounded-lg ring-2 ring-blue-300 ',
+                { 'ring-orange-700': selectedSchedule?.isoDate === schedule.isoDate },
+              )}
+            >
               <td className="w-1/5 ">
                 <Field>
                   {schedule.date.getDate()}
@@ -94,8 +103,13 @@ const AvailableSchedules = ({ availableSchedules, onSelectSchedule }:Props) => (
                   {weekDays[schedule.weekDay]}
                 </Field>
               </td>
-              <td className="w-2/12">
-                <Field>
+              <td className="w-2/12 ">
+                <Field className={clsx(
+                  { 'bg-red-300': schedule.vacancies === 0 },
+                  { 'bg-orange-300': schedule.vacancies === 1 },
+                  { 'bg-green-300': schedule.vacancies > 1 },
+                )}
+                >
                   {schedule.vacancies}
                 </Field>
               </td>
@@ -109,7 +123,12 @@ const AvailableSchedules = ({ availableSchedules, onSelectSchedule }:Props) => (
           ))}
         </tbody>
       </table>
+      {availableSchedules.length === 0
+        && (
 
+        <span className="font-bold">{emptyMessage}</span>
+
+        )}
     </div>
   </div>
 );

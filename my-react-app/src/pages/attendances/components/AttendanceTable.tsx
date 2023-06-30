@@ -5,6 +5,7 @@ import { Patient } from '../../../types/backend.models';
 
 interface AttendanceTableProps {
   patients:Patient[]
+  selectedPatient?: Patient
   onSelectPatient: (patient:Patient) => void
 }
 
@@ -20,7 +21,7 @@ const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>
   </td>
 );
 
-function AttendanceTable({ patients, onSelectPatient }:AttendanceTableProps) {
+function AttendanceTable({ patients, onSelectPatient, selectedPatient }:AttendanceTableProps) {
   return (
     <table className="w-full text-center align-middle border-spacing-y-1 border-separate">
       <thead>
@@ -41,7 +42,7 @@ function AttendanceTable({ patients, onSelectPatient }:AttendanceTableProps) {
       </thead>
       <tbody className="">
         {patients.map((patient) => (
-          <tr key={patient.patientId} className="h-10 group">
+          <tr key={patient.patientId} className={clsx('h-10 group rounded-lg', { 'ring-orange-700 ring-2': selectedPatient?.patientId === patient.patientId })}>
             <Cell className="w-1/2">
               {patient.name}
             </Cell>

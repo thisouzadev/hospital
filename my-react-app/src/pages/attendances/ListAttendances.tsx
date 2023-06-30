@@ -4,6 +4,7 @@ import {
   format, lastDayOfMonth, setMonth, addDays,
 } from 'date-fns';
 import { toast } from 'react-toastify';
+import { monthNames } from '../../types/date';
 import attendanceService from '../../service/attendance.service';
 import doctorsService from '../../service/doctors.service';
 import patientService from '../../service/patient.service';
@@ -43,6 +44,8 @@ function ListAttendances() {
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor>();
   const [selectedSchedule, setSelectedSchedule] = useState<IAvailableSchedules>();
 
+  const [selectedIntervalIndex, setSelectedIntervalIndex] = useState<number>();
+
   const [doctors, setDoctors] = useState<Doctor[]>([]);
 
   const [availableSchedules, setAvailableSchedules] = useState<IAvailableSchedules[]>([]);
@@ -55,7 +58,6 @@ function ListAttendances() {
     const fetchData = async () => {
       const query = DEBUG_MODE ? {} : { attendanceDate: selectedDate };
       const res = await patientService.searchPatients(query);
-      console.log(res.result);
 
       setLastAttendances(res.result);
     };
@@ -94,6 +96,8 @@ function ListAttendances() {
   const handleResetAttendance = () => {
     setSelectedPatient(undefined);
     setSelectedDoctor(undefined);
+    setSelectedSchedule(undefined);
+    setSelectedIntervalIndex(undefined);
     setAvailableSchedules([]);
   };
 
@@ -113,7 +117,12 @@ function ListAttendances() {
     return result;
   };
 
-  const handleSelectMonthInterval = async (interval : SelectableInterval) => {
+  const handleSelectMonthInterval = async () => {
+    if (!selectedIntervalIndex) { return; }
+    const interval = selectableIntervals[selectedIntervalIndex];
+
+    setSelectedSchedule(undefined);
+
     if (!interval || !selectedDoctor) {
       return;
     }
@@ -168,6 +177,12 @@ function ListAttendances() {
     setAvailableSchedules(newAvailableSchedules);
   };
 
+  useEffect(() => {
+    if (selectedDoctor && selectedIntervalIndex) {
+      handleSelectMonthInterval();
+    }
+  }, [selectedDoctor, selectedIntervalIndex]);
+
   const handleCreateSchedule = async () => {
     if (!selectedPatient || !selectedSchedule || !selectedDoctor) {
       return;
@@ -180,17 +195,23 @@ function ListAttendances() {
     };
 
     const res = await attendanceService.create(attendanceDto);
-    // get pacient data
-    // get schedule fata
-    console.log(res);
+
     if (res.success) {
       toast('Agendamento cadastrado com sucesso');
 
-      setSelectedDoctor(undefined);
-      setSelectedPatient(undefined);
+      handleResetAttendance();
     }
 
     // post
+  };
+
+  const handleSelectSchedule = (schedule: IAvailableSchedules) => {
+    if (schedule.vacancies === 0) {
+      if (!window.confirm('Não há mais vagas para este dia, deseja agendar mesmo assim?')) {
+        return;
+      }
+    }
+    setSelectedSchedule(schedule);
   };
 
   return (
@@ -201,7 +222,12 @@ function ListAttendances() {
         <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="bg-transparent" />
       </PanelHeader>
       <PanelContent>
-        <AttendanceTable patients={lastAttendances} onSelectPatient={handleSelectPatient} />
+        <AttendanceTable
+          patients={lastAttendances}
+          onSelectPatient={handleSelectPatient}
+          selectedPatient={selectedPatient}
+
+        />
       </PanelContent>
       <PanelSubHeader>
         <div className="grid grid-cols-12 gap-2">
@@ -220,7 +246,11 @@ function ListAttendances() {
         </div>
       </PanelSubHeader>
       <PanelContent>
-        <AttendanceTable patients={searchedPatients} onSelectPatient={handleSelectPatient} />
+        <AttendanceTable
+          patients={searchedPatients}
+          onSelectPatient={handleSelectPatient}
+          selectedPatient={selectedPatient}
+        />
       </PanelContent>
       <PanelSubHeader>
         <div className="grid grid-cols-12 gap-2">
@@ -228,12 +258,19 @@ function ListAttendances() {
           <Input md={3} label="Nascimento:" value={selectedPatient ? selectedPatient?.birth : ''} type="date" disabled className="bg-transparent" />
           <Input md={3} label="CNS:" value={selectedPatient ? selectedPatient?.cns : ''} className="bg-transparent" disabled />
 
-          <Input md={2} label="Mês:" className="bg-transparent" onChange={(e:any) => handleSelectMonthInterval(selectableIntervals[e.target.value])} asChild>
+          <Input
+            md={2}
+            label="Mês:"
+            className="bg-transparent"
+            value={selectedIntervalIndex || ''}
+            onChange={(e:any) => setSelectedIntervalIndex(e.target.value)}
+            asChild
+          >
             <select>
               <option value="" hidden>{' '}</option>
               {
               selectableIntervals.map((interval, index) => (
-                <option key={interval.firstDay} value={index} className="bg-transparent appearance-none">{interval.firstDay.split('-')[1]}</option>
+                <option key={interval.firstDay} value={index} className="bg-transparent appearance-none">{monthNames[Number(interval.firstDay.split('-')[1])]}</option>
               ))
             }
             </select>
@@ -280,7 +317,9 @@ function ListAttendances() {
       <PanelSubHeader>
         <AvailableSchedules
           availableSchedules={availableSchedules}
-          onSelectSchedule={setSelectedSchedule}
+          selectedSchedule={selectedSchedule}
+          onSelectSchedule={handleSelectSchedule}
+          emptyMessage={selectedDoctor && selectedIntervalIndex ? 'Não foram encontradas agendas' : 'Selecione médico e mês'}
         />
       </PanelSubHeader>
     </Panel>

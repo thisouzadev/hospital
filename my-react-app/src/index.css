@@ -6,7 +6,7 @@
 body {
   background: linear-gradient(239.49deg, rgba(51, 169, 254, 0.92) 47.23%, rgba(63, 230, 59, 0.83) 100.5%);
   mix-blend-mode: normal;
-  height: 100vh
+  min-height: 100vh
 }
 
 a {
