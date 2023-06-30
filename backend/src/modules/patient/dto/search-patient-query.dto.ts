@@ -1,11 +1,5 @@
 import { Type } from 'class-transformer';
-import {
-  Allow,
-  IsDateString,
-  IsInt,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsDateString, IsInt, IsOptional, IsString } from 'class-validator';
 
 export class SearchPatientQueryDto {
   @IsOptional()
