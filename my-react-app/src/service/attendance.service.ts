@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { CreateAttendanceDto, ListAttendanceQueryDto } from '../types/backend.dtos';
 import { objectFieldsToString } from '../utils/object';
 import api from './api';

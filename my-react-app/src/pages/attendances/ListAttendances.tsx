@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import {
   format, lastDayOfMonth, setMonth, addDays,
 } from 'date-fns';
 import { toast } from 'react-toastify';
+import SearchPatients from '../../components/SearchPatients';
 import { monthNames } from '../../types/date';
 import attendanceService from '../../service/attendance.service';
 import doctorsService from '../../service/doctors.service';
@@ -16,7 +16,7 @@ import {
 import { Doctor, DoctorSchedule, Patient } from '../../types/backend.models';
 import { getDate } from '../../utils/date';
 import Input from '../../components/Input';
-import { CreateAttendanceDto, SearchPatientQueryDto } from '../../types/backend.dtos';
+import { CreateAttendanceDto } from '../../types/backend.dtos';
 
 import AttendanceTable from './components/AttendanceTable';
 import AvailableSchedules, { IAvailableSchedules } from './components/AvailableSchedules';
@@ -50,10 +50,6 @@ function ListAttendances() {
 
   const [availableSchedules, setAvailableSchedules] = useState<IAvailableSchedules[]>([]);
 
-  const patientSearch = useForm<SearchPatientQueryDto>({
-    defaultValues: {},
-  });
-
   useEffect(() => {
     const fetchData = async () => {
       const query = DEBUG_MODE ? {} : { attendanceDate: selectedDate };
@@ -71,16 +67,6 @@ function ListAttendances() {
     };
     fetchData();
   }, []);
-
-  const handleSearchPatients = async (data: SearchPatientQueryDto) => {
-    const query = { ...data };
-    if (!query.attendanceNumber) {
-      delete query.attendanceNumber;
-    }
-    const res = await patientService.searchPatients(query);
-
-    setSearchedPatients(res.result);
-  };
 
   const handleSelectPatient = (patient:Patient) => {
     setSelectedPatient(patient);
@@ -230,20 +216,7 @@ function ListAttendances() {
         />
       </PanelContent>
       <PanelSubHeader>
-        <div className="grid grid-cols-12 gap-2">
-          <Input md={6} label="Nome:" {...patientSearch.register('name')} className="bg-transparent" />
-          <Input md={3} label="CPF:" {...patientSearch.register('cpf')} className="bg-transparent" />
-          <Input md={3} label="CNS:" {...patientSearch.register('cns')} className="bg-transparent" />
-
-          <Input md={5} label="Data de atendimento:" {...patientSearch.register('attendanceDate')} className="bg-transparent" type="date" />
-          <Input md={5} label="Nº do atendimento:" {...patientSearch.register('attendanceNumber', { valueAsNumber: true })} className="bg-transparent" />
-          <Button
-            variant="small"
-            onClick={patientSearch.handleSubmit(handleSearchPatients)}
-          >
-            Buscar
-          </Button>
-        </div>
+        <SearchPatients onSuccess={setSearchedPatients} />
       </PanelSubHeader>
       <PanelContent>
         <AttendanceTable

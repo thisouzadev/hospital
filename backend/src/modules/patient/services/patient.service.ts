@@ -32,7 +32,6 @@ export class PatientService {
   }
 
   findAll(query: SearchPatientQueryDto) {
-    console.log(query);
     const { attendanceDate, attendanceNumber, name, ...restOfQuery } = query;
     return this.patientRepository.find({
       order: { createdAt: 'DESC' },

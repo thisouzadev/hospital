@@ -20,6 +20,7 @@ interface State {
  */
 class ErrorBoundary extends Component<Props, State> {
   static defaultProps = {
+    // eslint-disable-next-line react/default-props-match-prop-types
     name: 'Error Boundary',
   };
 
@@ -28,6 +29,7 @@ class ErrorBoundary extends Component<Props, State> {
     this.state = { hasError: false };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static getDerivedStateFromError(error: Error) {
     // The next render will show the Error UI
     return { hasError: true };
