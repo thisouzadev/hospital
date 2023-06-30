@@ -12,9 +12,10 @@ import {
 import { AttendanceService } from '../services/attendance.service';
 import { CreateAttendanceDto } from '../dto/create-attendance.dto';
 import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
-import { UuidParamValidator } from 'src/shared/validators/uuid-param.validator';
+import { UuidParamValidator } from '../../../shared/validators/uuid-param.validator';
 import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { AuthGuard } from '@nestjs/passport';
+import successResult from 'src/shared/presenters/success-result.presenter';
 
 // @UseGuards(AuthGuard())
 @Controller('Attendances')
@@ -22,8 +23,10 @@ export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
 
   @Post()
-  create(@Body() createAttendanceDto: CreateAttendanceDto) {
-    return this.attendanceService.create(createAttendanceDto);
+  async create(@Body() createAttendanceDto: CreateAttendanceDto) {
+    return successResult(
+      await this.attendanceService.create(createAttendanceDto),
+    );
   }
 
   // @Get()

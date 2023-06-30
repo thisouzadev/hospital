@@ -5,7 +5,7 @@ import { CreateDoctorScheduleDto } from 'types/backend.dtos';
 import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import weekDays from '../../types/date';
+import { weekDays } from '../../types/date';
 import doctorsService from '../../service/doctors.service';
 import { Doctor, DoctorSchedule } from '../../types/backend.models';
 import Button from '../../components/Button';
@@ -102,7 +102,7 @@ const CreateDoctorSchedules = () => {
   useEffect(() => {
     const fetchData = async () => {
       const response = await doctorsService.getAll();
-      setDoctors(response);
+      setDoctors(response.result);
     };
     fetchData();
   }, []);

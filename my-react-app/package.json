@@ -20,6 +20,7 @@
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",
+    "react-datepicker": "^4.14.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.3",
     "react-icons": "^4.9.0",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@types/node": "^20.3.1",
     "@types/react": "^18.0.37",
+    "@types/react-datepicker": "^4.11.2",
     "@types/react-dom": "^18.2.6",
     "@typescript-eslint/eslint-plugin": "^5.60.0",
     "@typescript-eslint/parser": "^5.60.0",

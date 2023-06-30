@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, IsNull, Repository } from 'typeorm';
 import { DoctorSchedule } from '../entities/doctor-schedule.entity';
 import { CreateDoctorScheduleDto } from '../dto/create-doctor-schedule.dto';
 import { ListDoctorSchedulesQueryDto } from '../dto/list-doctor-schedules-query.dto';
@@ -14,8 +14,25 @@ export class DoctorScheduleService {
   ) {}
 
   findAll(query: ListDoctorSchedulesQueryDto) {
+    const {
+      attendanceStartDate = '1900-01-01',
+      attendanceEndDate = '2099-12-31',
+      ...restOfQuery
+    } = query;
+
     return this.doctorScheduleRepository.find({
-      where: query,
+      where: {
+        ...restOfQuery,
+        attendances: [
+          {
+            attendanceDate: Between(attendanceStartDate, attendanceEndDate),
+          },
+          {
+            attendanceDate: IsNull(),
+          },
+        ],
+      },
+      relations: ['attendances'],
     });
   }
 

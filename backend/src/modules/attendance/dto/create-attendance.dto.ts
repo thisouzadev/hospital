@@ -1,9 +1,11 @@
 import { Allow, IsDateString, IsOptional, IsUUID } from 'class-validator';
 
 export class CreateAttendanceDto {
-  @IsOptional()
   @IsUUID()
   doctorId?: string;
+
+  @IsUUID()
+  doctorScheduleId: string;
 
   @IsUUID()
   patientId: string;
@@ -15,5 +17,5 @@ export class CreateAttendanceDto {
   attendanceTime?: string;
 
   @IsOptional()
-  orderNumber: number;
+  orderNumber?: number;
 }

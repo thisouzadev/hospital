@@ -8,5 +8,11 @@ export const objectFieldsToString = (
     newObj[key] = String(newObj[key]);
   });
 
+  keys.forEach((key) => {
+    if (newObj[key] === '' || newObj[key] === undefined) {
+      delete newObj[key];
+    }
+  });
+
   return newObj as Record<string, string>;
 };

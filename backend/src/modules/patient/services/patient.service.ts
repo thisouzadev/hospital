@@ -4,8 +4,9 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { CreatePatientDto } from '../dto/create-patient.dto';
+import { SearchPatientQueryDto } from '../dto/search-patient-query.dto';
 import { UpdatePatientDto } from '../dto/update-patient.dto';
 import { Patient } from '../entities/patient.entity';
 
@@ -30,8 +31,18 @@ export class PatientService {
     return patient;
   }
 
-  findAll() {
-    return this.patientRepository.find({ order: { createdAt: 'DESC' } });
+  findAll(query: SearchPatientQueryDto) {
+    console.log(query);
+    const { attendanceDate, attendanceNumber, name, ...restOfQuery } = query;
+    return this.patientRepository.find({
+      order: { createdAt: 'DESC' },
+      where: {
+        name: Like(`%${name || ''}%`),
+        ...restOfQuery,
+        attendances: { attendanceDate, attendanceNumber },
+      },
+      relations: ['attendances'],
+    });
   }
 
   async findOne(patientId: string) {

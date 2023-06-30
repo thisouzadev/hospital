@@ -3,14 +3,16 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   Put,
+  Query,
 } from '@nestjs/common';
 import { PatientService } from '../services/patient.service';
 import { CreatePatientDto } from '../dto/create-patient.dto';
 import { UpdatePatientDto } from '../dto/update-patient.dto';
+import successResult from '../../../shared/presenters/success-result.presenter';
+import { SearchPatientQueryDto } from '../dto/search-patient-query.dto';
 
 @Controller('patients')
 export class PatientController {
@@ -22,8 +24,8 @@ export class PatientController {
   }
 
   @Get()
-  findAll() {
-    return this.patientService.findAll();
+  async findAll(@Query() query: SearchPatientQueryDto) {
+    return successResult(await this.patientService.findAll(query));
   }
 
   @Get(':id')

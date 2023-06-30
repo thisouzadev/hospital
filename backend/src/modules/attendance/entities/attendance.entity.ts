@@ -7,6 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { DoctorSchedule } from '../../doctor/entities/doctor-schedule.entity';
 
 export enum AttendanceStatus {
   SCHEDULED = 'agendado',
@@ -20,8 +21,21 @@ export class Attendance {
   @PrimaryGeneratedColumn('uuid', { name: 'attendance_id' })
   attendanceId: string;
 
+  @PrimaryGeneratedColumn({ name: 'attendance_number' })
+  attendanceNumber: number;
+
   @Column({ name: 'doctor_id', nullable: true })
   doctorId: string;
+
+  @Column({ name: 'doctor_schedule_id', nullable: true })
+  doctorScheduleId: string;
+
+  @ManyToOne(() => DoctorSchedule, { onDelete: 'CASCADE' })
+  @JoinColumn({
+    name: 'doctor_schedule_id',
+    referencedColumnName: 'scheduleId',
+  })
+  doctorSchedule: DoctorSchedule;
 
   @ManyToOne(() => Doctor, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'doctor_id', referencedColumnName: 'doctorId' })

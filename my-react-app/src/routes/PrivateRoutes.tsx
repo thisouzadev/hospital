@@ -11,7 +11,6 @@ import ListAttendances from '../pages/attendances/ListAttendances';
 import CreateEmployee from '../pages/management/CreateEmployee';
 import UpdatePatient from '../pages/patients/UpdatePatient';
 import CreatePatient from '../pages/patients/CreatePatient';
-import CreateAttendance from '../pages/attendances/CreateAttendance';
 import UpdateEmployee from '../pages/management/UpdateEmployee';
 
 // import DocumentsView from '../views/Documents';
@@ -36,7 +35,6 @@ const PrivateRoutes = () => (
     />
     <Route path="/admin/pacientes" element={<ListPatients />} />
     <Route path="/admin/agendamentos" element={<ListAttendances />} />
-    <Route path="/admin/agendamentos/novo" element={<CreateAttendance />} />
     <Route path="/agenda-medica" element={<CreateDoctorSchedules />} />
     <Route path="*" element={<NotFound />} />
   </Routes>
