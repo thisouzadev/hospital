@@ -15,7 +15,11 @@ import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
 import { UuidParamValidator } from '../../../shared/validators/uuid-param.validator';
 import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { AuthGuard } from '@nestjs/passport';
-import successResult from 'src/shared/presenters/success-result.presenter';
+import successResult, {
+  SuccessPresenter,
+} from '../../../shared/presenters/success-result.presenter';
+
+// returnDecorator.ts
 
 // @UseGuards(AuthGuard())
 @Controller('Attendances')
@@ -23,10 +27,9 @@ export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
 
   @Post()
-  async create(@Body() createAttendanceDto: CreateAttendanceDto) {
-    return successResult(
-      await this.attendanceService.create(createAttendanceDto),
-    );
+  @SuccessPresenter('Atendimento agendado com sucesso')
+  create(@Body() createAttendanceDto: CreateAttendanceDto) {
+    return this.attendanceService.create(createAttendanceDto);
   }
 
   // @Get()
@@ -35,16 +38,19 @@ export class AttendanceController {
   // }
 
   @Get()
+  @SuccessPresenter()
   findAll(@Query() query: ListAttendanceQueryDto) {
     return this.attendanceService.findAll(query);
   }
 
   @Get(':id')
+  @SuccessPresenter()
   findOne(@Param() { id }: UuidParamValidator) {
     return this.attendanceService.findOne(id);
   }
 
   @Put(':id')
+  @SuccessPresenter()
   update(
     @Param() { id }: UuidParamValidator,
     @Body() updateAttendanceDto: UpdateAttendanceDto,
@@ -53,6 +59,7 @@ export class AttendanceController {
   }
 
   @Delete(':id')
+  @SuccessPresenter()
   remove(@Param() { id }: UuidParamValidator) {
     return this.attendanceService.remove(id);
   }
