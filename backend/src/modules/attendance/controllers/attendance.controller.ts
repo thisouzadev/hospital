@@ -8,6 +8,7 @@ import {
   Put,
   Query,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 import { AttendanceService } from '../services/attendance.service';
 import { CreateAttendanceDto } from '../dto/create-attendance.dto';
@@ -17,6 +18,7 @@ import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { SuccessPresenter } from '../../../shared/presenters/success-result.presenter';
 import { ApiPaginatedResponse } from '../../../shared/decorators/api-paginated-response.decorator';
+import { UpdateAttendanceStatusDto } from '../dto/update-status.dto';
 
 // @UseGuards(AuthGuard())
 @Controller('Attendances')
@@ -48,6 +50,15 @@ export class AttendanceController {
     @Body() updateAttendanceDto: UpdateAttendanceDto,
   ) {
     return this.attendanceService.update(id, updateAttendanceDto);
+  }
+
+  @Patch(':id/status')
+  @SuccessPresenter()
+  updateStatus(
+    @Param() { id }: UuidParamValidator,
+    @Body() { status }: UpdateAttendanceStatusDto,
+  ) {
+    return this.attendanceService.changeStatus(id, status);
   }
 
   @Delete(':id')

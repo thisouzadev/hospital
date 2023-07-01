@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageDto } from '../../../shared/dtos/page.dto';
 import { PageMetaDto } from '../../../shared/presenters/page-meta-parameters.dto';
@@ -7,7 +7,7 @@ import { CreateAttendanceDto } from '../dto/create-attendance.dto';
 import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
 import { Attendance } from '../entities/attendance.entity';
-import { PageOptionsDto } from 'src/shared/dtos/page-options.dto';
+import { AttendanceStatus } from 'src/shared/enums/attendance-status.enum';
 
 @Injectable()
 export class AttendanceService {
@@ -69,6 +69,22 @@ export class AttendanceService {
     Object.assign(attendance, updateAttendanceDto);
 
     await this.attendanceRepository.save(attendance);
+    return attendance;
+  }
+
+  async changeStatus(attendanceId: string, status: AttendanceStatus) {
+    const attendance = await this.attendanceRepository.findOneBy({
+      attendanceId,
+    });
+
+    if (!attendance) {
+      throw new NotFoundException('Atendimento não encontrado');
+    }
+
+    attendance.status = status;
+
+    await this.attendanceRepository.save(attendance);
+
     return attendance;
   }
 

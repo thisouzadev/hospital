@@ -1,5 +1,4 @@
-import { IsDateString, IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
+import { IsDateString, IsOptional, IsUUID } from 'class-validator';
 
 export class UpdateAttendanceDto {
   @IsUUID()
@@ -11,8 +10,4 @@ export class UpdateAttendanceDto {
 
   @IsOptional()
   attendanceTime: string;
-
-  @IsOptional()
-  @IsEnum(AttendanceStatus)
-  status: AttendanceStatus;
 }
