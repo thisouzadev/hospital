@@ -2,10 +2,12 @@ import { Doctor } from '../../../modules/doctor/entities/doctor.entity';
 import { Patient } from '../../../modules/patient/entities/patient.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { DoctorSchedule } from '../../doctor/entities/doctor-schedule.entity';
 import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
@@ -61,6 +63,9 @@ export class Attendance {
   })
   status: AttendanceStatus;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updatedAt: Date;
+
+  @CreateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 }

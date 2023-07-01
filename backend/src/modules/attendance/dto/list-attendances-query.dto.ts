@@ -26,8 +26,8 @@ export class ListAttendanceQueryDto extends PageOptionsDto {
   attendanceDate?: string;
 
   @IsOptional()
-  @IsIn(['attendanceDate', 'createdAt'])
-  orderBy?: string = 'createdAt';
+  @IsIn(['attendanceDate', 'createdAt', 'updatedAt', 'confirmedAt', 'status'])
+  orderBy?: string = 'status';
 
   @IsOptional()
   @IsIn(['ASC', 'DESC'])

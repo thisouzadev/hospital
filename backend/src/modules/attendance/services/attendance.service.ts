@@ -1,8 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageDto } from '../../../shared/dtos/page.dto';
 import { PageMetaDto } from '../../../shared/presenters/page-meta-parameters.dto';
-import { Repository } from 'typeorm';
+import { Repository, IsNull } from 'typeorm';
 import { CreateAttendanceDto } from '../dto/create-attendance.dto';
 import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
@@ -33,7 +37,9 @@ export class AttendanceService {
       skip,
       relations: ['patient', 'doctor', 'doctor.employee'],
       order: {
+        // status: 'DESC',
         [orderBy]: orderType,
+        updatedAt: 'ASC',
       },
     });
 
@@ -81,7 +87,15 @@ export class AttendanceService {
       throw new NotFoundException('Atendimento não encontrado');
     }
 
+    if (attendance.status === AttendanceStatus.FINISHED) {
+      throw new BadRequestException('Este atendimento já foi finalizado');
+    }
+
     attendance.status = status;
+
+    if (status === AttendanceStatus.CONFIRMED) {
+      attendance.confirmedAt = new Date();
+    }
 
     await this.attendanceRepository.save(attendance);
 

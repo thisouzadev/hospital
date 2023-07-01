@@ -1,7 +1,11 @@
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
+import { AttendanceStatus } from '../../types/backend.enums';
 import scheduleImg from '../../assets/schedule2.svg';
+import patientImg from '../../assets/receivePatient.svg';
+import DeleteImg from '../../assets/delete.svg';
+
 import { Attendance } from '../../types/backend.models';
 
 const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>) => (
@@ -20,6 +24,7 @@ interface AttendanceTableProps {
   onSelectAttendance?: (attendance:Attendance) => void
   attendances: Attendance[],
   selectedAttendanceId: string
+  onChangeStatus?: (attendanceId:string, status: AttendanceStatus) => void
 }
 
 const AttendancesTable = (
@@ -27,35 +32,66 @@ const AttendancesTable = (
     attendances,
     selectedAttendanceId,
     onSelectAttendance = () => {},
+    onChangeStatus = () => {},
   }:AttendanceTableProps,
-) => (
-  <div>
+) => {
+  const handleCancel = (attendance:Attendance) => {
+    if (!window.confirm(`Deseja realmente CANCELAR a consulta de ${attendance.patient.name}?`)) {
+      return;
+    }
+    onChangeStatus(attendance.attendanceId, AttendanceStatus.CANCELED);
+  };
 
-    <table className="w-full text-center align-middle border-spacing-y-1 border-separate">
-      <thead>
-        <tr className="h-10 group font-bold">
-          <Cell className="w-1/2">
-            Nome
-          </Cell>
-          <Cell className="w-1/4">
-            Nascimento
-          </Cell>
-          <Cell>
-            No atendimento:
-          </Cell>
-          <Cell>
-            Status:
-          </Cell>
-          <Cell className="border-none invisible">
-            <img src={scheduleImg} className="w-8 m-auto" alt="" />
-          </Cell>
-        </tr>
-      </thead>
-      <tbody className="">
-        {
+  const handleConfirm = (attendance:Attendance) => {
+    if (!window.confirm(`Deseja CONFIRMAR a chegada de ${attendance.patient.name}?`)) {
+      return;
+    }
+    onChangeStatus(attendance.attendanceId, AttendanceStatus.CONFIRMED);
+  };
+
+  return (
+    <div>
+
+      <table className="w-full text-center align-middle border-spacing-y-1 border-separate">
+        <thead>
+          <tr className="h-10 font-bold">
+            <Cell className="border-none">
+              Ações
+            </Cell>
+
+            <Cell className="w-1/3">
+              Nome
+            </Cell>
+            <Cell className="w-1/4">
+              Nascimento
+            </Cell>
+            <Cell>
+              No atendimento:
+            </Cell>
+            <Cell>
+              Status:
+            </Cell>
+            <Cell className="border-none invisible">
+              <img src={scheduleImg} className="w-8 m-auto" alt="" />
+            </Cell>
+          </tr>
+        </thead>
+        <tbody className="">
+          {
       attendances.map((attendance) => (
         <tr key={attendance.attendanceId} className={clsx('h-10 group rounded-lg', { 'ring-orange-700 ring-2': selectedAttendanceId === attendance.attendanceId })}>
-          <Cell className="w-1/2">
+
+          <Cell className="border-none">
+            <div className="flex gap-4 justify-center">
+              <button type="button" title="Confirmar chegada do paciente" onClick={() => handleConfirm(attendance)}>
+                <img src={patientImg} className="w-8 m-auto" alt="" />
+              </button>
+              <button type="button" title="Cancelar o atendimento" onClick={() => handleCancel(attendance)}>
+                <img src={DeleteImg} className="w-8 m-auto" alt="" />
+              </button>
+            </div>
+          </Cell>
+          <Cell className="w-1/3">
             {attendance.patient.name}
           </Cell>
           <Cell className="w-1/4">
@@ -64,26 +100,34 @@ const AttendancesTable = (
           <Cell>
             {attendance.attendanceNumber}
           </Cell>
-          <Cell>
+          <Cell className={clsx(
+            'font-bold',
+            { 'text-red-600': attendance.status === AttendanceStatus.CANCELED },
+            { 'text-green-600': attendance.status === AttendanceStatus.SCHEDULED },
+            { 'text-blue-600': attendance.status === AttendanceStatus.CONFIRMED },
+            // { 'text-blue-600': attendance.status === AttendanceStatus.FINISHED },
+          )}
+          >
             {attendance.status}
           </Cell>
           <Cell className="border-none">
-            <button type="button" onClick={() => onSelectAttendance(attendance)}>
+            <button type="button" onClick={() => onSelectAttendance(attendance)} title="Selecionar">
               <img src={scheduleImg} className="w-8 m-auto" alt="" />
             </button>
           </Cell>
         </tr>
       ))
 }
-      </tbody>
-    </table>
-    {attendances.length === 0
+        </tbody>
+      </table>
+      {attendances.length === 0
     && (
       <div className="text-center font-bold w-full">
         Nenhum atendimento encontrado
       </div>
     )}
-  </div>
-);
+    </div>
+  );
+};
 
 export default AttendancesTable;

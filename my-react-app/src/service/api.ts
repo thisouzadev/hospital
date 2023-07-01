@@ -41,7 +41,8 @@ const api = () => {
       } else {
         toast.error(message, { theme: 'colored' });
       }
-      return error.response || { data: error };
+      // return error.response || { data: error };
+      throw new Error(error);
     },
   );
 

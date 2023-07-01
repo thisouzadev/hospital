@@ -9,7 +9,7 @@ async function bootstrap() {
   // Configuração do CORS
   const corsOptions: CorsOptions = {
     origin: '*', // Defina a origem permitida, pode ser um domínio específico ou '*' para permitir de qualquer origem
-    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Defina os métodos HTTP permitidos
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'], // Defina os métodos HTTP permitidos
     allowedHeaders: ['Content-Type', 'Authorization'], // Defina os cabeçalhos permitidos
   };
   app.enableCors(corsOptions);
