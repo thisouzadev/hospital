@@ -8,13 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { DoctorSchedule } from '../../doctor/entities/doctor-schedule.entity';
-
-export enum AttendanceStatus {
-  SCHEDULED = 'agendado',
-  CONFIRMED = 'confirmado',
-  FINISHED = 'finalizado',
-  CANCELED = 'cancelado',
-}
+import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
 
 @Entity('attendances')
 export class Attendance {

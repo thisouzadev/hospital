@@ -1,5 +1,5 @@
 import { IsDateString, IsEnum, IsOptional, IsUUID } from 'class-validator';
-import { AttendanceStatus } from '../entities/attendance.entity';
+import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
 
 export class UpdateAttendanceDto {
   @IsUUID()

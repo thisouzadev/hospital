@@ -7,14 +7,12 @@ import SearchPatients from '../../components/SearchPatients';
 import { monthNames } from '../../types/date';
 import attendanceService from '../../service/attendance.service';
 import doctorsService from '../../service/doctors.service';
-import patientService from '../../service/patient.service';
 import Button from '../../components/Button';
 import {
-  Panel, PanelContent, PanelHeader, PanelSubHeader,
+  Panel, PanelContent, PanelSubHeader,
 } from '../../components/Panel';
 
 import { Doctor, DoctorSchedule, Patient } from '../../types/backend.models';
-import { getDate } from '../../utils/date';
 import Input from '../../components/Input';
 import { CreateAttendanceDto } from '../../types/backend.dtos';
 
@@ -32,14 +30,8 @@ const selectableIntervals: SelectableInterval[] = [...Array(10).keys()].map((ite
     lastDay: format(lastDayOfMonth(setMonth(new Date(), ((new Date())).getMonth() + item)), 'yyyy-MM-dd'),
   }));
 
-const DEBUG_MODE = false;
-
 function ListAttendances() {
-  const [lastAttendances, setLastAttendances] = useState<Patient[]>([]);
-
   const [searchedPatients, setSearchedPatients] = useState<Patient[]>([]);
-
-  const [selectedDate, setSelectedDate] = useState(getDate(new Date()));
 
   const [selectedPatient, setSelectedPatient] = useState<Patient>();
   const [selectedDoctor, setSelectedDoctor] = useState<Doctor>();
@@ -50,16 +42,6 @@ function ListAttendances() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
 
   const [availableSchedules, setAvailableSchedules] = useState<IAvailableSchedules[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const query = DEBUG_MODE ? {} : { attendanceDate: selectedDate };
-      const res = await patientService.searchPatients(query);
-
-      setLastAttendances(res.result);
-    };
-    fetchData();
-  }, [selectedDate]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -203,20 +185,9 @@ function ListAttendances() {
 
   return (
     <Panel>
-      <PanelHeader>
-        <div>
-          <span>{'Pacientes do dia:  '}</span>
-          <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="bg-transparent" />
-        </div>
-
-        <div>Filtrar</div>
-      </PanelHeader>
       <PanelContent>
         <AttendanceTable
-          patients={lastAttendances}
           onSelectPatient={handleSelectPatient}
-          selectedPatient={selectedPatient}
-
         />
       </PanelContent>
       <PanelSubHeader>
