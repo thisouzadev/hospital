@@ -1,4 +1,5 @@
-import { CreateAttendanceDto, ListAttendanceQueryDto } from '../types/backend.dtos';
+import { Attendance } from '../types/backend.models';
+import { CreateAttendanceDto, ListAttendanceQueryDto, PageDto } from '../types/backend.dtos';
 import { objectFieldsToString } from '../utils/object';
 import api from './api';
 
@@ -14,7 +15,7 @@ const attendanceService = {
 
     const response = await api.get(`/attendances${objString}`);
 
-    return response.data;
+    return response.data as PageDto<Attendance>;
   },
 };
 

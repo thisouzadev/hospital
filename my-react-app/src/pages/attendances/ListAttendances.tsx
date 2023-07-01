@@ -3,6 +3,7 @@ import {
   format, lastDayOfMonth, setMonth, addDays,
 } from 'date-fns';
 import { toast } from 'react-toastify';
+import { useMutation, useQueryClient } from 'react-query';
 import SearchPatients from '../../components/SearchPatients';
 import { monthNames } from '../../types/date';
 import attendanceService from '../../service/attendance.service';
@@ -12,13 +13,15 @@ import {
   Panel, PanelContent, PanelSubHeader,
 } from '../../components/Panel';
 
-import { Doctor, DoctorSchedule, Patient } from '../../types/backend.models';
+import {
+  Attendance, Doctor, DoctorSchedule, Patient,
+} from '../../types/backend.models';
 import Input from '../../components/Input';
 import { CreateAttendanceDto } from '../../types/backend.dtos';
 
-import AttendanceTable from './components/AttendanceTable';
 import AvailableSchedules, { IAvailableSchedules } from './components/AvailableSchedules';
 import PatientsTable from './components/PatientsTable';
+import Attendances from '../../components/Attendances';
 
 interface SelectableInterval {
   firstDay: string;
@@ -31,6 +34,8 @@ const selectableIntervals: SelectableInterval[] = [...Array(10).keys()].map((ite
   }));
 
 function ListAttendances() {
+  const queryClient = useQueryClient();
+
   const [searchedPatients, setSearchedPatients] = useState<Patient[]>([]);
 
   const [selectedPatient, setSelectedPatient] = useState<Patient>();
@@ -42,6 +47,23 @@ function ListAttendances() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
 
   const [availableSchedules, setAvailableSchedules] = useState<IAvailableSchedules[]>([]);
+
+  const handleResetAttendance = () => {
+    setSelectedPatient(undefined);
+    setSelectedDoctor(undefined);
+    setSelectedSchedule(undefined);
+    setSelectedIntervalIndex(undefined);
+    setAvailableSchedules([]);
+  };
+
+  const createAttendanceMutation = useMutation(attendanceService.create, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      handleResetAttendance();
+      toast.success('Atendimento agendado com sucesso');
+      queryClient.invalidateQueries('attendances');
+    },
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,19 +77,15 @@ function ListAttendances() {
     setSelectedPatient(patient);
   };
 
+  const handleSelectAttendance = (attendance:Attendance) => {
+    setSelectedPatient(attendance.patient);
+  };
+
   const handleSelectDoctorById = (id : string) => {
     const doctor = doctors.find((d) => d.doctorId === id);
     if (doctor) {
       setSelectedDoctor(doctor);
     }
-  };
-
-  const handleResetAttendance = () => {
-    setSelectedPatient(undefined);
-    setSelectedDoctor(undefined);
-    setSelectedSchedule(undefined);
-    setSelectedIntervalIndex(undefined);
-    setAvailableSchedules([]);
   };
 
   const getDaysArray = (start:string, end:string) => {
@@ -162,15 +180,7 @@ function ListAttendances() {
       doctorScheduleId: selectedSchedule.scheduleId,
       doctorId: selectedDoctor.doctorId,
     };
-
-    const res = await attendanceService.create(attendanceDto);
-
-    if (res.success) {
-      toast('Agendamento cadastrado com sucesso');
-
-      handleResetAttendance();
-    }
-
+    createAttendanceMutation.mutate(attendanceDto);
     // post
   };
 
@@ -186,9 +196,7 @@ function ListAttendances() {
   return (
     <Panel>
       <PanelContent>
-        <AttendanceTable
-          onSelectPatient={handleSelectPatient}
-        />
+        <Attendances onSelectAttendance={handleSelectAttendance} />
       </PanelContent>
       <PanelSubHeader>
         <SearchPatients onSuccess={setSearchedPatients} />
