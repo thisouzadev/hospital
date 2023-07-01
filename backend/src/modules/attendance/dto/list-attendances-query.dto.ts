@@ -1,15 +1,14 @@
-import { Type } from 'class-transformer';
 import {
   IsDateString,
-  IsInt,
   IsOptional,
   IsUUID,
   IsIn,
   IsEnum,
 } from 'class-validator';
+import { PageOptionsDto } from 'src/shared/dtos/page-options.dto';
 import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
 
-export class ListAttendanceQueryDto {
+export class ListAttendanceQueryDto extends PageOptionsDto {
   @IsUUID()
   @IsOptional()
   doctorId?: string;
@@ -34,14 +33,4 @@ export class ListAttendanceQueryDto {
   @IsIn(['ASC', 'DESC'])
   // @ValidateIf((o) => !o.orderBy)
   orderType?: string = 'DESC';
-
-  @IsInt()
-  @IsOptional()
-  @Type(() => Number)
-  page = 1;
-
-  @IsInt()
-  @IsOptional()
-  @Type(() => Number)
-  perPage = 10;
 }

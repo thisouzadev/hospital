@@ -15,11 +15,8 @@ import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
 import { UuidParamValidator } from '../../../shared/validators/uuid-param.validator';
 import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { AuthGuard } from '@nestjs/passport';
-import successResult, {
-  SuccessPresenter,
-} from '../../../shared/presenters/success-result.presenter';
-
-// returnDecorator.ts
+import { SuccessPresenter } from '../../../shared/presenters/success-result.presenter';
+import { ApiPaginatedResponse } from '../../../shared/decorators/api-paginated-response.decorator';
 
 // @UseGuards(AuthGuard())
 @Controller('Attendances')
@@ -32,13 +29,8 @@ export class AttendanceController {
     return this.attendanceService.create(createAttendanceDto);
   }
 
-  // @Get()
-  // findAll(@Query() query: ListAttendanceQueryDto) {
-  //   return this.attendanceService.findAll(query);
-  // }
-
   @Get()
-  @SuccessPresenter()
+  @ApiPaginatedResponse()
   findAll(@Query() query: ListAttendanceQueryDto) {
     return this.attendanceService.findAll(query);
   }

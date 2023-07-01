@@ -1,13 +1,15 @@
-import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
-import { REQUEST } from '@nestjs/core';
+import { Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PageDto } from '../../../shared/dtos/page.dto';
+import { PageMetaDto } from '../../../shared/presenters/page-meta-parameters.dto';
 import { Repository } from 'typeorm';
 import { CreateAttendanceDto } from '../dto/create-attendance.dto';
 import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
 import { Attendance } from '../entities/attendance.entity';
+import { PageOptionsDto } from 'src/shared/dtos/page-options.dto';
 
-@Injectable({ scope: Scope.REQUEST })
+@Injectable()
 export class AttendanceService {
   constructor(
     @InjectRepository(Attendance)
@@ -20,20 +22,27 @@ export class AttendanceService {
     return attendance;
   }
 
-  findAll(query: ListAttendanceQueryDto) {
+  async findAll(query: ListAttendanceQueryDto) {
     const { attendanceDate, doctorId, patientId, status } = query;
-    const { page = 1, perPage = 10 } = query;
+    const { take, skip, page } = query;
     const { orderBy, orderType } = query;
 
-    return this.attendanceRepository.find({
+    const [entities, itemCount] = await this.attendanceRepository.findAndCount({
       where: { attendanceDate, doctorId, patientId, status },
-      take: perPage,
-      skip: perPage * (page - 1),
+      take,
+      skip,
       relations: ['patient', 'doctor', 'doctor.employee'],
       order: {
         [orderBy]: orderType,
       },
     });
+
+    const pageMetaDto = new PageMetaDto({
+      pageOptionsDto: { take, skip, page },
+      itemCount,
+    });
+
+    return new PageDto(entities, pageMetaDto);
   }
 
   async findOne(attendanceId: string) {
