@@ -113,8 +113,8 @@ const AvailableSchedules = ({
                   {schedule.vacancies}
                 </Field>
               </td>
-              <td className="w-1/5">
-                <button type="button" onClick={() => onSelectSchedule(schedule)}>
+              <td className="w-1/5 ">
+                <button type="button" onClick={() => onSelectSchedule(schedule)} title="Marcar Paciente">
                   <img src={confirmationImg} alt="" className="mt-1" />
                 </button>
               </td>

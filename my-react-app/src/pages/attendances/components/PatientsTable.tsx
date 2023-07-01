@@ -21,7 +21,7 @@ const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>
   </td>
 );
 
-function AttendanceTable({ patients, onSelectPatient, selectedPatient }:AttendanceTableProps) {
+function PatientsTable({ patients, onSelectPatient, selectedPatient }:AttendanceTableProps) {
   return (
     <table className="w-full text-center align-middle border-spacing-y-1 border-separate">
       <thead>
@@ -33,13 +33,10 @@ function AttendanceTable({ patients, onSelectPatient, selectedPatient }:Attendan
             Nascimento
           </Cell>
           <Cell>
-            No atendimento:
+            CNS:
           </Cell>
-          <Cell>
-            Status:
-          </Cell>
-          <Cell className="border-none invisible">
-            <img src={scheduleImg} className="w-8 m-auto" alt="" />
+          <Cell className="border-none invisible w-14">
+            <img src={scheduleImg} className="" alt="" />
           </Cell>
         </tr>
       </thead>
@@ -53,10 +50,7 @@ function AttendanceTable({ patients, onSelectPatient, selectedPatient }:Attendan
               <input type="date" value={patient.birth} className="bg-transparent text-center" disabled />
             </Cell>
             <Cell>
-              {patient.attendances[0]?.attendanceNumber}
-            </Cell>
-            <Cell>
-              {patient.attendances[0]?.status}
+              {patient.cns}
             </Cell>
             <Cell className="border-none">
               <button type="button" onClick={() => onSelectPatient(patient)}>
@@ -70,4 +64,4 @@ function AttendanceTable({ patients, onSelectPatient, selectedPatient }:Attendan
   );
 }
 
-export default AttendanceTable;
+export default PatientsTable;

@@ -20,6 +20,7 @@ import { CreateAttendanceDto } from '../../types/backend.dtos';
 
 import AttendanceTable from './components/AttendanceTable';
 import AvailableSchedules, { IAvailableSchedules } from './components/AvailableSchedules';
+import PatientsTable from './components/PatientsTable';
 
 interface SelectableInterval {
   firstDay: string;
@@ -203,9 +204,12 @@ function ListAttendances() {
   return (
     <Panel>
       <PanelHeader>
-        <span>{'Pacientes do dia:  '}</span>
+        <div>
+          <span>{'Pacientes do dia:  '}</span>
+          <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="bg-transparent" />
+        </div>
 
-        <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} className="bg-transparent" />
+        <div>Filtrar</div>
       </PanelHeader>
       <PanelContent>
         <AttendanceTable
@@ -219,7 +223,7 @@ function ListAttendances() {
         <SearchPatients onSuccess={setSearchedPatients} />
       </PanelSubHeader>
       <PanelContent>
-        <AttendanceTable
+        <PatientsTable
           patients={searchedPatients}
           onSelectPatient={handleSelectPatient}
           selectedPatient={selectedPatient}
