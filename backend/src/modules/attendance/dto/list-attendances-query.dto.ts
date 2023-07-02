@@ -5,7 +5,7 @@ import {
   IsIn,
   IsEnum,
 } from 'class-validator';
-import { PageOptionsDto } from 'src/shared/dtos/page-options.dto';
+import { PageOptionsDto } from '../../../shared/dtos/page-options.dto';
 import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
 
 export class ListAttendanceQueryDto extends PageOptionsDto {

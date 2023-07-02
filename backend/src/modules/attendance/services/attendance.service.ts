@@ -6,12 +6,13 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageDto } from '../../../shared/dtos/page.dto';
 import { PageMetaDto } from '../../../shared/presenters/page-meta-parameters.dto';
-import { Repository, IsNull } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateAttendanceDto } from '../dto/create-attendance.dto';
 import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
 import { Attendance } from '../entities/attendance.entity';
-import { AttendanceStatus } from 'src/shared/enums/attendance-status.enum';
+import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
+import { AttendanceType } from '../../../shared/enums/attendance-type-enum';
 
 @Injectable()
 export class AttendanceService {
@@ -28,7 +29,8 @@ export class AttendanceService {
 
   async findAll(query: ListAttendanceQueryDto) {
     const { attendanceDate, doctorId, patientId, status } = query;
-    const { take, skip, page } = query;
+    const { take, page } = query;
+    const skip = query.getSkip();
     const { orderBy, orderType } = query;
 
     const [entities, itemCount] = await this.attendanceRepository.findAndCount({
@@ -39,12 +41,13 @@ export class AttendanceService {
       order: {
         // status: 'DESC',
         [orderBy]: orderType,
+        confirmedAt: 'ASC',
         updatedAt: 'ASC',
       },
     });
 
     const pageMetaDto = new PageMetaDto({
-      pageOptionsDto: { take, skip, page },
+      pageOptionsDto: { take, page },
       itemCount,
     });
 
@@ -78,7 +81,11 @@ export class AttendanceService {
     return attendance;
   }
 
-  async changeStatus(attendanceId: string, status: AttendanceStatus) {
+  async changeStatus(
+    attendanceId: string,
+    status: AttendanceStatus,
+    type: AttendanceType,
+  ) {
     const attendance = await this.attendanceRepository.findOneBy({
       attendanceId,
     });
@@ -91,7 +98,18 @@ export class AttendanceService {
       throw new BadRequestException('Este atendimento já foi finalizado');
     }
 
-    attendance.status = status;
+    if (status === attendance.status) {
+      throw new BadRequestException(
+        `O atendimento já se encontra com o status ${status}`,
+      );
+    }
+
+    if (status) {
+      attendance.status = status;
+    }
+    if (type) {
+      attendance.type = type;
+    }
 
     if (status === AttendanceStatus.CONFIRMED) {
       attendance.confirmedAt = new Date();

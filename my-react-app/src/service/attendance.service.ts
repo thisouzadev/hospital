@@ -2,7 +2,7 @@ import { Attendance } from '../types/backend.models';
 import { CreateAttendanceDto, ListAttendanceQueryDto, PageDto } from '../types/backend.dtos';
 import { objectFieldsToString } from '../utils/object';
 import api from './api';
-import { AttendanceStatus } from '../types/backend.enums';
+import { AttendanceStatus, AttendanceType } from '../types/backend.enums';
 
 const attendanceService = {
   async create(attendanceData:CreateAttendanceDto) {
@@ -10,8 +10,11 @@ const attendanceService = {
 
     return response.data;
   },
-  async updateStatus({ attendanceId, status }:{ attendanceId: string, status: AttendanceStatus }) {
-    const response = await api.patch(`/attendances/${attendanceId}/status`, { status });
+  async updateStatus(
+    { attendanceId, status, type }:{
+      attendanceId: string, status?: AttendanceStatus, type?: AttendanceType },
+  ) {
+    const response = await api.patch(`/attendances/${attendanceId}/status`, { status, type });
 
     return response.data;
   },

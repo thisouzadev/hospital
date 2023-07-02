@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { DoctorSchedule } from '../../doctor/entities/doctor-schedule.entity';
 import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
+import { AttendanceType } from '../../../shared/enums/attendance-type-enum';
 
 @Entity('attendances')
 export class Attendance {
@@ -62,6 +63,13 @@ export class Attendance {
     default: AttendanceStatus.SCHEDULED,
   })
   status: AttendanceStatus;
+
+  @Column({
+    type: 'enum',
+    enum: AttendanceType,
+    default: AttendanceType.STANDARD,
+  })
+  type: AttendanceType;
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;

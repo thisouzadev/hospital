@@ -91,7 +91,9 @@ function Attendances({ onSelectAttendance = () => {}, patientId = '', doctorId =
               onSelectAttendance={handleSelectAttendance}
               selectedAttendanceId={selectedAttendanceId}
               onChangeStatus={
-                (attendanceId, status) => updateStatusMutation.mutate({ attendanceId, status })
+                ({ attendanceId, status, type }) => updateStatusMutation.mutate(
+                  { attendanceId, status, type },
+                )
               }
             />
           )

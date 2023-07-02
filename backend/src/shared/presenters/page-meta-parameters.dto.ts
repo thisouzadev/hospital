@@ -17,7 +17,7 @@ export class PageMetaDto {
     pageOptionsDto,
     itemCount,
   }: {
-    pageOptionsDto: PageOptionsDto;
+    pageOptionsDto: { page: number; take: number };
     itemCount: number;
   }) {
     this.page = pageOptionsDto.page;

@@ -1,11 +1,12 @@
 import clsx from 'clsx';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useState } from 'react';
 
-import { AttendanceStatus } from '../../types/backend.enums';
+import * as Dialog from '@radix-ui/react-dialog';
+import { AttendanceStatus, AttendanceType } from '../../types/backend.enums';
 import scheduleImg from '../../assets/schedule2.svg';
 import patientImg from '../../assets/receivePatient.svg';
 import DeleteImg from '../../assets/delete.svg';
-
+import QueueImg from '../../assets/queue.svg';
 import { Attendance } from '../../types/backend.models';
 
 const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>) => (
@@ -20,11 +21,16 @@ const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>
   </td>
 );
 
+interface UpdateAttendance {
+  attendanceId:string,
+  status?: AttendanceStatus,
+  type?: AttendanceType
+}
 interface AttendanceTableProps {
   onSelectAttendance?: (attendance:Attendance) => void
   attendances: Attendance[],
   selectedAttendanceId: string
-  onChangeStatus?: (attendanceId:string, status: AttendanceStatus) => void
+  onChangeStatus?: (data:UpdateAttendance) => void
 }
 
 const AttendancesTable = (
@@ -35,23 +41,97 @@ const AttendancesTable = (
     onChangeStatus = () => {},
   }:AttendanceTableProps,
 ) => {
+  const [open, setOpen] = useState(false);
+
+  const [selectedAttendance, setSelectedAttendance] = useState<Attendance>();
+
   const handleCancel = (attendance:Attendance) => {
     if (!window.confirm(`Deseja realmente CANCELAR a consulta de ${attendance.patient.name}?`)) {
       return;
     }
-    onChangeStatus(attendance.attendanceId, AttendanceStatus.CANCELED);
+    onChangeStatus({ attendanceId: attendance.attendanceId, status: AttendanceStatus.CANCELED });
+  };
+
+  const handleConfirmPatient = (type: AttendanceType) => {
+    if (!selectedAttendance) {
+      return;
+    }
+    onChangeStatus({
+      attendanceId: selectedAttendance.attendanceId,
+      status: selectedAttendance.status === AttendanceStatus.CONFIRMED
+        ? undefined
+        : AttendanceStatus.CONFIRMED,
+      type,
+    });
   };
 
   const handleConfirm = (attendance:Attendance) => {
-    if (!window.confirm(`Deseja CONFIRMAR a chegada de ${attendance.patient.name}?`)) {
-      return;
-    }
-    onChangeStatus(attendance.attendanceId, AttendanceStatus.CONFIRMED);
+    setSelectedAttendance(attendance);
+    setOpen(true);
   };
 
   return (
     <div>
+      <Dialog.Root open={open} onOpenChange={setOpen}>
+        <Dialog.Portal>
+          <Dialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0" />
+          <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] shadow-md translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px]  focus:outline-none">
+            <Dialog.Title className="m-0 text-lg font-medium">
+              {selectedAttendance?.status !== AttendanceStatus.CONFIRMED
+                ? 'Confirmar chegada do paciente'
+                : 'Alterar dados do atendimento'}
+            </Dialog.Title>
+            <Dialog.Description className="mt-[10px] mb-5 text-[15px] leading-normal flex flex-col">
+              <span>
+                {selectedAttendance?.status !== AttendanceStatus.CONFIRMED
+                  ? 'Informe o tipo de atendimento para o paciente:'
+                  : ''}
+              </span>
+              <span className="text-lg font-bold">
+                {selectedAttendance?.patient.name}
+              </span>
+            </Dialog.Description>
 
+            <div className="mt-[25px] flex justify-between">
+              <Dialog.Close asChild>
+                <button
+                  type="button"
+                  className="bg-green-700 p-3 font-bold rounded-lg text-white w-32"
+                  onClick={() => handleConfirmPatient(AttendanceType.STANDARD)}
+                >
+                  Normal
+                </button>
+              </Dialog.Close>
+              <Dialog.Close asChild>
+                <button
+                  type="button"
+                  className="bg-yellow-600 p-3 font-bold rounded-lg text-white w-32"
+                  onClick={() => handleConfirmPatient(AttendanceType.PRIORITY)}
+                >
+                  Prioritário
+                </button>
+              </Dialog.Close>
+              <Dialog.Close asChild>
+                <button
+                  type="button"
+                  className="bg-red-700 p-3 font-bold rounded-lg text-white w-32"
+                  onClick={() => handleConfirmPatient(AttendanceType.URGENT)}
+                >
+                  Urgência
+                </button>
+              </Dialog.Close>
+            </div>
+            <Dialog.Close asChild>
+              <button
+                type="button"
+                className="absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none text-xl hover:drop-shadow-md"
+              >
+                X
+              </button>
+            </Dialog.Close>
+          </Dialog.Content>
+        </Dialog.Portal>
+      </Dialog.Root>
       <table className="w-full text-center align-middle border-spacing-y-1 border-separate">
         <thead>
           <tr className="h-10 font-bold">
@@ -66,10 +146,13 @@ const AttendancesTable = (
               Nascimento
             </Cell>
             <Cell>
-              No atendimento:
+              Atendimento
             </Cell>
             <Cell>
-              Status:
+              Status
+            </Cell>
+            <Cell>
+              Tipo
             </Cell>
             <Cell className="border-none invisible">
               <img src={scheduleImg} className="w-8 m-auto" alt="" />
@@ -83,10 +166,34 @@ const AttendancesTable = (
 
           <Cell className="border-none">
             <div className="flex gap-4 justify-center">
-              <button type="button" title="Confirmar chegada do paciente" onClick={() => handleConfirm(attendance)}>
+              <button
+                type="button"
+                title="Confirmar chegada do paciente"
+                onClick={() => handleConfirm(attendance)}
+                disabled={!(attendance.status === AttendanceStatus.SCHEDULED)}
+                className="disabled:grayscale disabled:opacity-25"
+              >
                 <img src={patientImg} className="w-8 m-auto" alt="" />
               </button>
-              <button type="button" title="Cancelar o atendimento" onClick={() => handleCancel(attendance)}>
+              <button
+                type="button"
+                title="Alterar dados do atendimento"
+                onClick={() => handleConfirm(attendance)}
+                disabled={!(attendance.status === AttendanceStatus.CONFIRMED)}
+                className="disabled:grayscale disabled:opacity-25"
+              >
+                <img src={QueueImg} className="w-8 m-auto" alt="" />
+              </button>
+              <button
+                type="button"
+                title="Cancelar o atendimento"
+                onClick={() => handleCancel(attendance)}
+                disabled={
+                  attendance.status === AttendanceStatus.CANCELED
+                   || attendance.status === AttendanceStatus.FINISHED
+                }
+                className="disabled:grayscale disabled:opacity-25"
+              >
                 <img src={DeleteImg} className="w-8 m-auto" alt="" />
               </button>
             </div>
@@ -110,6 +217,14 @@ const AttendancesTable = (
           >
             {attendance.status}
           </Cell>
+          <Cell className={clsx(
+            'font-bold',
+            { 'bg-red-300': attendance.type === AttendanceType.URGENT },
+            { 'bg-yellow-300': attendance.type === AttendanceType.PRIORITY },
+            { 'bg-green-300': attendance.type === AttendanceType.STANDARD },
+            // { 'text-blue-600': attendance.status === AttendanceStatus.FINISHED },
+          )}
+          />
           <Cell className="border-none">
             <button type="button" onClick={() => onSelectAttendance(attendance)} title="Selecionar">
               <img src={scheduleImg} className="w-8 m-auto" alt="" />

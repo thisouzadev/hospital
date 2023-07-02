@@ -56,9 +56,9 @@ export class AttendanceController {
   @SuccessPresenter()
   updateStatus(
     @Param() { id }: UuidParamValidator,
-    @Body() { status }: UpdateAttendanceStatusDto,
+    @Body() { status, type }: UpdateAttendanceStatusDto,
   ) {
-    return this.attendanceService.changeStatus(id, status);
+    return this.attendanceService.changeStatus(id, status, type);
   }
 
   @Delete(':id')

@@ -12,6 +12,7 @@ import CreateEmployee from '../pages/management/CreateEmployee';
 import UpdatePatient from '../pages/patients/UpdatePatient';
 import CreatePatient from '../pages/patients/CreatePatient';
 import UpdateEmployee from '../pages/management/UpdateEmployee';
+import DoctorQueue from '../pages/doctors/DoctorQueue';
 
 // import DocumentsView from '../views/Documents';
 
@@ -34,6 +35,7 @@ const PrivateRoutes = () => (
       element={<UpdatePatient />}
     />
     <Route path="/admin/pacientes" element={<ListPatients />} />
+    <Route path="/atendimentos" element={<DoctorQueue />} />
     <Route path="/admin/agendamentos" element={<ListAttendances />} />
     <Route path="/agenda-medica" element={<CreateDoctorSchedules />} />
     <Route path="*" element={<NotFound />} />
