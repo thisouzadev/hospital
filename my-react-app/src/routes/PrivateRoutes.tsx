@@ -1,6 +1,7 @@
 import {
   Routes, Route,
 } from 'react-router-dom';
+import DoctorAttendance from '../pages/doctors/DoctorAttendance';
 import CreateDoctorSchedules from '../pages/doctors/CreateDoctorSchedules';
 import Welcome from '../pages/Welcome';
 import NotFound from '../pages/notFound';
@@ -36,6 +37,7 @@ const PrivateRoutes = () => (
     />
     <Route path="/admin/pacientes" element={<ListPatients />} />
     <Route path="/atendimentos" element={<DoctorQueue />} />
+    <Route path="/atendimentos/:attendanceId" element={<DoctorAttendance />} />
     <Route path="/admin/agendamentos" element={<ListAttendances />} />
     <Route path="/agenda-medica" element={<CreateDoctorSchedules />} />
     <Route path="*" element={<NotFound />} />

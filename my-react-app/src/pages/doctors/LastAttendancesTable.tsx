@@ -4,7 +4,6 @@ import { PropsWithChildren } from 'react';
 import { Link } from 'react-router-dom';
 import { AttendanceType } from '../../types/backend.enums';
 import patientImg from '../../assets/receivePatient.svg';
-import ForwardImg from '../../assets/forward.svg';
 
 import { Attendance } from '../../types/backend.models';
 
@@ -20,15 +19,15 @@ const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>
   </td>
 );
 
-interface DoctorQueueTableProps {
+interface LastAttendancesTableProps {
   attendances: Attendance[],
 }
 
-const DoctorQueueTable = (
+const LastAttendancesTable = (
   {
     attendances,
 
-  }:DoctorQueueTableProps,
+  }:LastAttendancesTableProps,
 ) => (
   <div>
 
@@ -39,35 +38,38 @@ const DoctorQueueTable = (
           attendances.map((attendance) => (
             <tr
               key={attendance.attendanceId}
-              className={
-            clsx(
-              'h-10 rounded-lg',
-              { 'bg-red-300': attendance.type === AttendanceType.URGENT },
-              { 'bg-yellow-300': attendance.type === AttendanceType.PRIORITY },
-              { 'bg-green-300': attendance.type === AttendanceType.STANDARD },
-            )
-          }
+              className=" bg-[#D9D9D9] "
             >
+              <Cell className="w-1/5">
+                <input type="date" value={attendance.attendanceDate} disabled className="bg-transparent" />
+              </Cell>
               <Cell className="w-1/3">
-                {attendance.patient.name}
+                Dr:
+                {attendance.doctor.employee.name}
               </Cell>
               <Cell className="w-1/4">
-                <input type="date" value={attendance.patient.birth} className="bg-transparent text-center" disabled />
+                {attendance.doctor.specialty}
               </Cell>
 
-              <Cell>
-                {attendance.status}
+              <Cell className={
+                clsx(
+                  'h-10 rounded-lg',
+                  { 'bg-red-300': attendance.type === AttendanceType.URGENT },
+                  { 'bg-yellow-300': attendance.type === AttendanceType.PRIORITY },
+                  { 'bg-green-300': attendance.type === AttendanceType.STANDARD },
+                )
+                }
+              >
+                {attendance.type}
               </Cell>
-              <Cell className="border-none bg-[#D9D9D9] ">
+
+              <Cell className="border-none">
                 <div className="flex gap-4 justify-center">
-                  <Link to={attendance.attendanceId}>
-                    <button type="button" title="Atender o paciente">
+                  <Link to={`/atendimentos/${attendance.attendanceId}`}>
+                    <button type="button" title="Mostrar atendimento">
                       <img src={patientImg} className="w-8 m-auto" alt="" />
                     </button>
                   </Link>
-                  <button type="button" title="Encaminhar">
-                    <img src={ForwardImg} className="w-8 m-auto" alt="" />
-                  </button>
                 </div>
               </Cell>
             </tr>
@@ -84,4 +86,4 @@ const DoctorQueueTable = (
   </div>
 );
 
-export default DoctorQueueTable;
+export default LastAttendancesTable;

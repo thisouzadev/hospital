@@ -30,9 +30,9 @@ export class AttendanceService {
     });
 
     if (attendanceExists) {
-      throw new ConflictException(
-        'O paciente já está agendado para este o dia e médico informados',
-      );
+      // throw new ConflictException(
+      //   'O paciente já está agendado para este o dia e médico informados',
+      // );
     }
 
     const attendance = this.attendanceRepository.create(createAttendanceDto);
@@ -132,6 +132,26 @@ export class AttendanceService {
     await this.attendanceRepository.save(attendance);
 
     return attendance;
+  }
+
+  async finish(attendanceId: string) {
+    const attendance = await this.attendanceRepository.findOneBy({
+      attendanceId,
+    });
+
+    if (!attendance) {
+      throw new NotFoundException('Atendimento não encontrado');
+    }
+
+    if (attendance.status !== AttendanceStatus.CONFIRMED) {
+      throw new BadRequestException(
+        'Apenas atendimento na fila podem ser finalizados',
+      );
+    }
+
+    attendance.status = AttendanceStatus.FINISHED;
+
+    await this.attendanceRepository.save(attendance);
   }
 
   async remove(attendanceId: string) {
