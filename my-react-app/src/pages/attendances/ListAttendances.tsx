@@ -4,6 +4,7 @@ import {
 } from 'date-fns';
 import { toast } from 'react-toastify';
 import { useMutation, useQueryClient } from 'react-query';
+import { AttendanceStatus } from '../../types/backend.enums';
 import SearchPatients from '../../components/SearchPatients';
 import { monthNames } from '../../types/date';
 import attendanceService from '../../service/attendance.service';
@@ -146,7 +147,8 @@ function ListAttendances() {
       const availableSchedule = schedules.find((s) => s.weekDay === weekDay) as DoctorSchedule;
 
       const attendancesScheduledToDay = availableSchedule.attendances.filter(
-        (attendance) => attendance.attendanceDate === isoDate,
+        (attendance) => attendance.attendanceDate === isoDate
+        && attendance.status !== AttendanceStatus.CANCELED,
       );
 
       return {
