@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -21,6 +22,19 @@ export class AttendanceService {
     private readonly attendanceRepository: Repository<Attendance>,
   ) {}
   async create(createAttendanceDto: CreateAttendanceDto) {
+    const attendanceExists = await this.attendanceRepository.findOneBy({
+      patientId: createAttendanceDto.patientId,
+      attendanceDate: createAttendanceDto.attendanceDate,
+      doctorId: createAttendanceDto.doctorId,
+      doctorScheduleId: createAttendanceDto.doctorScheduleId,
+    });
+
+    if (attendanceExists) {
+      throw new ConflictException(
+        'O paciente já está agendado para este o dia e médico informados',
+      );
+    }
+
     const attendance = this.attendanceRepository.create(createAttendanceDto);
     await this.attendanceRepository.save(attendance);
 
