@@ -59,8 +59,6 @@ export class AttendanceService {
     const maxAttendanceDate =
       attendanceDate || attendanceEndDate || '2099-12-31';
 
-    console.log(attendanceDate, attendanceStartDate, attendanceEndDate);
-
     const [entities, itemCount] = await this.attendanceRepository.findAndCount({
       where: {
         attendanceDate: Between(minAttendanceDate, maxAttendanceDate),
