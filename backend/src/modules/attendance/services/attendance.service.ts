@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { PageDto } from '../../../shared/dtos/page.dto';
 import { PageMetaDto } from '../../../shared/presenters/page-meta-parameters.dto';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { CreateAttendanceDto } from '../dto/create-attendance.dto';
 import { ListAttendanceQueryDto } from '../dto/list-attendances-query.dto';
 import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
@@ -42,13 +42,32 @@ export class AttendanceService {
   }
 
   async findAll(query: ListAttendanceQueryDto) {
-    const { attendanceDate, doctorId, patientId, status } = query;
+    const {
+      attendanceDate,
+      attendanceStartDate,
+      attendanceEndDate,
+      doctorId,
+      patientId,
+      status,
+    } = query;
     const { take, page } = query;
     const skip = query.getSkip();
     const { orderBy, orderType } = query;
 
+    const minAttendanceDate =
+      attendanceDate || attendanceStartDate || '1900-01-01';
+    const maxAttendanceDate =
+      attendanceDate || attendanceEndDate || '2099-12-31';
+
+    console.log(attendanceDate, attendanceStartDate, attendanceEndDate);
+
     const [entities, itemCount] = await this.attendanceRepository.findAndCount({
-      where: { attendanceDate, doctorId, patientId, status },
+      where: {
+        attendanceDate: Between(minAttendanceDate, maxAttendanceDate),
+        doctorId,
+        patientId,
+        status,
+      },
       take,
       skip,
       relations: ['patient', 'doctor', 'doctor.employee'],
