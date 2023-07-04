@@ -16,6 +16,9 @@ body {
     overflow: initial !important;
     -webkit-print-color-adjust: exact;
   }
+  div {
+    display: block
+  }
 }
 
 a {

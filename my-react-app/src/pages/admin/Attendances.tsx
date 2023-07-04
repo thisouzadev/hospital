@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { useInfiniteQuery, useMutation, useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery } from 'react-query';
 import { useReactToPrint } from 'react-to-print';
 import doctorsService from '../../service/doctors.service';
 import Button from '../../components/Button';
 import { Attendance } from '../../types/backend.models';
 import attendanceService from '../../service/attendance.service';
 import { ListAttendanceQueryDto } from '../../types/backend.dtos';
-import AttendancesTable from './AttendanceTable';
+// import AttendancesTable from './AttendanceTable';
 import { Panel, PanelHeader, PanelSubHeader } from '../../components/Panel';
 import Input from '../../components/Input';
 import { months } from '../../utils/date';
+import AttendancePrintTable from './AttendancePrintTable';
+import AttendancesTable from './AttendanceTable';
 
 interface IDayInterval {
   year: number,
@@ -34,9 +36,9 @@ const getFullDateInterval = (interval : IDayInterval) => {
 };
 
 function Attendances() {
-  const componentRef = useRef();
+  const printComponentRef = useRef(null);
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+    content: () => printComponentRef.current,
   });
 
   const [dayInterval, setDayInterval] = useState<IDayInterval>({
@@ -117,9 +119,7 @@ function Attendances() {
     setFilters(newFilters);
   };
 
-  const handleSelectAttendance = (attendance: Attendance) => {
-    console.log(attendance);
-  };
+  const doctorName = doctors.data?.result.find((d) => d.doctorId === filters.doctorId)?.employee.name || '';
 
   return (
     <Panel className="p-2">
@@ -211,9 +211,10 @@ function Attendances() {
               name="doctorId"
               value={filters.doctorId}
               onChange={handleChangeFilter}
+              label="Médico:"
             >
               <select>
-                <option value="" hidden>Médico</option>
+                <option value="">Todos</option>
                 {
                     doctors?.data?.result.map((doctor) => (
                       <option key={doctor.doctorId} value={doctor.doctorId} className="bg-transparent appearance-none">{doctor.employee.name}</option>
@@ -243,12 +244,22 @@ function Attendances() {
         </div>
       </PanelSubHeader>
       <PanelSubHeader className="p-2">
+        <AttendancesTable attendances={attendances} />
 
-        <AttendancesTable
-          attendances={attendances}
-          onSelectAttendance={handleSelectAttendance}
-          forPrint
-        />
+        <div className="fixed w-[210mm] left-[-100000px]">
+          <div ref={printComponentRef}>
+            <AttendancePrintTable
+              attendances={[...attendances]}
+              searchParams={{
+                doctor: doctorName,
+                specialty: '',
+                startDate: filters.attendanceStartDate || '',
+                endDate: filters.attendanceEndDate || '',
+              }}
+            />
+
+          </div>
+        </div>
 
       </PanelSubHeader>
       <div className="w-full flex justify-end py-4">

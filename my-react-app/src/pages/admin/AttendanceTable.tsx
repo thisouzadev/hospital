@@ -32,7 +32,7 @@ const AttendancesTable = (
     forPrint = false,
   }:AttendanceTableProps,
 ) => (
-  <div className={clsx('max-h-[550px] mt-2 ', { 'max-h-none': forPrint })}>
+  <div className={clsx('max-h-[500px] mt-2 ', { 'max-h-none': forPrint })}>
     <div className="w-full">
       <div className="font-bold grid grid-cols-12 w-full pr-4 gap-1">
         <Cell className="col-span-4">
@@ -55,7 +55,7 @@ const AttendancesTable = (
         </Cell>
       </div>
     </div>
-    <div className={clsx('overflow-y-auto max-h-[500px] mt-2 ', { 'max-h-none': forPrint })}>
+    <div className={clsx('overflow-y-auto max-h-[450px] mt-2 ', { 'max-h-none': forPrint })}>
       {
           attendances.map((attendance) => (
             <div key={attendance.attendanceId} className="grid grid-cols-12 w-full group gap-1 mb-1 border-1 border-blue-400 rounded-lg box-border">
