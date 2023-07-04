@@ -30,7 +30,7 @@ const Header = ({ children }:PropsWithChildren) => {
           <HeaderItem to="/atendimentos">
             <img src={PatientsImg} alt="" />
           </HeaderItem>
-          <HeaderItem to="/admin/agendamentos">
+          <HeaderItem to="/agendamentos">
             <img src={ScheduleImg} alt="" />
           </HeaderItem>
           <HeaderItem to="/admin/manage">

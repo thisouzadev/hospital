@@ -1,13 +1,15 @@
 import { objectFieldsToString } from '../utils/object';
 import { CreateDoctorScheduleDto, ListDoctorSchedulesQueryDto } from '../types/backend.dtos';
 import api from './api';
+import { Doctor } from '../types/backend.models';
+import { DefaultSuccessResponse } from '../types/backend.presenters';
 
 const doctorsService = {
 
   async getAll() {
     const response = await api.get('/doctors');
 
-    return response.data;
+    return response.data as DefaultSuccessResponse<Doctor[]>;
   },
 
   async getSchedules(query : ListDoctorSchedulesQueryDto) {

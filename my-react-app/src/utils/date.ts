@@ -54,3 +54,70 @@ export function getAge(dateString: string) {
   }
   return age;
 }
+
+export function isoToString(isoDate: string) {
+  return isoDate.split('-').reverse().join('/');
+}
+
+export const months = [
+  {
+    name: 'Janeiro',
+    id: 1,
+    lastDay: 31,
+  },
+  {
+    name: 'Fevereiro',
+    id: 2,
+    lastDay: 28,
+  },
+  {
+    name: 'Março',
+    id: 3,
+    lastDay: 31,
+  },
+  {
+    name: 'Abril',
+    id: 4,
+    lastDay: 30,
+  },
+  {
+    name: 'Maio',
+    id: 5,
+    lastDay: 31,
+  },
+  {
+    name: 'Junho',
+    id: 6,
+    lastDay: 30,
+  },
+  {
+    name: 'Julho',
+    id: 7,
+    lastDay: 30,
+  },
+  {
+    name: 'Agosto',
+    id: 8,
+    lastDay: 31,
+  },
+  {
+    name: 'Setembro',
+    id: 9,
+    lastDay: 30,
+  },
+  {
+    name: 'Outubro',
+    id: 10,
+    lastDay: 31,
+  },
+  {
+    name: 'Novembro',
+    id: 11,
+    lastDay: 30,
+  },
+  {
+    name: 'Dezembro',
+    id: 12,
+    lastDay: 31,
+  },
+];

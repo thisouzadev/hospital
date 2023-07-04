@@ -9,6 +9,15 @@ body {
   min-height: 100vh
 }
 
+@media print {
+  html, body {
+    background: none;
+    height: initial !important;
+    overflow: initial !important;
+    -webkit-print-color-adjust: exact;
+  }
+}
+
 a {
   text-decoration: none;
 }

@@ -21,7 +21,7 @@ const PrivateLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
   document.title = title; // Also Update Tab Title
 
   return (
-    <div>
+    <div className="min-h-screen ">
       <Header>
         <div className="flex flex-col bg-[#ffffff20] px-2 rounded-md shadow-sm">
           <span>{currentUser?.employee.name}</span>
@@ -34,6 +34,7 @@ const PrivateLayout: FunctionComponent<PropsWithChildren> = ({ children }) => {
           {children}
         </div>
       </ErrorBoundary>
+
     </div>
   );
 };
