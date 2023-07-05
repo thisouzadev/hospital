@@ -35,6 +35,6 @@
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "watchOptions": {
-    "excludeDirectories": ["**/node_modules", "dist"]
+    "excludeDirectories": ["/node_modules", "dist"]
   }
 }

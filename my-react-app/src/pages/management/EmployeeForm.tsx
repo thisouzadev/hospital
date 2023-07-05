@@ -1,16 +1,16 @@
-import { useForm, Controller } from "react-hook-form";
-import { PatternFormat } from "react-number-format";
+import { useForm, Controller } from 'react-hook-form';
+import { PatternFormat } from 'react-number-format';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import * as yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { UserRole } from "../../types/backend.enums";
-import { City, Employee, State } from "../../types/backend.models";
-import citiesService from "../../service/cities.service";
-import Button from "../../components/Button";
-import Input from "../../components/Input";
-import specialties from "./data";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { UserRole } from '../../types/backend.enums';
+import { City, Employee, State } from '../../types/backend.models';
+import citiesService from '../../service/cities.service';
+import Button from '../../components/Button';
+import Input from '../../components/Input';
+import specialties from './data';
 
 interface Props {
   employee?: Employee;
@@ -40,13 +40,11 @@ function EmployeeForm({
     resolver: yupResolver(yup.object().shape(schema).required()),
   });
 
-  console.log(errors);
-
   const [states, setStates] = useState<State[]>([]);
   const [cities, setCities] = useState<City[]>([]);
 
   const [isLoadingStates, setIsLoadingStates] = useState(true);
-  const [isLoadingCities, setIsLoadingCities] = useState(false);
+  const [, setIsLoadingCities] = useState(false);
 
   const loadCities = async (stateId: number) => {
     setIsLoadingCities(true);
@@ -60,13 +58,13 @@ function EmployeeForm({
 
   const onRoleChange = (e: any) => {
     const newRole = e.target.value as UserRole;
-    setValue("user.role", newRole);
+    setValue('user.role', newRole);
     if (newRole !== UserRole.Medico) {
-      setValue("doctor", undefined);
-      clearErrors("doctor");
+      setValue('doctor', undefined);
+      clearErrors('doctor');
     }
     if (newRole) {
-      clearErrors("user.role");
+      clearErrors('user.role');
     }
   };
 
@@ -78,7 +76,7 @@ function EmployeeForm({
       }
       setStates(statesRes);
       setIsLoadingStates(false);
-      const stateId = watch("address.stateId");
+      const stateId = watch('address.stateId');
       if (isUpdating && stateId) {
         await loadCities(stateId);
       }
@@ -89,14 +87,16 @@ function EmployeeForm({
 
   const onChangeSelectedState = async (e: any) => {
     const stateId = e.target.value;
-    setValue("address.stateId", Number(stateId));
-    setValue("address.cityId", "" as any as number);
-    clearErrors("address.stateId");
+    setValue('address.stateId', Number(stateId));
+    setValue('address.cityId', '' as any as number);
+    clearErrors('address.stateId');
 
     if (stateId) {
       loadCities(stateId);
     }
   };
+
+  const role = watch('user.role');
 
   return (
     <div className="w-full">
@@ -109,13 +109,13 @@ function EmployeeForm({
             <Input
               md={4}
               label="Nome:"
-              {...register("name")}
+              {...register('name')}
               error={errors.name}
             />
             <Input
               md={5}
               label="Email:"
-              {...register("user.email")}
+              {...register('user.email')}
               error={errors.user?.email}
             />
             <Controller
@@ -138,15 +138,15 @@ function EmployeeForm({
             <Input
               md={3}
               label="Mat:"
-              {...register("mat")}
+              {...register('mat')}
               error={errors.mat}
             />
 
-            <Input md={3} label="RG:" {...register("rg")} error={errors.rg} />
+            <Input md={3} label="RG:" {...register('rg')} error={errors.rg} />
             <Input
               md={3}
               label="CNS:"
-              {...register("cns")}
+              {...register('cns')}
               error={errors.cns}
             />
 
@@ -154,30 +154,30 @@ function EmployeeForm({
               <select
                 defaultValue=""
                 onChange={onRoleChange}
-                value={watch("user.role")}
+                value={role}
               >
                 <option hidden value="">
-                  {" "}
+                  {' '}
                 </option>
-                {Object.values(UserRole).map((role) => (
-                  <option key={role} value={role}>
-                    {role}
+                {Object.values(UserRole).map((userRole) => (
+                  <option key={userRole} value={userRole}>
+                    {userRole}
                   </option>
                 ))}
               </select>
             </Input>
 
-            {watch("user.role") === UserRole.Medico && (
+            {watch('user.role') === UserRole.Medico && (
               <>
                 <Input
                   md={4}
                   label="Especialidade:"
-                  {...register("doctor.specialty")}
+                  {...register('doctor.specialty')}
                   asChild
                 >
                   <select defaultValue="">
                     <option hidden value="">
-                      {" "}
+                      {' '}
                     </option>
                     {specialties.map((specialty: string) => (
                       <option key={specialty} value={specialty}>
@@ -190,19 +190,19 @@ function EmployeeForm({
                 <Input
                   md={4}
                   label="CRM:"
-                  {...register("doctor.crm")}
+                  {...register('doctor.crm')}
                   error={errors.doctor?.crm}
                 />
                 <Input
                   md={4}
                   label="Estado CRM:"
-                  {...register("doctor.crmStateId", { valueAsNumber: true })}
+                  {...register('doctor.crmStateId', { valueAsNumber: true })}
                   error={errors.doctor?.crmStateId}
                   asChild
                 >
                   <select>
                     <option hidden value="">
-                      {" "}
+                      {' '}
                     </option>
                     {states.map((state) => (
                       <option key={state.stateId} value={state.stateId}>
@@ -233,13 +233,13 @@ function EmployeeForm({
             <Input
               md={6}
               label="Endereço:"
-              {...register("address.street")}
+              {...register('address.street')}
               error={errors.address?.street}
             />
             <Input
               md={1}
               label="N°:"
-              {...register("address.streetNumber")}
+              {...register('address.streetNumber')}
               error={errors.address?.streetNumber}
             />
             <Input
@@ -250,9 +250,9 @@ function EmployeeForm({
               error={errors.address?.stateId}
               isLoading={isLoadingStates}
             >
-              <select {...register("address.stateId")}>
+              <select {...register('address.stateId')}>
                 <option hidden value="">
-                  {" "}
+                  {' '}
                 </option>
                 {states.map((state) => (
                   <option key={state.stateId} value={state.stateId}>
@@ -266,12 +266,12 @@ function EmployeeForm({
               md={6}
               label="Município:"
               asChild
-              {...register("address.cityId", { valueAsNumber: true })}
+              {...register('address.cityId', { valueAsNumber: true })}
               error={errors.address?.cityId}
             >
               <select>
                 <option hidden value="">
-                  {" "}
+                  {' '}
                 </option>
                 {cities.map((city) => (
                   <option key={city.cityId} value={city.cityId}>
@@ -283,7 +283,7 @@ function EmployeeForm({
             <Input
               md={6}
               label="Bairro:"
-              {...register("address.district")}
+              {...register('address.district')}
               error={errors.address?.district}
             />
           </div>

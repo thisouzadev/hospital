@@ -1,11 +1,11 @@
-import { SubmitHandler } from "react-hook-form";
-import { Employee } from "types/backend.models";
-import * as yup from "yup";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import EmployeeForm from "./EmployeeForm";
-import employeeService from "../../service/employee.service";
-import Loading from "../../components/loading";
+import { SubmitHandler } from 'react-hook-form';
+import { Employee } from 'types/backend.models';
+import * as yup from 'yup';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import EmployeeForm from './EmployeeForm';
+import employeeService from '../../service/employee.service';
+import Loading from '../../components/loading';
 
 const updateSchema = {
   user: yup.object().shape({
@@ -72,14 +72,20 @@ function UpdateEmployee() {
       rg,
       cns,
       mat,
-      address: { cep, street, streetNumber, cityId, district, stateId },
+      address: {
+        cep, street, streetNumber, cityId, district, stateId,
+      },
     } = data;
 
-    let doctor = data.doctor;
+    let doctor = data.doctor as any;
 
     if (doctor) {
-      const { doctorId, specialty, crm, crmStateId } = doctor;
-      doctor = { doctorId, specialty, crm, crmStateId };
+      const {
+        doctorId, specialty, crm, crmStateId,
+      } = doctor;
+      doctor = {
+        doctorId, specialty, crm, crmStateId,
+      };
     }
 
     const result = await employeeService.update(employee.employeeId, {
@@ -90,7 +96,9 @@ function UpdateEmployee() {
       doctor,
       cns,
       mat,
-      address: { cep, street, streetNumber, cityId, district, stateId },
+      address: {
+        cep, street, streetNumber, cityId, district, stateId,
+      },
     });
 
     if (result.error) {
@@ -98,7 +106,7 @@ function UpdateEmployee() {
       return;
     }
 
-    navigate("/admin/manage");
+    navigate('/admin/manage');
   };
 
   if (isLoading) {

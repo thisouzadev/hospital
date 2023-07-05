@@ -1,38 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
 import {
   BsFillPersonPlusFill,
   BsTrashFill,
   BsPencilFill,
-} from "react-icons/bs";
-import { Link, useNavigate } from "react-router-dom";
-import EmployeeServiceModal from "./modal/EmployeeServiceModal";
-import MedicalEmployeeModal from "./modal/MedicalEmployeeModal";
-import ConfirmationModal from "./modal/ConfirmationModal";
-import EmployeeService from "../../service/employee.service";
-import Loading from "../../components/loading";
+} from 'react-icons/bs';
+import { Link, useNavigate } from 'react-router-dom';
+import { UserRole } from 'types/backend.enums';
+import ConfirmationModal from './modal/ConfirmationModal';
+import EmployeeService from '../../service/employee.service';
+import Loading from '../../components/loading';
 
 type Employee = {
   userId: string;
   name: string;
-  user: string;
+  user: { role: UserRole }
   employeeId: string;
 };
 
-type CreateEmployee = {
-  nome: string;
-  cpf: string;
-  rg: string;
-  cargo: string;
-  especialidade: string;
-  docTipo: string;
-  docNumero: string;
-  cns: string;
-  mat: string;
-  email: string;
-};
 function Management() {
-  const [showModalCreatEmployeer, setShowModalCreatEmployeer] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
@@ -52,11 +38,6 @@ function Management() {
     fetchEmployees();
   }, [showDeleteModal]);
 
-  const handleSaveEmployee = (employee: CreateEmployee) => {
-    // Lógica para salvar o funcionário
-    console.log(employee);
-  };
-
   const handleConfirmDeleteEmployee = async (id: string) => {
     // Lógica para excluir o funcionário com o ID fornecido
     try {
@@ -74,24 +55,22 @@ function Management() {
     <div>
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          marginTop: "20px",
-          marginBottom: "20px",
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          marginTop: '20px',
+          marginBottom: '20px',
         }}
       >
-        <Button onClick={() => navigate("cadastrar")} variant="primary">
-          <BsFillPersonPlusFill /> Registrar Funcionário
+        <Button onClick={() => navigate('cadastrar')} variant="primary">
+          <BsFillPersonPlusFill />
+          {' '}
+          Registrar Funcionário
         </Button>
-        <MedicalEmployeeModal
-          show={showModalCreatEmployeer}
-          onClose={() => setShowModalCreatEmployeer(false)}
-          onSave={handleSaveEmployee}
-        />
+
       </div>
       <div
         className="table-responsive-md mx-auto"
-        style={{ width: "fit-content" }}
+        style={{ width: 'fit-content' }}
       >
         <table className="table table-bordered table-striped table-hover ">
           <thead className="table-dark">
@@ -110,7 +89,7 @@ function Management() {
                   <Link to={`editar/${employee.employeeId}`}>
                     <Button
                       variant="primary"
-                      style={{ marginRight: "10px" }}
+                      style={{ marginRight: '10px' }}
                       className="d-flex items-center gap-2"
                     >
                       <BsPencilFill />
@@ -122,14 +101,14 @@ function Management() {
                     variant="danger"
                     className="d-flex items-center gap-2"
                   >
-                    <BsTrashFill /> Deletar
+                    <BsTrashFill />
+                    {' '}
+                    Deletar
                   </Button>
                   <ConfirmationModal
                     show={showDeleteModal}
                     onCancel={() => setShowDeleteModal(false)}
-                    onConfirm={() =>
-                      handleConfirmDeleteEmployee(employee.employeeId)
-                    }
+                    onConfirm={() => handleConfirmDeleteEmployee(employee.employeeId)}
                   />
                 </td>
               </tr>
