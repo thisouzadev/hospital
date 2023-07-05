@@ -45,7 +45,7 @@ const links: Record<UserRole, HeaderItemProps[]> = {
 const RoleLinks = ({ role }:{ role: UserRole }) => (
   <>
     {
-      links[role].map((link) => <HeaderItem to={link.to} img={link.img} />)
+      links[role].map((link) => <HeaderItem key={link.img} to={link.to} img={link.img} />)
     }
   </>
 );
