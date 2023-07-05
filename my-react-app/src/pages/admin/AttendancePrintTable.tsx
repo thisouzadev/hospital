@@ -50,27 +50,24 @@ const AttendancePrintTable = (
           {isoToString(searchParams.endDate)}
         </span>
       </div>
-      {searchParams.specialty
-        ? (
-          <div>
-            <span className="font-bold">
-              Especialidade:
-            </span>
-            <span>
-              {searchParams.specialty}
-            </span>
-          </div>
-        )
-        : (
-          <div>
-            <span className="font-bold">
-              Médico:
-            </span>
-            <span>
-              {searchParams.doctor}
-            </span>
-          </div>
-        )}
+
+      <div>
+        <span className="font-bold">
+          Especialidade:
+        </span>
+        <span>
+          {searchParams.specialty || 'Todas'}
+        </span>
+      </div>
+
+      <div>
+        <span className="font-bold">
+          Médico:
+        </span>
+        <span>
+          {searchParams.doctor || 'Todos'}
+        </span>
+      </div>
 
     </div>
     <table className="text-md w-full table-auto text-left">
@@ -117,6 +114,16 @@ const AttendancePrintTable = (
         }
       </tbody>
     </table>
+    <div className=" mt-5 flex justify-center gap-9 border rounded-md">
+      <div>
+        <span className="">Total de registros:</span>
+        <span className="">{attendances.length}</span>
+      </div>
+      <div>
+        <span className="">Total de atendidos:</span>
+        <span className="">{attendances.filter((a) => a.status === AttendanceStatus.FINISHED).length}</span>
+      </div>
+    </div>
   </div>
 );
 

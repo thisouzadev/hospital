@@ -4,6 +4,7 @@ import {
   IsUUID,
   IsIn,
   IsEnum,
+  IsString,
 } from 'class-validator';
 import { PageOptionsDto } from '../../../shared/dtos/page-options.dto';
 import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
@@ -12,6 +13,10 @@ export class ListAttendanceQueryDto extends PageOptionsDto {
   @IsUUID()
   @IsOptional()
   doctorId?: string;
+
+  @IsOptional()
+  @IsString()
+  specialty?: string;
 
   @IsOptional()
   @IsEnum(AttendanceStatus)

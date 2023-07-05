@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { format } from 'date-fns';
+import { endOfWeek, format, startOfWeek } from 'date-fns';
 
 export const FORMAT_DATE_TIME = 'yyyy-MM-dd HH:mm:ss';
 export const FORMAT_DATE_ONLY = 'yyyy-MM-dd';
@@ -121,3 +121,27 @@ export const months = [
     lastDay: 31,
   },
 ];
+
+export function getWeekRange(year:number, month:number, weekNumber:number) {
+  // Get the first day of the month
+  const firstDayOfMonth = new Date(year, month - 1, 1);
+
+  // Get the start date of the specified week
+  const startDateOfWeek = startOfWeek(firstDayOfMonth, { weekStartsOn: 0 });
+
+  // Calculate the start date of the desired week
+  const desiredStartDate = new Date(startDateOfWeek.getTime() + (weekNumber - 1) * 7 * 24 * 60 * 60 * 1000);
+
+  // Calculate the end date of the desired week
+  const desiredEndDate = endOfWeek(desiredStartDate, { weekStartsOn: 0 });
+
+  // Format the dates for display
+  const formattedStartDate = format(desiredStartDate, 'yyyy-MM-dd');
+  const formattedEndDate = format(desiredEndDate, 'yyyy-MM-dd');
+
+  // Return the first and last dates of the desired week
+  return {
+    weekStartDate: formattedStartDate,
+    weekEndDate: formattedEndDate,
+  };
+}

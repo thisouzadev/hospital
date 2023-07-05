@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery, useQuery } from 'react-query';
 import { useReactToPrint } from 'react-to-print';
+import {
+  endOfWeek, format, getWeeksInMonth, startOfWeek,
+} from 'date-fns';
 import doctorsService from '../../service/doctors.service';
 import Button from '../../components/Button';
 import { Attendance } from '../../types/backend.models';
@@ -9,7 +12,7 @@ import { ListAttendanceQueryDto } from '../../types/backend.dtos';
 // import AttendancesTable from './AttendanceTable';
 import { Panel, PanelHeader, PanelSubHeader } from '../../components/Panel';
 import Input from '../../components/Input';
-import { months } from '../../utils/date';
+import { getWeekRange, months } from '../../utils/date';
 import AttendancePrintTable from './AttendancePrintTable';
 import AttendancesTable from './AttendanceTable';
 
@@ -22,12 +25,25 @@ interface IDayInterval {
 
 const getFullDateInterval = (interval : IDayInterval) => {
   const startMonth = interval.month || 1;
-
   const endMonth = interval.month || 12;
 
-  const startDay = interval.day || 1;
+  let startDay: number = 1;
+  let endDay: number = months[endMonth - 1].lastDay;
 
-  const endDay = interval.day || months[endMonth - 1].lastDay;
+  if (interval.month && interval.week) {
+    const { weekStartDate, weekEndDate } = getWeekRange(
+      interval.year,
+      interval.month,
+      interval.week,
+    );
+
+    return { startDate: weekStartDate, endDate: weekEndDate };
+  }
+
+  if (interval.day) {
+    startDay = interval.day;
+    endDay = interval.day;
+  }
 
   const startDate = `${interval.year}-${String(startMonth).padStart(2, '0')}-${String(startDay).padStart(2, '0')}`;
   const endDate = `${interval.year}-${String(endMonth).padStart(2, '0')}-${String(endDay).padStart(2, '0')}`;
@@ -51,6 +67,7 @@ function Attendances() {
   const [filters, setFilters] = useState<ListAttendanceQueryDto>(
     {
       attendanceDate: '',
+      specialty: '',
       orderBy: 'attendanceDate',
       attendanceStartDate: getFullDateInterval(dayInterval).startDate,
       attendanceEndDate: getFullDateInterval(dayInterval).endDate,
@@ -65,6 +82,14 @@ function Attendances() {
     const { value } = e.target;
 
     const newDayInterval = { ...dayInterval, [name]: value };
+
+    if (name === 'day') {
+      newDayInterval.week = '';
+    }
+
+    if (name === 'week') {
+      newDayInterval.day = '';
+    }
 
     if (newDayInterval.month === '') {
       newDayInterval.day = '';
@@ -112,7 +137,8 @@ function Attendances() {
 
     const newFilters = { ...filters, [filterName]: filterValue };
 
-    if (newFilters.doctorId) {
+    if (filterName === 'specialty') {
+      newFilters.doctorId = '';
       // newFilters.specialty = ''
     }
 
@@ -120,6 +146,15 @@ function Attendances() {
   };
 
   const doctorName = doctors.data?.result.find((d) => d.doctorId === filters.doctorId)?.employee.name || '';
+
+  const filteredDoctors = doctors?.data?.result.filter(
+    (d) => (filters.specialty ? d.specialty === filters.specialty : true),
+  ) || [];
+
+  const numberOfWeeks = dayInterval.month
+    ? getWeeksInMonth(new Date(dayInterval.year, dayInterval.month, 0), { weekStartsOn: 0 })
+    : 0;
+  const monthWeeks = [...Array(numberOfWeeks).keys()];
 
   return (
     <Panel className="p-2">
@@ -178,9 +213,9 @@ function Attendances() {
               <select>
                 <option value="">Todas</option>
                 {
-                  [...Array(5).keys()].map((week) => week + 1).map((week) => (
-                    <option key={week} value={week} className="bg-transparent appearance-none">{`${week}ª`}</option>
-                  ))
+                 monthWeeks.map((week) => week + 1).map((week) => (
+                   <option key={week} value={week} className="bg-transparent appearance-none">{`${week}ª`}</option>
+                 ))
                   }
               </select>
             </Input>
@@ -197,11 +232,32 @@ function Attendances() {
               <select>
                 <option value="">Todos</option>
                 {
-                  [...Array(31).keys()].map((week) => week + 1).map((week) => (
-                    <option key={week} value={week} className="bg-transparent appearance-none">{week}</option>
+                  [...Array(31).keys()].map((day) => day + 1).map((day) => (
+                    <option key={day} value={day} className="bg-transparent appearance-none">{day}</option>
                   ))
                 }
               </select>
+            </Input>
+
+            <Input
+              textCenter
+              className="bg-transparent w-56"
+              md={5}
+              asChild
+              name="specialty"
+              value={filters.specialty}
+              onChange={handleChangeFilter}
+              label="Especialidade:"
+            >
+              <select>
+                <option value="">Todas</option>
+                {
+                    specialties.map((specialty) => (
+                      <option key={specialty} value={specialty} className="bg-transparent appearance-none">{specialty}</option>
+                    ))
+                  }
+              </select>
+
             </Input>
             <Input
               textCenter
@@ -216,28 +272,11 @@ function Attendances() {
               <select>
                 <option value="">Todos</option>
                 {
-                    doctors?.data?.result.map((doctor) => (
+                    filteredDoctors.map((doctor) => (
                       <option key={doctor.doctorId} value={doctor.doctorId} className="bg-transparent appearance-none">{doctor.employee.name}</option>
                     ))
                   }
               </select>
-            </Input>
-
-            <Input
-              textCenter
-              className="bg-transparent w-56"
-              md={5}
-              asChild
-            >
-              <select>
-                <option value="" hidden>Especialidade</option>
-                {
-                    specialties.map((specialty) => (
-                      <option key={specialty} value={specialty} className="bg-transparent appearance-none">{specialty}</option>
-                    ))
-                  }
-              </select>
-
             </Input>
 
           </div>
@@ -252,7 +291,7 @@ function Attendances() {
               attendances={[...attendances]}
               searchParams={{
                 doctor: doctorName,
-                specialty: '',
+                specialty: filters.specialty || '',
                 startDate: filters.attendanceStartDate || '',
                 endDate: filters.attendanceEndDate || '',
               }}

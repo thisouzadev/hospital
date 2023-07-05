@@ -47,6 +47,7 @@ export class AttendanceService {
       attendanceStartDate,
       attendanceEndDate,
       doctorId,
+      specialty,
       patientId,
       status,
     } = query;
@@ -65,6 +66,7 @@ export class AttendanceService {
         doctorId,
         patientId,
         status,
+        doctor: { specialty },
       },
       take,
       skip,
