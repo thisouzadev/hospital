@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useInfiniteQuery, useQuery } from 'react-query';
 import { useReactToPrint } from 'react-to-print';
 import {
-  endOfWeek, format, getWeeksInMonth, startOfWeek,
+  getWeeksInMonth,
 } from 'date-fns';
 import doctorsService from '../../service/doctors.service';
 import Button from '../../components/Button';
