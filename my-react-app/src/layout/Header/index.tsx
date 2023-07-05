@@ -1,66 +1,78 @@
-import { Link } from "react-router-dom";
-import { PropsWithChildren } from "react";
-import AddPatientImg from "../../assets/addPartient.svg";
-import PatientsImg from "../../assets/patients.svg";
-import ProfileImg from "../../assets/profile.svg";
-import BackImg from "../../assets/back.svg";
-import ExitImg from "../../assets/exit.svg";
-import ScheduleImg from "../../assets/schedule.svg";
-import ManageImg from "../../assets/manage.svg";
-import AgendaImg from "../../assets/agenda.svg";
-import { useEventLogout } from "../../hooks";
-import { useAppStore } from "../../store";
-import { UserRole } from "../../types/backend.enums";
+import { Link, To, useNavigate } from 'react-router-dom';
+import { PropsWithChildren } from 'react';
+import AddPatientImg from '../../assets/addPatient.svg';
+import PatientsImg from '../../assets/patients.svg';
+import ProfileImg from '../../assets/profile.svg';
+import BackImg from '../../assets/back.svg';
+import ExitImg from '../../assets/exit.svg';
+import ScheduleImg from '../../assets/schedule.svg';
+import ManageImg from '../../assets/manage.svg';
+import AgendaImg from '../../assets/agenda.svg';
+import { useEventLogout } from '../../hooks';
+import { useAppStore } from '../../store';
+import { UserRole } from '../../types/backend.enums';
 
-const HeaderItem = ({ children, to }: PropsWithChildren<{ to: string }>) => (
+interface HeaderItemProps {
+  to: To, img:string
+}
+
+const HeaderItem = ({ to, img }: HeaderItemProps) => (
   <Link to={to} className="hover:drop-shadow-lg transition-shadow">
-    {children}
+    <img src={img} alt="" />
   </Link>
+);
+
+const links: Record<UserRole, HeaderItemProps[]> = {
+  'administrador de hospital': [],
+  'administrador do sistema': [],
+  administrador: [
+    { to: '/admin/pacientes/cadastrar', img: AddPatientImg },
+    { to: '/atendimentos', img: PatientsImg },
+    { to: '/agendamentos', img: ScheduleImg },
+    { to: '/admin/manage', img: ManageImg },
+    { to: '/agenda-medica', img: AgendaImg },
+  ],
+  médico: [
+    { to: '/atendimentos', img: PatientsImg },
+  ],
+  farmaceutico: [],
+  recepcionista: [
+    { to: '/admin/pacientes/cadastrar', img: AddPatientImg },
+    { to: '/agendamentos', img: ScheduleImg },
+  ],
+};
+
+const RoleLinks = ({ role }:{ role: UserRole }) => (
+  <>
+    {
+      links[role].map((link) => <HeaderItem to={link.to} img={link.img} />)
+    }
+  </>
 );
 
 const Header = ({ children }: PropsWithChildren) => {
   const onLogout = useEventLogout();
   const [state] = useAppStore();
 
+  const navigate = useNavigate();
+
   const { currentUser } = state;
 
-  const renderHeaderItems = () => {
-    if (currentUser?.role === UserRole.Admin) {
-      return (
-        <>
-          <HeaderItem to="/admin/pacientes/cadastrar">
-            <img src={AddPatientImg} alt="" />
-          </HeaderItem>
-          <HeaderItem to="/atendimentos">
-            <img src={PatientsImg} alt="" />
-          </HeaderItem>
-          <HeaderItem to="/agendamentos">
-            <img src={ScheduleImg} alt="" />
-          </HeaderItem>
-          <HeaderItem to="/admin/manage">
-            <img src={ManageImg} alt="" />
-          </HeaderItem>
-          <HeaderItem to="/agenda-medica">
-            <img src={AgendaImg} alt="" />
-          </HeaderItem>
-        </>
-      );
-    } else if (currentUser?.role === UserRole.Recepcionista) {
-      return <></>;
-    }
-  };
+  const role = currentUser?.role as UserRole;
+
   return (
     <header className="">
       <div className="flex justify-between p-3 m-auto max-w-7xl">
         <div className="flex gap-5 items-center">
           <img src={ProfileImg} alt="" />
-          {renderHeaderItems()}
+          <RoleLinks role={role} />
           <div>{children}</div>
         </div>
         <div className="flex gap-5 items-center">
-          <HeaderItem to="..">
+          <button type="button" onClick={() => navigate(-1)}>
             <img src={BackImg} alt="" />
-          </HeaderItem>
+
+          </button>
           <button type="button" onClick={onLogout}>
             <img src={ExitImg} alt="" />
           </button>
