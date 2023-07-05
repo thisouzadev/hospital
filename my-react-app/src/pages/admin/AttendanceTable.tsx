@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 
+import { Link } from 'react-router-dom';
 import { AttendanceStatus } from '../../types/backend.enums';
-import scheduleImg from '../../assets/schedule2.svg';
+import DetailsImg from '../../assets/details.svg';
 
 import { Attendance } from '../../types/backend.models';
 import { isoToString } from '../../utils/date';
@@ -51,7 +52,7 @@ const AttendancesTable = (
           Data:
         </Cell>
         <Cell className="border-none invisible">
-          <img src={scheduleImg} className="w-8 m-auto" alt="" />
+          <img src={DetailsImg} className="w-8 m-auto" alt="" />
         </Cell>
       </div>
     </div>
@@ -76,9 +77,11 @@ const AttendancesTable = (
               </Cell>
 
               <Cell className="ring-0">
-                <button type="button" onClick={() => onSelectAttendance(attendance)} title="Selecionar">
-                  <img src={scheduleImg} className="w-8 m-auto" alt="" />
-                </button>
+                <Link to={`/admin/pacientes/detalhes/${attendance.patientId}`}>
+                  <button type="button" onClick={() => onSelectAttendance(attendance)} title="Dados do Paciente">
+                    <img src={DetailsImg} className="w-8 m-auto" alt="" />
+                  </button>
+                </Link>
               </Cell>
             </div>
           ))
