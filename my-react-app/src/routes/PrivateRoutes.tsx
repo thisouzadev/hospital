@@ -1,6 +1,8 @@
 import {
   Routes, Route,
 } from 'react-router-dom';
+import NurseAttendance from '../pages/nurses/NurseAttendance';
+import NurseQueue from '../pages/nurses/NurseQueue';
 import DoctorAttendance from '../pages/doctors/DoctorAttendance';
 import CreateDoctorSchedules from '../pages/doctors/CreateDoctorSchedules';
 import Welcome from '../pages/Welcome';
@@ -43,6 +45,10 @@ const PrivateRoutes = () => (
     <Route path="/atendimentos/:attendanceId" element={<DoctorAttendance />} />
     <Route path="/agendamentos" element={<ListAttendances />} />
     <Route path="/agenda-medica" element={<CreateDoctorSchedules />} />
+
+    <Route path="/enfermaria" element={<NurseQueue />} />
+    <Route path="/enfermaria/:attendanceId" element={<NurseAttendance />} />
+
     <Route path="*" element={<NotFound />} />
   </Routes>
 );

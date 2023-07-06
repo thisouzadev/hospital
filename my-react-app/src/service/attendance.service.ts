@@ -1,6 +1,8 @@
 import { DefaultSuccessResponse } from 'types/backend.presenters';
 import { Attendance } from '../types/backend.models';
-import { CreateAttendanceDto, ListAttendanceQueryDto, PageDto } from '../types/backend.dtos';
+import {
+  CreateAttendanceDto, ListAttendanceQueryDto, PageDto, UpdateNurseAttendanceDto,
+} from '../types/backend.dtos';
 import { objectFieldsToString } from '../utils/object';
 import api from './api';
 import { AttendanceStatus, AttendanceType } from '../types/backend.enums';
@@ -16,6 +18,12 @@ const attendanceService = {
       attendanceId: string, status?: AttendanceStatus, type?: AttendanceType },
   ) {
     const response = await api.patch(`/attendances/${attendanceId}/status`, { status, type });
+
+    return response.data;
+  },
+
+  async updateNurseInfo(attendanceId: string, data:UpdateNurseAttendanceDto) {
+    const response = await api.put(`/attendances/${attendanceId}/nurse-info`, data);
 
     return response.data;
   },

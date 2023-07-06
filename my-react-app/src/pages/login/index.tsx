@@ -9,10 +9,14 @@ import ErrorLogin from '../../components/errorLogin/ErroLogin';
 const Login: React.FC = () => {
   const [, dispatch] = useAppStore();
 
+  const debugMode = import.meta.env.VITE_DEBUG_MODE;
+
+  const debugMails = ['super_admin@email.com', 'admin@example.com', 'johndoe@example.com', 'receptionist@asdasd.com'];
+
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState(debugMode ? '123456' : '');
   const [messageError, setMessageError] = useState('');
   const [error, setError] = useState(false);
   const [stayLoggedIn, setStayLoggedIn] = useState(false);
@@ -43,6 +47,7 @@ const Login: React.FC = () => {
               <div className="mb-3">
                 <label htmlFor="email" className="form-label">
                   Email
+                  {debugMode}
                   <input
                     type="email"
                     className="form-control"
@@ -92,6 +97,17 @@ const Login: React.FC = () => {
             </form>
             {error && <ErrorLogin message={messageError} />}
           </Card.Body>
+          {debugMode && debugMails.map((mail) => (
+            <button
+              type="button"
+              key={mail}
+              className="ring-1 mb-2 bg-slate-100 rounded-sm"
+              onClick={() => setEmail(mail)}
+            >
+              {mail}
+
+            </button>
+          ))}
         </Card>
       </div>
     </div>

@@ -44,7 +44,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           className={
             clsx(
               'flex items-center ring-1  h-9 px-1 gap-1  w-full',
-              'ring-black rounded-lg border-black text-black ',
+              'ring-blue-300 rounded-xl border-black text-black ',
               { 'group-hover:ring-2 focus-within:ring-2': !disabled },
               { 'bg-red-200 ring-red-700': error },
               { 'bg-[#f0f0f0]': !error },
