@@ -7,7 +7,7 @@ import {
 } from 'class-validator';
 import { PageOptionsDto } from '../../../shared/dtos/page-options.dto';
 
-export class ListTestResultsQueryDto extends PageOptionsDto {
+export class ListQuickTestsQueryDto extends PageOptionsDto {
   @IsUUID()
   @IsOptional()
   patientId?: string;

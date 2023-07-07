@@ -8,26 +8,26 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Patient } from '../../../modules/patient/entities/patient.entity';
-import { Test } from './test.entity';
 import { Attendance } from '../../../modules/attendance/entities/attendance.entity';
+import { TestCategory } from './test-category.entity';
 
-@Entity('test_results')
-export class TestResult {
-  @PrimaryGeneratedColumn('uuid', { name: 'test_result_id' })
-  testResultId: string;
+@Entity('quick_tests')
+export class QuickTest {
+  @PrimaryGeneratedColumn('uuid', { name: 'quick_test_id' })
+  quickTestId: string;
 
-  @PrimaryGeneratedColumn({ name: 'test_result_number' })
-  testResultNumber: number;
+  @PrimaryGeneratedColumn({ name: 'quick_test_number' })
+  quickTestNumber: number;
 
-  @Column({ name: 'test_id' })
-  testId: string;
+  @Column({ name: 'test_category_id' })
+  testCategoryId: string;
 
-  @ManyToOne(() => Test)
+  @ManyToOne(() => TestCategory)
   @JoinColumn({
-    name: 'test_id',
-    referencedColumnName: 'testId',
+    name: 'test_category_id',
+    referencedColumnName: 'testCategoryId',
   })
-  test: Test;
+  category: TestCategory;
 
   @Column({ type: 'enum', enum: TestResultType })
   result: TestResultType;

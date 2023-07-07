@@ -1,7 +1,7 @@
 import { IsDateString, IsEnum, IsString, IsUUID } from 'class-validator';
 import { TestResultType } from '../../../shared/enums/test-result.enum';
 
-export class CreateTestResultDto {
+export class CreateQuickTestDto {
   @IsUUID()
   testId: string;
 

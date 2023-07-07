@@ -1,7 +1,7 @@
 import { DefaultSuccessResponse } from 'types/backend.presenters';
 import { Attendance } from '../types/backend.models';
 import {
-  CreateAttendanceDto, ListAttendanceQueryDto, PageDto, UpdateNurseAttendanceDto,
+  CreateAttendanceDto, ListAttendanceQueryDto, PageDto, UpdateTechnicianAttendanceDto,
 } from '../types/backend.dtos';
 import { objectFieldsToString } from '../utils/object';
 import api from './api';
@@ -22,8 +22,8 @@ const attendanceService = {
     return response.data;
   },
 
-  async updateNurseInfo(attendanceId: string, data:UpdateNurseAttendanceDto) {
-    const response = await api.put(`/attendances/${attendanceId}/nurse-info`, data);
+  async updateTechnicianInfo(attendanceId: string, data:UpdateTechnicianAttendanceDto) {
+    const response = await api.put(`/attendances/${attendanceId}/technician-info`, data);
 
     return response.data;
   },

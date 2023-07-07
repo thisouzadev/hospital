@@ -8,7 +8,7 @@ import { CreateDoctorScheduleDto } from '@modules/doctor/dto/create-doctor-sched
 import { SearchPatientQueryDto } from '@modules/patient/dto/search-patient-query.dto';
 import { ListDoctorSchedulesQueryDto } from '@modules/doctor/dto/list-doctor-schedules-query.dto';
 import { UpdateAttendanceStatusDto } from '@modules/attendance/dto/update-status.dto';
-import { UpdateNurseAttendanceDto } from '@modules/attendance/dto/update-nurse-attendance.dto';
+import { UpdateTechnicianAttendanceDto } from '@modules/attendance/dto/update-technician-attendance.dto';
 import { PageDto } from '@shared/dtos/page.dto';
 
 export {
@@ -23,5 +23,5 @@ export {
   ListDoctorSchedulesQueryDto,
   UpdateAttendanceStatusDto,
   PageDto,
-  UpdateNurseAttendanceDto,
+  UpdateTechnicianAttendanceDto,
 };

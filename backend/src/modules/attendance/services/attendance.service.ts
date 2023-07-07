@@ -1,6 +1,5 @@
 import {
   BadRequestException,
-  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -14,6 +13,7 @@ import { UpdateAttendanceDto } from '../dto/update-attendance.dto';
 import { Attendance } from '../entities/attendance.entity';
 import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
 import { AttendanceType } from '../../../shared/enums/attendance-type-enum';
+import { UpdateTechnicianAttendanceDto } from '../dto/update-technician-attendance.dto';
 
 @Injectable()
 export class AttendanceService {
@@ -147,6 +147,32 @@ export class AttendanceService {
     if (status === AttendanceStatus.CONFIRMED) {
       attendance.confirmedAt = new Date();
     }
+
+    await this.attendanceRepository.save(attendance);
+
+    return attendance;
+  }
+
+  async updateTechnicianInfo(
+    attendanceId: string,
+    technicianId: string,
+    data: UpdateTechnicianAttendanceDto,
+  ) {
+    const attendance = await this.attendanceRepository.findOneBy({
+      attendanceId,
+    });
+
+    if (!attendance) {
+      throw new NotFoundException('Atendimento não encontrado');
+    }
+
+    if (attendance.status === AttendanceStatus.FINISHED) {
+      throw new BadRequestException('Este atendimento já foi finalizado');
+    }
+
+    Object.assign(attendance, data);
+
+    attendance.technicianId = technicianId;
 
     await this.attendanceRepository.save(attendance);
 

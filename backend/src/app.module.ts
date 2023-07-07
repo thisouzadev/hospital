@@ -3,14 +3,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
-import { ConsultaModule } from './modules/consulta/consulta.module';
-import { AnamneseModule } from './modules/anamnese/anamnese.module';
-import { TratamentoModule } from './modules/tratamento/tratamento.module';
-import { ExamesSolicitadosModule } from './modules/examesSolicitados/exames-solicitados.module';
-import { PrescricaoInicialModule } from './modules/prescricaoInicial/prescricao-inicial.module';
-import { EvolucaoPrescricaoModule } from './modules/evolucaoPrescricao/evolucao-prescricao.module';
-import { TransferenciaModule } from './modules/transferencia/transferencia.module';
-import { PermissaoAcessoModule } from './modules/permissaoAcesso/permissaoAcesso.module';
 import { HospitalModule } from './modules/hospital/hospital.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
@@ -22,6 +14,7 @@ import { AddressModule } from './modules/address/address.module';
 import { DoctorModule } from './modules/doctor/doctor.module';
 import { PatientModule } from './modules/patient/patient.module';
 import { AttendanceModule } from './modules/attendance/attendance.module';
+import { QuickTestModule } from './modules/quick-test/quick-test.module';
 
 @Module({
   imports: [
@@ -35,20 +28,13 @@ import { AttendanceModule } from './modules/attendance/attendance.module';
 
     AddressModule,
     EmployeeModule,
-    ConsultaModule,
-    AnamneseModule,
-    TratamentoModule,
-    ExamesSolicitadosModule,
-    PrescricaoInicialModule,
-    EvolucaoPrescricaoModule,
-    TransferenciaModule,
-    PermissaoAcessoModule,
     HospitalModule,
     AuthModule,
     UserModule,
     DoctorModule,
     PatientModule,
     AttendanceModule,
+    QuickTestModule,
   ],
   controllers: [AppController],
   providers: [AppService],

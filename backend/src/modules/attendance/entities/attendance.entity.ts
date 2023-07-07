@@ -4,21 +4,25 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Generated,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { DoctorSchedule } from '../../doctor/entities/doctor-schedule.entity';
 import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
 import { AttendanceType } from '../../../shared/enums/attendance-type-enum';
+import { QuickTest } from 'src/modules/quick-test/entities/quick-test.entity';
 
 @Entity('attendances')
 export class Attendance {
   @PrimaryGeneratedColumn('uuid', { name: 'attendance_id' })
   attendanceId: string;
 
-  @PrimaryGeneratedColumn({ name: 'attendance_number' })
+  @Column({ name: 'attendance_number' })
+  @Generated('increment')
   attendanceNumber: number;
 
   @Column({ name: 'doctor_id', nullable: true })
@@ -70,6 +74,24 @@ export class Attendance {
     default: AttendanceType.STANDARD,
   })
   type: AttendanceType;
+
+  @OneToMany(() => QuickTest, (quickTests) => quickTests.attendance)
+  quickTests: QuickTest[];
+
+  @Column({ name: 'technician_id', nullable: true })
+  technicianId: string;
+
+  @Column({ name: 'technician_report', nullable: true })
+  technicianReport: string;
+
+  @Column({ name: 'weight', nullable: true })
+  weight: number;
+
+  @Column({ name: 'systolic_bp', nullable: true })
+  systolicBP: number;
+
+  @Column({ name: 'diastolic_bp', nullable: true })
+  diastolicBP: number;
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;

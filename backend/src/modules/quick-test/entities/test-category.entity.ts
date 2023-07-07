@@ -1,9 +1,9 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('tests')
-export class Test {
-  @PrimaryGeneratedColumn('uuid', { name: 'test_id' })
-  testId: string;
+@Entity('test_categories')
+export class TestCategory {
+  @PrimaryGeneratedColumn('uuid', { name: 'test_category_id' })
+  testCategoryId: string;
 
   @Column()
   name: string;

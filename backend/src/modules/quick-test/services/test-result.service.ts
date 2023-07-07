@@ -3,21 +3,19 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { PageMetaDto } from '../../../shared/dtos/page-meta.dto';
 import { PageDto } from '../../../shared/dtos/page.dto';
 import { Between, Repository } from 'typeorm';
-import { CreateTestResultDto } from '../dtos/create-test-result.dto';
-import { ListTestResultsQueryDto } from '../dtos/list-test-results-query.dto';
-import { TestResult } from '../entities/test-result.entity';
+
+import { QuickTest } from '../entities/quick-test.entity';
+import { CreateQuickTestDto } from '../dtos/create-quick-test.dto';
+import { ListQuickTestsQueryDto } from '../dtos/list-quick-tests-query.dto';
 
 @Injectable()
-export class TestResultService {
+export class QuickTestService {
   constructor(
-    @InjectRepository(TestResult)
-    private readonly testRepository: Repository<TestResult>,
+    @InjectRepository(QuickTest)
+    private readonly testRepository: Repository<QuickTest>,
   ) {}
 
-  async create(
-    responsibleId: string,
-    createTestResultDto: CreateTestResultDto,
-  ) {
+  async create(responsibleId: string, createTestResultDto: CreateQuickTestDto) {
     const result = this.testRepository.create({
       ...createTestResultDto,
       responsibleId,
@@ -26,7 +24,7 @@ export class TestResultService {
     return result;
   }
 
-  async findAll(query: ListTestResultsQueryDto) {
+  async findAll(query: ListQuickTestsQueryDto) {
     const { patientId, date, startDate, endDate, responsibleId } = query;
     const { take, page } = query;
     const skip = query.getSkip();
@@ -43,7 +41,7 @@ export class TestResultService {
       },
       take,
       skip,
-      relations: ['test'],
+      relations: ['category'],
       order: {
         // status: 'DESC',
         [orderBy]: orderType,

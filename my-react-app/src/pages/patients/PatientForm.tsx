@@ -16,7 +16,6 @@ interface Props {
   patient?: Patient
   handleFormSubmit: (patient:Patient)=>void
   schema: Record<string, any>,
-
   isUpdating?:boolean
 }
 

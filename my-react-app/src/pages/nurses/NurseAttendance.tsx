@@ -10,7 +10,7 @@ import Loading from '../../components/loading';
 import Input from '../../components/Input';
 import { Attendance, Patient } from '../../types/backend.models';
 import { getAge, isoToString } from '../../utils/date';
-import { UpdateNurseAttendanceDto } from '@/types/backend.dtos';
+import { UpdateTechnicianAttendanceDto } from '@/types/backend.dtos';
 
 function NurseAttendance() {
   const params = useParams();
@@ -29,7 +29,7 @@ function NurseAttendance() {
 
   const {
     register, handleSubmit, reset,
-  } = useForm<UpdateNurseAttendanceDto>({
+  } = useForm<UpdateTechnicianAttendanceDto>({
 
   });
 
@@ -39,12 +39,12 @@ function NurseAttendance() {
         weight: attendance.weight,
         diastolicBP: attendance.diastolicBP,
         systolicBP: attendance.systolicBP,
-        nurseReport: attendance.nurseReport,
+        technicianReport: attendance.technicianReport,
       });
     }
   }, [attendance]);
 
-  const patientId = attendance?.patientId;
+  // const patientId = attendance?.patientId;
 
   const patient = data?.result.patient as Patient;
 
@@ -52,8 +52,8 @@ function NurseAttendance() {
     return <Loading />;
   }
 
-  const onSubmitForm = async (updateData: UpdateNurseAttendanceDto) => {
-    const res = await attendanceService.updateNurseInfo(attendanceId, updateData);
+  const onSubmitForm = async (updateData: UpdateTechnicianAttendanceDto) => {
+    const res = await attendanceService.updateTechnicianInfo(attendanceId, updateData);
 
     if (res.success) {
       console.log(res);
@@ -138,7 +138,7 @@ function NurseAttendance() {
           <Field>
             Outras Considerações
           </Field>
-          <textarea className=" mt-2  w-full rounded-lg ring-2 p-2 bg-[#F0F0F0]" rows={4} {...register('nurseReport')} />
+          <textarea className=" mt-2  w-full rounded-lg ring-2 p-2 bg-[#F0F0F0]" rows={4} {...register('technicianReport')} />
         </div>
 
         <div className="flex gap-6 justify-center py-4">

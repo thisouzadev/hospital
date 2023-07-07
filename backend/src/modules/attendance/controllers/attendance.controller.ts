@@ -19,8 +19,11 @@ import { AuthGuard } from '@nestjs/passport';
 import { SuccessPresenter } from '../../../shared/presenters/success-result.presenter';
 import { ApiPaginatedResponse } from '../../../shared/decorators/api-paginated-response.decorator';
 import { UpdateAttendanceStatusDto } from '../dto/update-status.dto';
+import { UpdateTechnicianAttendanceDto } from '../dto/update-technician-attendance.dto';
+import { ReqUser } from '../../../shared/decorators/user-request.decorator';
+import { User } from '../../../modules/user/entities/user.entity';
 
-// @UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 @Controller('Attendances')
 export class AttendanceController {
   constructor(private readonly attendanceService: AttendanceService) {}
@@ -59,6 +62,17 @@ export class AttendanceController {
     @Body() { status, type }: UpdateAttendanceStatusDto,
   ) {
     return this.attendanceService.changeStatus(id, status, type);
+  }
+
+  @Put(':id/technician-info')
+  @SuccessPresenter()
+  updateNurseInfo(
+    @Param() { id }: UuidParamValidator,
+    @Body() data: UpdateTechnicianAttendanceDto,
+    @ReqUser() user: User,
+  ) {
+    const employeeId = user.employee.employeeId;
+    return this.attendanceService.updateTechnicianInfo(id, employeeId, data);
   }
 
   @Patch(':id/finish')

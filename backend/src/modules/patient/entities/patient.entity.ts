@@ -12,6 +12,7 @@ import { IPatient } from '../../../shared/models/patient/patient.interface';
 import { Address } from '../../../modules/address/entities/address.entity';
 import { Gender } from '../../../shared/enums/gender.enum';
 import { Attendance } from '../../attendance/entities/attendance.entity';
+import { QuickTest } from '../../../modules/quick-test/entities/quick-test.entity';
 
 @Entity('patients')
 export class Patient implements IPatient {
@@ -76,6 +77,9 @@ export class Patient implements IPatient {
 
   @OneToMany(() => Attendance, (attendance) => attendance.patient)
   attendances: Attendance[];
+
+  @OneToMany(() => QuickTest, (quickTest) => quickTest.patient)
+  quickTests: QuickTest[];
 
   @Column({
     type: 'timestamp',
