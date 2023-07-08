@@ -27,13 +27,13 @@ const links: Record<UserRole, HeaderItemProps[]> = {
   'administrador do sistema': [],
   administrador: [
     { to: '/admin/pacientes/cadastrar', img: AddPatientImg },
-    { to: '/atendimentos', img: PatientsImg },
+    { to: '/ambulatorio', img: PatientsImg },
     { to: '/agendamentos', img: ScheduleImg },
     { to: '/admin/manage', img: ManageImg },
     { to: '/agenda-medica', img: AgendaImg },
   ],
   médico: [
-    { to: '/atendimentos', img: PatientsImg },
+    { to: '/ambulatorio', img: PatientsImg },
   ],
   farmaceutico: [],
   recepcionista: [
@@ -64,7 +64,7 @@ const Header = ({ children }: PropsWithChildren) => {
     <header className="">
       <div className="flex justify-between p-3 m-auto max-w-7xl">
         <div className="flex gap-5 items-center">
-          <img src={ProfileImg} alt="" />
+          <HeaderItem to="/" img={ProfileImg} />
           <RoleLinks role={role} />
           <div>{children}</div>
         </div>

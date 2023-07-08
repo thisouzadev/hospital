@@ -1,9 +1,16 @@
-import { IsDateString, IsEnum, IsString, IsUUID } from 'class-validator';
-import { TestResultType } from '../../../shared/enums/test-result.enum';
+import { Type } from 'class-transformer';
+import {
+  IsDateString,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
+import { CreateTestResultDto } from './create-test-result.dto';
 
 export class CreateQuickTestDto {
   @IsUUID()
-  testId: string;
+  testCategoryId: string;
 
   @IsUUID()
   patientId: string;
@@ -14,8 +21,10 @@ export class CreateQuickTestDto {
   @IsDateString()
   date: string;
 
-  @IsEnum(TestResultType)
-  result: TestResultType;
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => CreateTestResultDto)
+  results: CreateTestResultDto[];
 
   @IsString()
   docNumber: string;

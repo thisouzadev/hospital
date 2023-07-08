@@ -9,6 +9,8 @@ import { SearchPatientQueryDto } from '@modules/patient/dto/search-patient-query
 import { ListDoctorSchedulesQueryDto } from '@modules/doctor/dto/list-doctor-schedules-query.dto';
 import { UpdateAttendanceStatusDto } from '@modules/attendance/dto/update-status.dto';
 import { UpdateTechnicianAttendanceDto } from '@modules/attendance/dto/update-technician-attendance.dto';
+import { CreateQuickTestDto } from '@modules/quick-test/dtos/create-quick-test.dto';
+import { ListQuickTestsQueryDto } from '@modules/quick-test/dtos/list-quick-tests-query.dto';
 import { PageDto } from '@shared/dtos/page.dto';
 
 export {
@@ -24,4 +26,6 @@ export {
   UpdateAttendanceStatusDto,
   PageDto,
   UpdateTechnicianAttendanceDto,
+  CreateQuickTestDto,
+  ListQuickTestsQueryDto,
 };

@@ -3,7 +3,8 @@ import { Gender } from '@shared/enums/gender.enum';
 import { MaritalState } from '@shared/enums/marital-states.enum';
 import { AttendanceStatus } from '@shared/enums/attendance-status.enum';
 import { AttendanceType } from '@shared/enums/attendance-type-enum';
+import { TestResultType } from '@shared/enums/test-result.enum';
 
 export {
-  UserRole, Gender, MaritalState, AttendanceStatus, AttendanceType,
+  UserRole, Gender, MaritalState, AttendanceStatus, AttendanceType, TestResultType,
 };

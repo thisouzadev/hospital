@@ -14,7 +14,7 @@ import {
 import { DoctorSchedule } from '../../doctor/entities/doctor-schedule.entity';
 import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
 import { AttendanceType } from '../../../shared/enums/attendance-type-enum';
-import { QuickTest } from 'src/modules/quick-test/entities/quick-test.entity';
+import { QuickTest } from '../../../modules/quick-test/entities/quick-test.entity';
 
 @Entity('attendances')
 export class Attendance {

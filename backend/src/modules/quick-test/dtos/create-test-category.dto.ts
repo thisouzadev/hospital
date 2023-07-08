@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateTestCategoryDto {
   @IsNotEmpty()
@@ -8,4 +8,12 @@ export class CreateTestCategoryDto {
   @IsNotEmpty()
   @IsString()
   description: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  isMultiple: boolean;
+
+  @IsNotEmpty()
+  @IsString()
+  testList: string;
 }

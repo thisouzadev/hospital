@@ -16,10 +16,12 @@ const createTests = async () => {
   await AppDataSource.initialize();
 
   const testsData: CreateTestCategoryDto[] = [
-    { name: 'hiv', description: '' },
-    { name: 'sífilis', description: '' },
-    { name: 'hepatite B', description: '' },
-    { name: 'hepatite C', description: '' },
+    {
+      name: 'Teste DST padrão',
+      description: '',
+      isMultiple: true,
+      testList: 'hiv, sífilis, hepatite B, hepatite C',
+    },
   ];
 
   const tests = AppDataSource.getRepository(TestCategory).create(testsData);

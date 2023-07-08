@@ -41,7 +41,7 @@ export class QuickTestService {
       },
       take,
       skip,
-      relations: ['category'],
+      relations: ['category', 'results'],
       order: {
         // status: 'DESC',
         [orderBy]: orderType,

@@ -1,8 +1,8 @@
 import {
   Routes, Route,
 } from 'react-router-dom';
-import NurseAttendance from '../pages/nurses/NurseAttendance';
-import NurseQueue from '../pages/nurses/NurseQueue';
+import TechnicianAttendance from '../pages/nurses/TechnicianAttendance';
+import TechnicianQueue from '../pages/nurses/TechnicianQueue';
 import DoctorAttendance from '../pages/doctors/DoctorAttendance';
 import CreateDoctorSchedules from '../pages/doctors/CreateDoctorSchedules';
 import Welcome from '../pages/Welcome';
@@ -17,8 +17,6 @@ import CreatePatient from '../pages/patients/CreatePatient';
 import UpdateEmployee from '../pages/management/UpdateEmployee';
 import DoctorQueue from '../pages/doctors/DoctorQueue';
 import ListAttendancesAdmin from '../pages/admin/Attendances';
-
-// import DocumentsView from '../views/Documents';
 
 /**
  * List of routes available only for authenticated users
@@ -39,15 +37,16 @@ const PrivateRoutes = () => (
       element={<UpdatePatient />}
     />
     <Route path="/admin/pacientes" element={<ListPatients />} />
-    <Route path="/atendimentos" element={<DoctorQueue />} />
     <Route path="/admin/atendimentos" element={<ListAttendancesAdmin />} />
 
-    <Route path="/atendimentos/:attendanceId" element={<DoctorAttendance />} />
+    <Route path="/ambulatorio" element={<DoctorQueue />} />
+    <Route path="/ambulatorio/:attendanceId" element={<DoctorAttendance />} />
+
     <Route path="/agendamentos" element={<ListAttendances />} />
     <Route path="/agenda-medica" element={<CreateDoctorSchedules />} />
 
-    <Route path="/enfermaria" element={<NurseQueue />} />
-    <Route path="/enfermaria/:attendanceId" element={<NurseAttendance />} />
+    <Route path="/enfermaria" element={<TechnicianQueue />} />
+    <Route path="/enfermaria/:attendanceId" element={<TechnicianAttendance />} />
 
     <Route path="*" element={<NotFound />} />
   </Routes>

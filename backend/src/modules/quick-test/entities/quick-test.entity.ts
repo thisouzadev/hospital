@@ -3,20 +3,24 @@ import { TestResultType } from '../../../shared/enums/test-result.enum';
 import {
   Column,
   Entity,
+  Generated,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Patient } from '../../../modules/patient/entities/patient.entity';
 import { Attendance } from '../../../modules/attendance/entities/attendance.entity';
 import { TestCategory } from './test-category.entity';
+import { TestResult } from './test-result.entity';
 
 @Entity('quick_tests')
 export class QuickTest {
   @PrimaryGeneratedColumn('uuid', { name: 'quick_test_id' })
   quickTestId: string;
 
-  @PrimaryGeneratedColumn({ name: 'quick_test_number' })
+  @Column({ name: 'quick_test_number' })
+  @Generated('increment')
   quickTestNumber: number;
 
   @Column({ name: 'test_category_id' })
@@ -29,8 +33,10 @@ export class QuickTest {
   })
   category: TestCategory;
 
-  @Column({ type: 'enum', enum: TestResultType })
-  result: TestResultType;
+  @OneToMany(() => TestResult, (schedule) => schedule.quickTest, {
+    cascade: ['insert'],
+  })
+  results: TestResult[];
 
   @Column({ name: 'patient_id' })
   patientId: string;

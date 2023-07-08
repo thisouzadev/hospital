@@ -12,6 +12,9 @@ import { Employee } from '@modules/employee/entities/employee.entity';
 
 import { DoctorSchedule } from '@modules/doctor/entities/doctor-schedule.entity';
 
+import { TestCategory } from '@modules/quick-test/entities/test-category.entity';
+import { QuickTest } from '@modules/quick-test/entities/quick-test.entity';
+
 export {
-  State, City, Patient, Attendance, Doctor, Employee, DoctorSchedule,
+  State, City, Patient, Attendance, Doctor, Employee, DoctorSchedule, TestCategory, QuickTest,
 };

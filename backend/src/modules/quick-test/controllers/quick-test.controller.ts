@@ -17,7 +17,7 @@ import { QuickTestService } from '../services/test-result.service';
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('quick-tests')
-export class TestResultController {
+export class QuickTestController {
   constructor(private readonly quickTestService: QuickTestService) {}
 
   @Post()

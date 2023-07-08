@@ -11,6 +11,12 @@ export class TestCategory {
   @Column()
   description: string;
 
+  @Column({ default: false, name: 'is_multiple' })
+  isMultiple: boolean;
+
+  @Column({ default: 'teste', name: 'test_list' })
+  testList: string;
+
   @Column({
     name: 'created_at',
     type: 'timestamp',

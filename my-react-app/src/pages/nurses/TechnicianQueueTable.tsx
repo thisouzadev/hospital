@@ -20,15 +20,15 @@ const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>
   </td>
 );
 
-interface DoctorQueueTableProps {
+interface TechnicianQueueTableProps {
   attendances: Attendance[],
 }
 
-const NurseQueueTable = (
+const TechnicianQueueTable = (
   {
     attendances,
 
-  }:DoctorQueueTableProps,
+  }:TechnicianQueueTableProps,
 ) => (
   <div>
 
@@ -84,4 +84,4 @@ const NurseQueueTable = (
   </div>
 );
 
-export default NurseQueueTable;
+export default TechnicianQueueTable;
