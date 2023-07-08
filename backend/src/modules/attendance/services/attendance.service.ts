@@ -50,6 +50,8 @@ export class AttendanceService {
       specialty,
       patientId,
       status,
+      sectorId,
+      sectorAttendanceStatus,
     } = query;
     const { take, page } = query;
     const skip = query.getSkip();
@@ -67,6 +69,7 @@ export class AttendanceService {
         patientId,
         status,
         doctor: { specialty },
+        sectorAttendances: { sectorId, status: sectorAttendanceStatus },
       },
       take,
       skip,

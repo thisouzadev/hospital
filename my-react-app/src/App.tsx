@@ -10,16 +10,16 @@ import Routes from './routes';
 const queryClient = new QueryClient();
 
 const App: React.FC = () => (
-  <AppStore>
-    <ToastContainer />
-    <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
+  <QueryClientProvider client={queryClient}>
+    <AppStore>
+      <ToastContainer />
+      <BrowserRouter>
         <Layout>
           <Routes />
         </Layout>
-      </QueryClientProvider>
-    </BrowserRouter>
-  </AppStore>
+      </BrowserRouter>
+    </AppStore>
+  </QueryClientProvider>
 );
 
 export default App;

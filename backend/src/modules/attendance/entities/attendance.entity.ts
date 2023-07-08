@@ -6,6 +6,7 @@ import {
   Entity,
   Generated,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -15,6 +16,8 @@ import { DoctorSchedule } from '../../doctor/entities/doctor-schedule.entity';
 import { AttendanceStatus } from '../../../shared/enums/attendance-status.enum';
 import { AttendanceType } from '../../../shared/enums/attendance-type-enum';
 import { QuickTest } from '../../../modules/quick-test/entities/quick-test.entity';
+import { Sector } from '../../../modules/sector/entities/sector.entity';
+import { SectorAttendance } from '../../../modules/sector/entities/sector-attendance.entity';
 
 @Entity('attendances')
 export class Attendance {
@@ -41,6 +44,9 @@ export class Attendance {
   @ManyToOne(() => Doctor, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'doctor_id', referencedColumnName: 'doctorId' })
   doctor: Doctor;
+
+  @ManyToMany(() => Sector, (sector) => sector.attendances)
+  sectors: Sector[];
 
   @Column({ name: 'patient_id' })
   patientId: string;
@@ -77,6 +83,12 @@ export class Attendance {
 
   @OneToMany(() => QuickTest, (quickTests) => quickTests.attendance)
   quickTests: QuickTest[];
+
+  @OneToMany(
+    () => SectorAttendance,
+    (sectorAttendance) => sectorAttendance.attendance,
+  )
+  sectorAttendances: SectorAttendance[];
 
   @Column({ name: 'technician_id', nullable: true })
   technicianId: string;

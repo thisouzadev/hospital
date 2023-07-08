@@ -15,6 +15,7 @@ import { DoctorModule } from './modules/doctor/doctor.module';
 import { PatientModule } from './modules/patient/patient.module';
 import { AttendanceModule } from './modules/attendance/attendance.module';
 import { QuickTestModule } from './modules/quick-test/quick-test.module';
+import { SectorModule } from './modules/sector/sector.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { QuickTestModule } from './modules/quick-test/quick-test.module';
     PatientModule,
     AttendanceModule,
     QuickTestModule,
+    SectorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
