@@ -35,8 +35,8 @@ function Routes() {
   // }, [state.isAuthenticated, dispatch]);
   // console.log('Routes() - isAuthenticated:', state.isAuthenticated);
 
-  if (state.isAuthenticated) {
-    return <PrivateRoutes />;
+  if (state.isAuthenticated && state.currentUser) {
+    return <PrivateRoutes role={state.currentUser.role} />;
   }
 
   return <PublicRoutes />;

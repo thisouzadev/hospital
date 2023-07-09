@@ -10,8 +10,6 @@ export const typeOrmAsyncConfig: TypeOrmModuleAsyncOptions = {
   useFactory: async (
     configService: ConfigService,
   ): Promise<TypeOrmModuleOptions> => {
-    console.log('aaaa');
-    console.log(__dirname);
     return {
       type: 'postgres',
       host: configService.get('DB_HOST'),

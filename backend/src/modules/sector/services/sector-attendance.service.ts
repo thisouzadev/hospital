@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SectorAttendanceStatus } from 'src/shared/enums/sector-attendance-status.enum';
 import { Repository } from 'typeorm';
-import { SectorAttendanceDto } from '../dto/enter-attendance.dto';
+import { SectorAttendanceDto } from '../dto/sector-attendance.dto';
 import { MoveSectorDto } from '../dto/move-sector.dto';
 import { SectorAttendance } from '../entities/sector-attendance.entity';
 
@@ -40,9 +40,8 @@ export class SectorAttendanceService {
     const sectorAttendance = this.sectorAttendanceRepository.create({
       sectorId,
       attendanceId,
+      status: SectorAttendanceStatus.WAITING,
     });
-
-    console.log(sectorAttendance);
 
     await this.sectorAttendanceRepository.save(sectorAttendance);
 
@@ -54,9 +53,19 @@ export class SectorAttendanceService {
     sectorId,
     status = SectorAttendanceStatus.FINISHED,
   }: LeftSectorStatusDto) {
-    const fromSector = await this.sectorAttendanceRepository.findOneBy({
-      attendanceId,
-      sectorId,
+    const fromSector = await this.sectorAttendanceRepository.findOne({
+      where: [
+        {
+          attendanceId,
+          sectorId,
+          status: SectorAttendanceStatus.WAITING,
+        },
+        {
+          attendanceId,
+          sectorId,
+          status: SectorAttendanceStatus.ATTENDING,
+        },
+      ],
     });
 
     if (!fromSector) {
@@ -67,8 +76,6 @@ export class SectorAttendanceService {
     fromSector.status = status;
 
     await this.sectorAttendanceRepository.save(fromSector);
-
-    console.log(attendanceId, sectorId, status);
   }
 
   async moveSector({ fromSectorId, toSectorId, attendanceId }: MoveSectorDto) {

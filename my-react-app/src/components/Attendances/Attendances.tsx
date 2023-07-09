@@ -17,8 +17,6 @@ interface AttendancesProps {
 }
 
 function Attendances({ onSelectAttendance = () => {}, patientId = '', doctorId = '' }:AttendancesProps) {
-  const queryClient = useQueryClient();
-
   const [filters, setFilters] = useState<ListAttendanceQueryDto>(
     {
       attendanceDate: getDate(new Date()),
@@ -29,17 +27,11 @@ function Attendances({ onSelectAttendance = () => {}, patientId = '', doctorId =
     },
   );
 
+  const queryClient = useQueryClient();
+
   const { data, isLoading } = useQuery({ queryKey: ['attendances', filters], queryFn: () => attendanceService.getAll(filters) });
 
   const [selectedAttendanceId, setSelectedAttendanceId] = useState('');
-
-  const updateStatusMutation = useMutation(attendanceService.updateStatus, {
-    onSuccess: () => {
-      // Invalidate and refetch
-      toast.success('Status atualizado com sucesso');
-      queryClient.invalidateQueries('attendances');
-    },
-  });
 
   const handleChangeFilter = (e:any) => {
     const filterName = e.target.name;
@@ -60,6 +52,14 @@ function Attendances({ onSelectAttendance = () => {}, patientId = '', doctorId =
     setSelectedAttendanceId(attendance.attendanceId);
     onSelectAttendance(attendance);
   };
+
+  const updateStatusMutation = useMutation(attendanceService.updateStatus, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      toast.success('Status atualizado com sucesso');
+      queryClient.invalidateQueries('attendances');
+    },
+  });
 
   return (
     <div>
@@ -91,7 +91,9 @@ function Attendances({ onSelectAttendance = () => {}, patientId = '', doctorId =
               onSelectAttendance={handleSelectAttendance}
               selectedAttendanceId={selectedAttendanceId}
               onChangeStatus={
-                ({ attendanceId, status, type }) => updateStatusMutation.mutate(
+                ({
+                  attendanceId, status, type,
+                }) => updateStatusMutation.mutate(
                   { attendanceId, status, type },
                 )
               }

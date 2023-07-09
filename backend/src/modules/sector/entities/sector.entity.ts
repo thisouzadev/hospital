@@ -24,6 +24,7 @@ export class Sector {
 
   @ManyToMany(() => Attendance, (attendance) => attendance.sectors)
   @JoinTable({
+    synchronize: false,
     name: 'sector_attendances',
     joinColumn: {
       name: 'sector_id',

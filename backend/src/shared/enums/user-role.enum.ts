@@ -1,8 +1,10 @@
 export enum UserRole {
-  Medico = 'médico',
-  Recepcionista = 'recepcionista',
-  Farmaceutico = 'farmaceutico',
+  SuperAdmin = 'administrador do sistema',
   Admin = 'administrador',
   HospitalAdmin = 'administrador de hospital',
-  SuperAdmin = 'administrador do sistema',
+  Medico = 'médico',
+  Enfermeiro = 'enfermeiro',
+  Technician = 'técnico em enfermagem',
+  Farmaceutico = 'farmaceutico',
+  Recepcionista = 'recepcionista',
 }

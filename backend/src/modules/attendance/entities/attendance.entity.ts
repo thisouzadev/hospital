@@ -45,7 +45,7 @@ export class Attendance {
   @JoinColumn({ name: 'doctor_id', referencedColumnName: 'doctorId' })
   doctor: Doctor;
 
-  @ManyToMany(() => Sector, (sector) => sector.attendances)
+  @ManyToMany(() => Sector, (sector) => sector)
   sectors: Sector[];
 
   @Column({ name: 'patient_id' })

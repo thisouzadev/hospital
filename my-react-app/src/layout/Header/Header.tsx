@@ -12,6 +12,7 @@ import { useEventLogout } from '../../hooks';
 import { useAppStore } from '../../store';
 import { UserRole } from '../../types/backend.enums';
 import SectorSelect from './SectorSelect';
+import RoleSelect from './RoleSelect';
 
 interface HeaderItemProps {
   to: To, img:string
@@ -28,18 +29,23 @@ const links: Record<UserRole, HeaderItemProps[]> = {
   'administrador do sistema': [],
   administrador: [
     { to: '/admin/pacientes/cadastrar', img: AddPatientImg },
-    { to: '/ambulatorio', img: PatientsImg },
+    { to: '/atendimento', img: PatientsImg },
     { to: '/agendamentos', img: ScheduleImg },
     { to: '/admin/manage', img: ManageImg },
     { to: '/agenda-medica', img: AgendaImg },
   ],
   médico: [
-    { to: '/ambulatorio', img: PatientsImg },
+    { to: '/atendimento', img: PatientsImg },
   ],
-  farmaceutico: [],
+  farmaceutico: [{ to: '/atendimento', img: PatientsImg }],
   recepcionista: [
     { to: '/admin/pacientes/cadastrar', img: AddPatientImg },
     { to: '/agendamentos', img: ScheduleImg },
+  ],
+  'técnico em enfermagem': [{ to: '/atendimento', img: PatientsImg }],
+  enfermeiro: [
+    { to: '/atendimento', img: PatientsImg },
+
   ],
 };
 
@@ -53,6 +59,7 @@ const RoleLinks = ({ role }:{ role: UserRole }) => (
 
 const Header = ({ children }: PropsWithChildren) => {
   const onLogout = useEventLogout();
+
   const [state] = useAppStore();
 
   const navigate = useNavigate();
@@ -68,9 +75,15 @@ const Header = ({ children }: PropsWithChildren) => {
           <HeaderItem to="/" img={ProfileImg} />
           <RoleLinks role={role} />
           <div>{children}</div>
-          <SectorSelect />
+
         </div>
         <div className="flex gap-5 items-center">
+          <div className="flex flex-col bg-[#ffffff20] px-2 rounded-md shadow-sm">
+            <span>{currentUser?.employee.name}</span>
+            <RoleSelect />
+            <span>{currentUser?.employee.hospital.name}</span>
+          </div>
+          <SectorSelect />
           <button type="button" onClick={() => navigate(-1)}>
             <img src={BackImg} alt="" />
 

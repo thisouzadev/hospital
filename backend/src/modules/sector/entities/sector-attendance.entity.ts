@@ -3,19 +3,25 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Sector } from './sector.entity';
 import { SectorAttendanceStatus } from '../../../shared/enums/sector-attendance-status.enum';
 
 @Entity('sector_attendances')
+@Index('SSS1', ['sectorAttendanceId', 'sectorId', 'attendanceId'])
 export class SectorAttendance {
-  @PrimaryColumn('uuid', { name: 'sector_id' })
+  @PrimaryGeneratedColumn('uuid', { name: 'sector_attendance_id' })
+  sectorAttendanceId: string;
+
+  @Column('uuid', { name: 'sector_id' })
   sectorId: string;
 
-  @PrimaryColumn('uuid', { name: 'attendance_id' })
+  @Column('uuid', { name: 'attendance_id' })
   attendanceId: string;
 
   @ManyToOne(() => Sector)

@@ -1,4 +1,5 @@
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router-dom';
 import Loading from '../loading';
 import attendanceService from '../../service/attendance.service';
 import { Panel } from '../Panel';
@@ -13,6 +14,12 @@ interface Props {
 }
 const SectorAttendances = ({ onSelectAttendance }:Props) => {
   const [state] = useAppStore();
+
+  const navigate = useNavigate();
+
+  const openAttendance = (attendance: Attendance) => {
+    navigate(`/atendimento/${attendance.attendanceId}`);
+  };
 
   const sectorId = state.currentSector?.sectorId as string;
 
@@ -45,7 +52,7 @@ const SectorAttendances = ({ onSelectAttendance }:Props) => {
       <Panel>
         <SectorAttendancesTable
           attendances={data?.result || []}
-          onSelectAttendance={onSelectAttendance}
+          onSelectAttendance={onSelectAttendance || openAttendance}
         />
 
       </Panel>

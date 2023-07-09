@@ -12,6 +12,8 @@ import { UpdateTechnicianAttendanceDto } from '@modules/attendance/dto/update-te
 import { CreateQuickTestDto } from '@modules/quick-test/dtos/create-quick-test.dto';
 import { ListQuickTestsQueryDto } from '@modules/quick-test/dtos/list-quick-tests-query.dto';
 import { CreateSectorDto } from '@modules/sector/dto/create-sector.dto';
+import { SectorAttendanceDto } from '@modules/sector/dto/sector-attendance.dto';
+import { MoveSectorDto } from '@modules/sector/dto/move-sector.dto';
 import { PageDto } from '@shared/dtos/page.dto';
 
 export {
@@ -30,4 +32,6 @@ export {
   CreateQuickTestDto,
   ListQuickTestsQueryDto,
   CreateSectorDto,
+  SectorAttendanceDto,
+  MoveSectorDto,
 };

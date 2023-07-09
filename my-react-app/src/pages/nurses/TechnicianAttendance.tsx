@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from 'react-query';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Field from '../../components/Field';
@@ -14,6 +14,7 @@ import { UpdateTechnicianAttendanceDto } from '@/types/backend.dtos';
 import QuickTests from '../../components/QuickTests';
 import AttendanceHeader from '../../components/AttendanceHeader';
 import AttendanceWeightPA from '../../components/AttendanceWightPA';
+import ForwardDialog from '../../components/ForwardDialog';
 
 const updateAttendanceSchema = yup.object().shape({
   weight: yup.number().required(),
@@ -24,6 +25,8 @@ const updateAttendanceSchema = yup.object().shape({
 
 function TechnicianAttendance() {
   const params = useParams();
+
+  const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
 
   const attendanceId = params.attendanceId as string;
 
@@ -76,6 +79,12 @@ function TechnicianAttendance() {
     <form onSubmit={handleSubmit(onSubmitForm)}>
 
       <Panel>
+        <ForwardDialog
+          isOpen={isForwardDialogOpen}
+          setIsOpen={setIsForwardDialogOpen}
+          attendance={attendance}
+          onForwardSuccess={() => navigate(-1)}
+        />
         <PanelHeader>
           <span className="font-bold">
             Atendimento Enfermaria
@@ -99,6 +108,7 @@ function TechnicianAttendance() {
 
         <div className="flex gap-6 justify-center py-4">
           <Button type="submit">Concluir</Button>
+          <Button onClick={() => setIsForwardDialogOpen(true)}>Encaminhar</Button>
           <Button onClick={() => navigate(-1)}>Voltar</Button>
         </div>
       </Panel>

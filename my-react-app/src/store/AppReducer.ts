@@ -46,6 +46,11 @@ const AppReducer: React.Reducer<AppStoreState, any> = (state, action) => {
         ...state,
         currentSector: action.payload,
       };
+    case 'CHANGE_ROLE':
+      return {
+        ...state,
+        currentUser: { ...state.currentUser, role: action.payload },
+      };
     case 'LOAD_SECTORS':
       return {
         ...state,

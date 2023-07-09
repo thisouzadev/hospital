@@ -2,7 +2,7 @@ import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { SuccessPresenter } from '../../../shared/presenters/success-result.presenter';
 import { AuthGuard } from '@nestjs/passport';
 import { SectorAttendanceService } from '../services/sector-attendance.service';
-import { SectorAttendanceDto } from '../dto/enter-attendance.dto';
+import { SectorAttendanceDto } from '../dto/sector-attendance.dto';
 import { MoveSectorDto } from '../dto/move-sector.dto';
 
 @Controller('sector-attendances')
