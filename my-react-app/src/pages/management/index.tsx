@@ -16,6 +16,9 @@ type Employee = {
   name: string;
   user: { role: UserRole };
   employeeId: string;
+  cpf: string;
+  rg: string;
+  cns: string;
 };
 
 function Management() {
