@@ -19,6 +19,9 @@ export class CreatePatientDto implements ICreatePatientDTO {
   name: string;
 
   @IsString()
+  nameSocial: string;
+
+  @IsString()
   @Length(11, 11, { message: 'CPF inválido' })
   cpf: string;
 
