@@ -1,4 +1,10 @@
-import { IsInt, IsOptional, IsString, Max } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  IsUUID,
+  MaxLength,
+} from 'class-validator';
 
 export class UpdateTechnicianAttendanceDto {
   @IsOptional()
@@ -15,9 +21,26 @@ export class UpdateTechnicianAttendanceDto {
 
   @IsOptional()
   @IsString()
-  // @Max(2000, {
-  //   message:
-  //     'O campo de Outras Considerações não pode ter mais de 2000 caracteres',
-  // })
-  technicianReport?: string;
+  @MaxLength(2000, {
+    message: 'O campo de Anamnese não pode ter mais de 2000 caracteres',
+  })
+  anamnesis?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000, {
+    message: 'O campo de Exame não pode ter mais de 2000 caracteres',
+  })
+  exams?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000, {
+    message: 'O campo de Prescrição não pode ter mais de 2000 caracteres',
+  })
+  prescription?: string;
+
+  @IsUUID()
+  @IsOptional()
+  quickTestId?: string;
 }

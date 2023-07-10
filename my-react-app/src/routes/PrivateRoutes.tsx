@@ -1,7 +1,7 @@
 import {
   Routes, Route, Navigate,
 } from 'react-router-dom';
-import TechnicianAttendance from '../pages/nurses/TechnicianAttendance';
+import MedicalAttendance from '../pages/MedicalAttendance';
 import CreateDoctorSchedules from '../pages/admin/CreateDoctorSchedules';
 import Welcome from '../pages/Welcome';
 import NotFound from '../pages/notFound';
@@ -19,11 +19,11 @@ import SectorAttendances from '../components/SectorAttendances';
 
 const Attendance = ({ role }:{ role: UserRole }) => {
   switch (role) {
-    case UserRole.Medico:
-    case UserRole.Enfermeiro:
     case UserRole.Technician:
     case UserRole.Farmaceutico:
-      return <TechnicianAttendance />;
+    case UserRole.Enfermeiro:
+    case UserRole.Medico:
+      return <MedicalAttendance />;
 
     default:
       return <Navigate to="/" />;

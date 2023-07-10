@@ -8,7 +8,7 @@ import {
   useEffect,
 } from 'react';
 import { User } from '@modules/user/entities/user.entity';
-import { useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { sessionStorageGet } from '../utils/sessionStorage';
 import { AuthReturnDto } from '../types/backend.dtos';
 import AppReducer from './AppReducer';
@@ -48,8 +48,6 @@ const AppStoreProvider: FunctionComponent<PropsWithChildren> = ({ children }) =>
 
   const isAuthenticated = Boolean(tokenExists && previousUser);
 
-  const { data } = useQuery({ queryKey: ['sectors'], queryFn: () => sectorService.getAll(), enabled: isAuthenticated });
-
   const initialState: AppStoreState = {
     ...INITIAL_APP_STATE,
     darkMode: previousDarkMode,
@@ -61,12 +59,21 @@ const AppStoreProvider: FunctionComponent<PropsWithChildren> = ({ children }) =>
   };
   const value: AppContextReturningType = useReducer(AppReducer, initialState);
 
-  useEffect(() => {
-    if (data?.success) {
-      const [,dispatch] = value;
+  const [state, dispatch] = value;
+
+  const loadSectors = useMutation(sectorService.getAll, {
+    onSuccess: (data) => {
+      // Invalidate and refetch
+
       dispatch({ type: 'LOAD_SECTORS', payload: data.result });
+    },
+  });
+
+  useEffect(() => {
+    if (state.isAuthenticated) {
+      loadSectors.mutate();
     }
-  }, [data]);
+  }, [state.isAuthenticated]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

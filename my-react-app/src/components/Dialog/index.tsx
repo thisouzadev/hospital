@@ -14,7 +14,7 @@ const Dialog = ({
   <RadixDialog.Root open={isOpen} onOpenChange={setIsOpen}>
     <RadixDialog.Portal>
       <RadixDialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0 " />
-      <RadixDialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] shadow-md rounded-[6px] bg-[#E9E9EA] p-[25px] focus:outline-none">
+      <RadixDialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] shadow-md rounded-[6px] bg-[#d9eeff] p-[25px] focus:outline-none">
 
         <RadixDialog.Title className="m-0 text-xl font-medium ">
           {title}

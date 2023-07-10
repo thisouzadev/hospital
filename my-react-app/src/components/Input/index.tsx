@@ -22,7 +22,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       <div
         className={
         clsx(
-          'group flex items-center h-9  rounded-md col-span-12',
+          'group flex items-center  rounded-md col-span-12',
 
           { 'md:col-span-1': md === 1 },
           { 'md:col-span-2': md === 2 },
@@ -43,7 +43,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           htmlFor={name}
           className={
             clsx(
-              'flex items-center ring-1  h-9 px-1 gap-1  w-full',
+              'flex items-center ring-1 py-1 px-1 gap-1  w-full',
               'ring-blue-300 rounded-xl border-black text-black ',
               { 'group-hover:ring-2 focus-within:ring-2': !disabled },
               { 'bg-red-200 ring-red-700': error },

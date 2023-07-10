@@ -28,10 +28,10 @@ export class Attendance {
   @Generated('increment')
   attendanceNumber: number;
 
-  @Column({ name: 'doctor_id', nullable: true })
+  @Column('uuid', { name: 'doctor_id', nullable: true })
   doctorId: string;
 
-  @Column({ name: 'doctor_schedule_id', nullable: true })
+  @Column('uuid', { name: 'doctor_schedule_id', nullable: true })
   doctorScheduleId: string;
 
   @ManyToOne(() => DoctorSchedule, { onDelete: 'CASCADE' })
@@ -48,7 +48,7 @@ export class Attendance {
   @ManyToMany(() => Sector, (sector) => sector)
   sectors: Sector[];
 
-  @Column({ name: 'patient_id' })
+  @Column('uuid', { name: 'patient_id' })
   patientId: string;
 
   @ManyToOne(() => Patient, { onDelete: 'CASCADE' })
@@ -90,11 +90,17 @@ export class Attendance {
   )
   sectorAttendances: SectorAttendance[];
 
-  @Column({ name: 'technician_id', nullable: true })
+  @Column('uuid', { name: 'technician_id', nullable: true })
   technicianId: string;
 
-  @Column({ name: 'technician_report', nullable: true })
-  technicianReport: string;
+  @Column({ nullable: true })
+  anamnesis: string;
+
+  @Column({ nullable: true })
+  exams: string;
+
+  @Column({ nullable: true })
+  prescription: string;
 
   @Column({ name: 'weight', nullable: true })
   weight: number;
@@ -104,6 +110,9 @@ export class Attendance {
 
   @Column({ name: 'diastolic_bp', nullable: true })
   diastolicBP: number;
+
+  @Column('uuid', { name: 'quick_test_id', nullable: true })
+  quickTestId: string;
 
   @UpdateDateColumn({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   updatedAt: Date;

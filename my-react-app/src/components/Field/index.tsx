@@ -7,17 +7,17 @@ interface FieldProps {
 }
 
 const Field = ({ children, className, variant = 'default' }:PropsWithChildren<FieldProps>) => (
-  <span className={
+  <div className={
     clsx(
-      '',
-      { 'ring-1 ring-blue-300 p-2 rounded-xl bg-[#ebebeb]': variant === 'default' },
+      'w-fit px-4',
+      { 'ring-1 ring-blue-300 p-1 rounded-xl bg-[#ebebeb]': variant === 'default' },
       className,
     )
   }
   >
     {children}
 
-  </span>
+  </div>
 );
 
 export default Field;

@@ -24,7 +24,7 @@ const quickTestService = {
   async create(data:CreateQuickTestDto) {
     const response = await api.post('/quick-tests', data);
 
-    return response.data;
+    return response.data as DefaultSuccessResponse<QuickTest>;
   },
 
 };

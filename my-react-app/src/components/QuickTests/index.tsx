@@ -29,8 +29,9 @@ const createQuickTestSchema = {
 interface Props {
   patientId: string
   attendanceId:string
+  setQuickTestId?: (id:string)=>void
 }
-const QuickTests = ({ attendanceId, patientId }:Props) => {
+const QuickTests = ({ attendanceId, patientId, setQuickTestId }:Props) => {
   const [isEditing, setIsEditing] = useState(true);
 
   const queryClient = useQueryClient();
@@ -73,6 +74,7 @@ const QuickTests = ({ attendanceId, patientId }:Props) => {
         reqUnit: lastTest.reqUnit,
         results: lastTest.results,
       });
+      setQuickTestId?.(lastTest.quickTestId);
       setIsEditing(false);
     } else if (categoriesData?.success) {
       const testCategory = categoriesData?.result[0];
@@ -99,10 +101,11 @@ const QuickTests = ({ attendanceId, patientId }:Props) => {
   };
 
   const createQuickTest = useMutation(quickTestService.create, {
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
       toast.success('Teste Rápido registrado com sucesso');
       queryClient.invalidateQueries('quick-tests');
+      setQuickTestId?.(data.result.quickTestId);
     },
   });
 
