@@ -5,6 +5,8 @@ import { Repository } from 'typeorm';
 import { SectorAttendanceDto } from '../dto/sector-attendance.dto';
 import { MoveSectorDto } from '../dto/move-sector.dto';
 import { SectorAttendance } from '../entities/sector-attendance.entity';
+import { Attendance } from '../../../modules/attendance/entities/attendance.entity';
+import { AttendanceStatus } from 'src/shared/enums/attendance-status.enum';
 
 interface LeftSectorStatusDto extends SectorAttendanceDto {
   status?: SectorAttendanceStatus;
@@ -15,6 +17,8 @@ export class SectorAttendanceService {
   constructor(
     @InjectRepository(SectorAttendance)
     private sectorAttendanceRepository: Repository<SectorAttendance>,
+    @InjectRepository(Attendance)
+    private attendanceRepository: Repository<Attendance>,
   ) {}
 
   async startAttendance({ attendanceId, sectorId }: SectorAttendanceDto) {
@@ -70,6 +74,18 @@ export class SectorAttendanceService {
 
     if (!fromSector) {
       throw new NotFoundException('O atendimento não se encontra neste setor');
+    }
+
+    if (status === SectorAttendanceStatus.FINISHED) {
+      const attendance = await this.attendanceRepository.findOneBy({
+        attendanceId,
+      });
+
+      if (!attendance) {
+        throw new NotFoundException('Atendimento não encontrado');
+      }
+      attendance.status = AttendanceStatus.FINISHED;
+      await this.attendanceRepository.save(attendance);
     }
 
     fromSector.leftAt = new Date();

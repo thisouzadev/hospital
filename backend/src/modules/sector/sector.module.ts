@@ -7,9 +7,13 @@ import { AuthModule } from '../auth/auth.module';
 import { SectorAttendancesController } from './controllers/sector-attendances.controller';
 import { SectorAttendanceService } from './services/sector-attendance.service';
 import { SectorAttendance } from './entities/sector-attendance.entity';
+import { Attendance } from '../attendance/entities/attendance.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Sector, SectorAttendance]), AuthModule],
+  imports: [
+    TypeOrmModule.forFeature([Sector, SectorAttendance, Attendance]),
+    AuthModule,
+  ],
   controllers: [SectorController, SectorAttendancesController],
   providers: [SectorService, SectorAttendanceService],
 })

@@ -19,6 +19,9 @@ import ForwardDialog from '../../components/ForwardDialog';
 import Input from '../../components/Input';
 import { useAppStore } from '../../store';
 import { UserRole } from '@/types/backend.enums';
+import InitialPrescription from '../../components/InitialPrescription';
+import sectorService from '@/service/sector.service';
+import LastExams from '@/components/LastExams';
 
 const fullUpdateAttendanceSchema = yup.object().shape(
   {
@@ -54,6 +57,7 @@ function MedicalAttendance() {
   const isFullAttendance = role === UserRole.Medico || role === UserRole.Enfermeiro;
 
   const [isForwardDialogOpen, setIsForwardDialogOpen] = useState(false);
+  const [quickTestId, setQuickTestId] = useState('');
 
   const attendanceId = params.attendanceId as string;
 
@@ -68,9 +72,11 @@ function MedicalAttendance() {
   const attendance = data?.result as Attendance;
 
   const {
-    register, handleSubmit, reset, formState: { errors }, setValue, watch,
+    register, handleSubmit, reset, formState: { errors }, setValue,
   } = useForm<UpdateTechnicianAttendanceDto>({
-    defaultValues: { exams: undefined, prescription: undefined, quickTestId: '' },
+    defaultValues: {
+      exams: undefined, prescription: undefined, quickTestId: '',
+    },
     resolver: yupResolver<UpdateTechnicianAttendanceDto>(isFullAttendance
       ? fullUpdateAttendanceSchema
       : basicUpdateAttendanceSchema),
@@ -83,9 +89,9 @@ function MedicalAttendance() {
         diastolicBP: attendance.diastolicBP,
         systolicBP: attendance.systolicBP,
         anamnesis: attendance.anamnesis,
-        exams: attendance.exams,
-        prescription: attendance.prescription,
-        quickTestId: attendance.quickTestId,
+        exams: attendance.exams || '',
+        prescription: attendance.prescription || '',
+        quickTestId: attendance.quickTestId || quickTestId,
       });
     }
   }, [attendance]);
@@ -100,11 +106,17 @@ function MedicalAttendance() {
     const res = await attendanceService.updateTechnicianInfo(attendanceId, updateData);
 
     if (res.success) {
-      console.log(res);
+      const finishRes = await sectorService.leftSector({
+        sectorId: state.currentSector?.sectorId as string,
+        attendanceId,
+      });
+
+      if (finishRes.success) {
+        navigate(-1);
+      }
     }
   };
-  console.log(errors);
-  console.log(watch());
+
   const onForwardAttendance = async (updateData: UpdateTechnicianAttendanceDto) => {
     const res = await attendanceService.updateTechnicianInfo(attendanceId, updateData);
     if (res.success) {
@@ -115,6 +127,23 @@ function MedicalAttendance() {
   if (isLoading) {
     return <Loading />;
   }
+
+  const disableEditing = role === UserRole.Farmaceutico;
+
+  const showExams = role === UserRole.Medico
+  || role === UserRole.Enfermeiro || role === UserRole.Farmaceutico;
+
+  const showLastExams = role === UserRole.Medico
+  || role === UserRole.Enfermeiro;
+
+  const showInitialPrescription = role === UserRole.Medico
+  || role === UserRole.Enfermeiro;
+
+  const showPrescription = role === UserRole.Medico
+  || role === UserRole.Enfermeiro;
+
+  const showAnamnesis = role === UserRole.Medico
+  || role === UserRole.Enfermeiro || role === UserRole.Technician;
 
   return (
     <form onSubmit={handleSubmit(onFinishAttendance)}>
@@ -141,7 +170,7 @@ function MedicalAttendance() {
                 patientId={patient.patientId}
                 setQuickTestId={(id) => {
                   setValue('quickTestId', id);
-                  console.log('teste rapido carregado', id);
+                  setQuickTestId(id);
                 }}
               />
               <div><span className="text-red-700">{errors.quickTestId?.message}</span></div>
@@ -150,34 +179,36 @@ function MedicalAttendance() {
 
         <AttendanceWeightPA register={register} errors={errors} />
 
-        <div>
-          <Field className="mb-1">
-            Anamnese
-          </Field>
-          <Input asChild {...register('anamnesis')} error={errors.anamnesis}>
-            <textarea rows={4} />
-          </Input>
-        </div>
-
-        {(role === UserRole.Medico || role === UserRole.Enfermeiro)
-        && (
-        <>
+        {showAnamnesis
+          && (
           <div>
             <Field className="mb-1">
-              Exames
+              Anamnese
             </Field>
-            <Input asChild {...register('exams')} error={errors.exams}>
-              <textarea rows={3} />
-            </Input>
-          </div>
-          <div>
-            <Field className="mb-1">
-              Prescrição inicial
-            </Field>
-            <Input asChild>
+            <Input asChild {...register('anamnesis')} error={errors.anamnesis}>
               <textarea rows={4} />
             </Input>
           </div>
+          )}
+
+        {showLastExams
+          && <LastExams patientId={patient.patientId} currentAttendanceId={attendanceId} />}
+        {showExams
+        && (
+        <div>
+          <Field className="mb-1">
+            Exames
+          </Field>
+          <Input asChild {...register('exams')} error={errors.exams} disabled={disableEditing}>
+            <textarea rows={3} />
+          </Input>
+        </div>
+        )}
+        {showInitialPrescription
+        && <InitialPrescription patientId={patient.patientId} />}
+
+        {showPrescription
+          && (
           <div>
             <Field className="mb-1">
               Evolução da prescrição
@@ -186,8 +217,7 @@ function MedicalAttendance() {
               <textarea rows={4} />
             </Input>
           </div>
-        </>
-        )}
+          )}
 
         <div className="flex gap-6 justify-center py-4">
           <Button type="submit">Concluir</Button>
