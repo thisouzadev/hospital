@@ -22,6 +22,7 @@ function Welcome() {
       <div className="w-full flex pt-20 gap-4 justify-center">
         {sectors.map((sector) => (
           <button
+            key={sector.sectorId}
             type="button"
             className="border-1 p-4 rounded-lg bg-[#D9D9D980] hover:bg-[#c5c5c580]"
             onClick={() => handleSectorClick(sector)}
