@@ -15,12 +15,14 @@ import { UserRole } from '../../types/backend.enums';
 import SectorSelect from './SectorSelect';
 import RoleSelect from './RoleSelect';
 
+import DepartmentsImg from '../../assets/departments.svg';
+
 interface HeaderItemProps {
   to: To, img:string, title?:string
 }
 
 const HeaderItem = ({ to, img, title }: HeaderItemProps) => (
-  <Link to={to} className="hover:drop-shadow-lg transition-shadow">
+  <Link to={to} className="hover:drop-shadow-lg transition-shadow w-16">
     <img src={img} alt="" title={title} />
   </Link>
 );
@@ -30,11 +32,12 @@ const links: Record<UserRole, HeaderItemProps[]> = {
   'administrador do sistema': [],
   administrador: [
     // { to: '/admin/pacientes/cadastrar', img: AddPatientImg },
-    { to: '/atendimento', img: PatientsImg, title: 'Fila de atendimentos' },
-    { to: '/agendamentos', img: ScheduleImg, title: 'Agendar atendimentos' },
+    // { to: '/atendimento', img: PatientsImg, title: 'Fila de atendimentos' },
+    // { to: '/agendamentos', img: ScheduleImg, title: 'Agendar atendimentos' },
     { to: '/admin/atendimentos', img: AttendanceListImg, title: 'Listar os atendimentos' },
     { to: '/admin/manage', img: ManageImg, title: 'Funcionários' },
     { to: '/agenda-medica', img: AgendaImg, title: 'Agenda dos médicos' },
+    { to: '/admin/setores', img: DepartmentsImg, title: 'Setores da unidade' },
   ],
   médico: [
     { to: '/atendimento', img: PatientsImg, title: 'Fila de atendimentos' },
@@ -97,11 +100,10 @@ const Header = ({ children }: PropsWithChildren) => {
             <span>{currentUser?.employee?.hospital?.name}</span>
           </div>
           <SectorSelect />
-          <button type="button" onClick={() => navigate(-1)}>
+          <button type="button" onClick={() => navigate(-1)} className="w-20 h-20">
             <img src={BackImg} alt="" />
-
           </button>
-          <button type="button" onClick={onLogout}>
+          <button type="button" onClick={onLogout} className="w-20">
             <img src={ExitImg} alt="" />
           </button>
         </div>
