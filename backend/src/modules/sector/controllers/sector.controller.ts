@@ -6,6 +6,7 @@ import {
   Param,
   Put,
   UseGuards,
+  Delete,
 } from '@nestjs/common';
 import { SectorService } from '../services/sector.service';
 import { CreateSectorDto } from '../dto/create-sector.dto';
@@ -42,6 +43,15 @@ export class SectorController {
     @Param() { id }: UuidParamValidator,
   ) {
     return this.sectorService.findOne(hospitalId, id);
+  }
+
+  @Delete(':id')
+  @SuccessPresenter()
+  delete(
+    @UserHospital() hospitalId: string,
+    @Param() { id }: UuidParamValidator,
+  ) {
+    return this.sectorService.remove(hospitalId, id);
   }
 
   @Put(':id')

@@ -16,6 +16,7 @@ import UpdateEmployee from '../pages/management/UpdateEmployee';
 import ListAttendancesAdmin from '../pages/admin/Attendances';
 import { UserRole } from '../types/backend.enums';
 import SectorAttendances from '../components/SectorAttendances';
+import HospitalSectors from '../pages/admin/HospitalSectors';
 
 const Attendance = ({ role }:{ role: UserRole }) => {
   switch (role) {
@@ -41,6 +42,7 @@ const PrivateRoutes = ({ role }:Props) => (
   <Routes>
     <Route path="/" element={<Welcome />} />
     <Route path="/admin/manage" element={<Management />} />
+    <Route path="/admin/setores" element={<HospitalSectors />} />
     <Route path="/admin/pacientes/cadastrar" element={<CreatePatient />} />
     <Route path="/admin/manage/cadastrar" element={<CreateEmployee />} />
     <Route

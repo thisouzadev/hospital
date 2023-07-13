@@ -69,6 +69,28 @@ export class SectorService {
     return sector;
   }
 
+  async remove(hospitalId: string, sectorId: string) {
+    const sector = await this.sectorRepository.findOne({
+      where: {
+        hospitalId,
+        sectorId,
+      },
+      relations: ['sectorAttendances'],
+    });
+
+    if (!sector) {
+      throw new NotFoundException('O setor não existe');
+    }
+
+    if (sector.sectorAttendances.length) {
+      throw new NotFoundException(
+        'O setor não pode ser excluído pois possui atendimentos associados',
+      );
+    }
+
+    await this.sectorRepository.remove(sector);
+  }
+
   async update(
     hospitalId: string,
     sectorId: string,
