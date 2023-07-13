@@ -70,7 +70,7 @@ const AppStoreProvider: FunctionComponent<PropsWithChildren> = ({ children }) =>
   });
 
   useEffect(() => {
-    if (state.isAuthenticated) {
+    if (state.isAuthenticated && state.currentUser?.employee?.hospitalId) {
       loadSectors.mutate();
     }
   }, [state.isAuthenticated]);

@@ -79,9 +79,9 @@ const Header = ({ children }: PropsWithChildren) => {
         </div>
         <div className="flex gap-5 items-center">
           <div className="flex flex-col bg-[#ffffff20] px-2 rounded-md shadow-sm">
-            <span>{currentUser?.employee.name}</span>
+            <span>{currentUser?.employee?.name}</span>
             <RoleSelect />
-            <span>{currentUser?.employee.hospital.name}</span>
+            <span>{currentUser?.employee?.hospital?.name}</span>
           </div>
           <SectorSelect />
           <button type="button" onClick={() => navigate(-1)}>
