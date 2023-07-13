@@ -22,6 +22,9 @@ export class Sector {
   @Column()
   name: string;
 
+  @Column({ nullable: true })
+  description: string;
+
   @ManyToMany(() => Attendance, (attendance) => attendance.sectors)
   @JoinTable({
     synchronize: false,

@@ -16,6 +16,7 @@ import Loading from '../../components/loading';
 
 const scheduleSchema = {
   name: yup.string().min(3, 'O nome do setor precisa ter ao menos 3 caracteres').required(),
+  description: yup.string().max(50, 'A descrição não pode ter mais de 50 caracteres').required(),
 };
 
 const Field = ({ children }:PropsWithChildren) => (
@@ -24,6 +25,7 @@ const Field = ({ children }:PropsWithChildren) => (
 
 const defaultSectorData:CreateSectorDto = {
   name: '',
+  description: '',
 };
 
 const HospitalSectors = () => {
@@ -85,13 +87,14 @@ const HospitalSectors = () => {
 
   const handleSelectSector = (sector: Sector) => {
     const {
-      name,
+      name, description,
     } = sector;
 
     setSelectedSectorId(sector.sectorId);
 
     reset({
       name,
+      description,
     });
   };
 
@@ -117,11 +120,19 @@ const HospitalSectors = () => {
       <div className="grid grid-cols-12 gap-2 mt-2 p-2 bg-[#D9D9D980] rounded-lg">
         <Input
           textCenter
-          className="ring-blue-300 bg-[#D9D9D980] text-xl a"
+          className="ring-blue-300 bg-[#D9D9D980] text-xl"
           placeholder="Nome do Setor"
-          md={12}
+          md={3}
           {...register('name')}
           error={errors.name}
+        />
+        <Input
+          textCenter
+          className="ring-blue-300 bg-[#D9D9D980] text-xl"
+          placeholder="Descrição do setor (Max: 50 caracteres)"
+          md={9}
+          {...register('description')}
+          error={errors.description}
         />
 
         <div className="flex justify-center gap-10 py-8 w-full col-span-12">
@@ -139,25 +150,25 @@ const HospitalSectors = () => {
               && <div className="text-lg">Nenhum setor cadastrada</div>}
             {sectors.map((sector) => (
               <tr key={sector.sectorId} className="h-10  rounded-lg ring-2 ring-blue-300 ">
-                <td className="w-3/6 ">
+                <td className="w-3/12">
                   <Field>
                     {sector?.name}
                   </Field>
                 </td>
-                <td className="w-2/5">
-                  <Field>
 
-                    {' '}
+                <td className="w-8/12">
+                  <Field>
+                    {sector?.description}
                   </Field>
                 </td>
 
                 <td className="px-2 rounded-lg">
-                  <button type="button" onClick={() => handleSelectSector(sector)}>
+                  <button type="button" onClick={() => handleSelectSector(sector)} title="Atualizar os dados">
                     <img src={EditImg} alt="" className="pt-1" />
                   </button>
                 </td>
                 <td className="px-2 rounded-lg">
-                  <button type="button" onClick={() => handleDeleteSector(sector)}>
+                  <button type="button" onClick={() => handleDeleteSector(sector)} title="Remover setor">
                     <img src={DeleteImg} alt="" className="pt-1" />
                   </button>
                 </td>
