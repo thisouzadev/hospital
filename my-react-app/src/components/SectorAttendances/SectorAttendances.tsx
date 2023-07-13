@@ -34,6 +34,7 @@ const SectorAttendances = ({ onSelectAttendance }:Props) => {
     orderType: 'DESC',
     sectorId,
     take: 50,
+    page: 1,
   };
 
   const { data, isLoading } = useQuery({ queryKey: ['attendances', filters, sectorId], queryFn: () => attendanceService.getAll(filters) });

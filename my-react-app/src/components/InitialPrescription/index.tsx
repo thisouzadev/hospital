@@ -15,6 +15,7 @@ const InitialPrescription = ({ patientId }:Props) => {
     orderBy: 'createdAt',
     orderType: 'ASC',
     take: 1,
+    page: 1,
   };
 
   const { data, isLoading } = useQuery({ queryKey: ['attendances', filters], queryFn: () => attendanceService.getAll(filters) });

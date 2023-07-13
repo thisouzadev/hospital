@@ -6,7 +6,6 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Sector } from './sector.entity';

@@ -24,6 +24,8 @@ function Attendances({ onSelectAttendance = () => {}, patientId = '', doctorId =
       doctorId,
       // orderBy: 'confirmedAt',
       // orderType: 'DESC',
+      page: 1,
+      take: 10,
     },
   );
 

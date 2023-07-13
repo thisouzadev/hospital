@@ -44,7 +44,7 @@ const QuickTests = ({ attendanceId, patientId, setQuickTestId }:Props) => {
   const {
     data: lastTestsData,
     isLoading: isLoadingLastTests,
-  } = useQuery({ queryKey: ['quick-tests', patientId], queryFn: () => quickTestService.getAllQuickTests({ patientId, take: 1 }) });
+  } = useQuery({ queryKey: ['quick-tests', patientId], queryFn: () => quickTestService.getAllQuickTests({ patientId, take: 1, page: 1 }) });
 
   const {
     register, handleSubmit, reset, control, formState: { errors }, setValue,
@@ -79,7 +79,7 @@ const QuickTests = ({ attendanceId, patientId, setQuickTestId }:Props) => {
     } else if (categoriesData?.success) {
       const testCategory = categoriesData?.result[0];
       const testList = testCategory?.testList?.split(',') || [];
-      const testItems = testList.map((test) => ({ name: test, result: '' }));
+      const testItems = testList.map((test) => ({ name: test, result: '' as TestResultType }));
       setValue('results', testItems);
       setValue('testCategoryId', testCategory.testCategoryId);
     }
@@ -87,7 +87,7 @@ const QuickTests = ({ attendanceId, patientId, setQuickTestId }:Props) => {
 
   const handleResetQuickTests = () => {
     const testList = categoriesData?.result[0]?.testList?.split(',') || [];
-    const testItems = testList.map((test) => ({ name: test, result: '' }));
+    const testItems = testList.map((test) => ({ name: test, result: '' as TestResultType }));
     reset({
       attendanceId,
       patientId,

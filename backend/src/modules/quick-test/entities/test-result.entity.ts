@@ -1,4 +1,3 @@
-import { Employee } from '../../../modules/employee/entities/employee.entity';
 import { TestResultType } from '../../../shared/enums/test-result.enum';
 import {
   Column,

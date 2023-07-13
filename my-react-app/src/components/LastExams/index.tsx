@@ -16,6 +16,7 @@ const LastExams = ({ patientId, currentAttendanceId }:Props) => {
     orderBy: 'createdAt',
     orderType: 'ASC',
     take: 10,
+    page: 1,
   };
 
   const { data, isLoading } = useQuery({ queryKey: ['attendances'], queryFn: () => attendanceService.getAll(filters) });

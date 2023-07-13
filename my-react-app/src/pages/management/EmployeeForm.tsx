@@ -14,7 +14,7 @@ import specialties from './data';
 
 interface Props {
   employee?: Employee;
-  handleFormSubmit: (patient: Employee) => void;
+  handleFormSubmit: (employee: Employee) => void;
   schema: Record<string, any>;
 
   isUpdating?: boolean;

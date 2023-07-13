@@ -44,5 +44,5 @@ export class CreateEmployeeDto implements ICreateEmployeeDTO {
   @IsOptional()
   @ValidateNested()
   @Type(() => CreateDoctorDto)
-  doctor: CreateDoctorDto;
+  doctor?: CreateDoctorDto;
 }

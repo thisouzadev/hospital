@@ -52,19 +52,6 @@ const AttendancesTable = (
     onChangeStatus({ attendanceId: attendance.attendanceId, status: AttendanceStatus.CANCELED });
   };
 
-  const handleConfirmPatient = ({ type, sectorId }: { type:AttendanceType, sectorId:string }) => {
-    if (!selectedAttendance) {
-      return;
-    }
-    onChangeStatus({
-      attendanceId: selectedAttendance.attendanceId,
-      status: selectedAttendance.status === AttendanceStatus.CONFIRMED
-        ? undefined
-        : AttendanceStatus.CONFIRMED,
-      type,
-    });
-  };
-
   const handleConfirm = (attendance:Attendance) => {
     setSelectedAttendance(attendance);
     setIsConfirmationOpen(true);
