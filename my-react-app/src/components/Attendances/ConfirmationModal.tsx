@@ -59,7 +59,7 @@ const ConfirmationModal = ({
 
       <div className="mb-10">
         <p className="font-bold">
-          {attendance.patient.name}
+          {attendance?.patient?.name}
         </p>
         <span>
           Informe o tipo de atendimento para o paciente:
