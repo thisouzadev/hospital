@@ -1,4 +1,6 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, ValidateNested } from 'class-validator';
+import { CreateAddressDto } from 'src/modules/address/dto/create-address.dto';
+import { Type } from 'class-transformer';
 
 export class CreateHospitalDto {
   @IsNotEmpty({ message: 'O nome da unidade não pode estar vazio' })
@@ -6,4 +8,8 @@ export class CreateHospitalDto {
 
   @IsNotEmpty({ message: 'O nome do diretor não pode estar vazio' })
   director: string;
+
+  @Type(() => CreateAddressDto)
+  @ValidateNested()
+  address: CreateAddressDto;
 }
