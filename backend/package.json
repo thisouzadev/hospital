@@ -21,7 +21,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "seed:admin": "ts-node ./src/database/seeds/create-admin.seed.ts",
     "seed:cities": "ts-node ./src/database/seeds/state-cities.seed.ts",
-    "seed:tests": "ts-node ./src/database/seeds/create-tests.seed.ts"
+    "seed:tests": "ts-node ./src/database/seeds/create-tests.seed.ts",
+    "seed:all": "npm run seed:admin && npm run seed:cities && npm run seed:tests"
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
