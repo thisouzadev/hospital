@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import * as Dialog from '@radix-ui/react-dialog';
 import clsx from 'clsx';
 import { useMutation, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
@@ -7,9 +6,9 @@ import { AttendanceStatus, AttendanceType } from '@/types/backend.enums';
 import { useAppStore } from '../../store';
 import Button from '../Button';
 import { Attendance } from '@/types/backend.models';
-import AttendanceHeader from '../AttendanceHeader';
 import attendanceService from '@/service/attendance.service';
 import sectorService from '@/service/sector.service';
+import Dialog from '../Dialog';
 
 interface Props {
   isOpen: boolean;
@@ -56,24 +55,21 @@ const ConfirmationModal = ({
   };
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={setIsOpen}>
-      <Dialog.Portal>
-        <Dialog.Overlay className="bg-blackA9 data-[state=open]:animate-overlayShow fixed inset-0" />
-        <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[10%] left-[10%] bottom-[10%] right-[10%] shadow-md rounded-[6px] bg-[#E9E9EA] p-[25px] focus:outline-none">
-          <Dialog.Title className="m-0 text-xl font-medium ">
-            <AttendanceHeader attendance={attendance} />
-          </Dialog.Title>
-          <Dialog.Description className="mt-[1px]text-[15px] leading-normal flex flex-col" />
-          <div className="mb-10">
-            <span>
-              Informe o tipo de atendimento para o paciente:
-            </span>
-            <div className="mt-[25px] flex justify-between">
-              {Object.values(AttendanceType).map((type) => (
-                <button
-                  type="button"
-                  key={type}
-                  className={
+    <Dialog isOpen={isOpen} setIsOpen={setIsOpen}>
+
+      <div className="mb-10">
+        <p className="font-bold">
+          {attendance.patient.name}
+        </p>
+        <span>
+          Informe o tipo de atendimento para o paciente:
+        </span>
+        <div className="mt-[25px] flex justify-between">
+          {Object.values(AttendanceType).map((type) => (
+            <button
+              type="button"
+              key={type}
+              className={
                   clsx(
                     'p-3 font-bold rounded-lg text-white w-32',
                     { 'bg-green-600': type === AttendanceType.STANDARD },
@@ -84,49 +80,40 @@ const ConfirmationModal = ({
 
                   )
               }
-                  onClick={() => setAttendanceType(type)}
-                >
-                  {type.toUpperCase()}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <label htmlFor="sector-select">
-              <p>
-                Setor de encaminhamento:
-              </p>
-              <select name="sector-select" className="p-2 rounded-lg ring-1" value={sectorId} onChange={(e) => setSectorId(e.target.value)}>
-                <option value="" hidden>{' '}</option>
-                {sectors.map((sector) => (
-                  <option
-                    key={sector.sectorId}
-                    value={sector.sectorId}
-                  >
-                    {sector.name.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-
-            </label>
-            <div className="mt-[25px] flex justify-between" />
-          </div>
-
-          <div className="w-full flex justify-center">
-            <Button onClick={onClickConfirm} disabled={!sectorId}>Encaminhar</Button>
-          </div>
-
-          <Dialog.Close asChild>
-            <button
-              type="button"
-              className="absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none text-xl hover:drop-shadow-md"
+              onClick={() => setAttendanceType(type)}
             >
-              X
+              {type.toUpperCase()}
             </button>
-          </Dialog.Close>
-        </Dialog.Content>
-      </Dialog.Portal>
-    </Dialog.Root>
+          ))}
+        </div>
+      </div>
+      <div>
+        <label htmlFor="sector-select">
+          <p>
+            Setor de encaminhamento:
+          </p>
+          <select name="sector-select" className="p-2 rounded-lg ring-1" value={sectorId} onChange={(e) => setSectorId(e.target.value)}>
+            <option value="" hidden>{' '}</option>
+            {sectors.map((sector) => (
+              <option
+                key={sector.sectorId}
+                value={sector.sectorId}
+              >
+                {sector.name.toUpperCase()}
+              </option>
+            ))}
+          </select>
+
+        </label>
+        <div className="mt-[25px] flex justify-between" />
+      </div>
+
+      <div className="w-full flex justify-center">
+        <Button onClick={onClickConfirm} disabled={!sectorId}>Encaminhar</Button>
+      </div>
+
+    </Dialog>
+
   );
 };
 
