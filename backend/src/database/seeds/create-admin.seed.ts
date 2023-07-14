@@ -1,9 +1,9 @@
 import { DataSource } from 'typeorm';
 import 'dotenv/config';
 import { User } from '../../modules/user/entities/user.entity';
-import { CreateUserDto } from 'src/modules/user/dto/create-user.dto';
+import { CreateUserDto } from '../../modules/user/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
-import { UserRole } from 'src/shared/enums/user-role.enum';
+import { UserRole } from '../../shared/enums/user-role.enum';
 
 const createSuperAdmin = async () => {
   const AppDataSource = new DataSource({
