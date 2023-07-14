@@ -5,4 +5,8 @@ export const configValidationSchema = Joi.object({
   JWT_SECRET: Joi.string().required(),
   JWT_EXP_H: Joi.string().default('3600s'),
   JWT_EXP_D: Joi.string().default('1d'),
+
+  NODE_ENV: Joi.string()
+    .valid('development', 'production', 'test', 'provision')
+    .default('development'),
 });
