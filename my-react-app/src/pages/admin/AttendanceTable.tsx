@@ -11,7 +11,7 @@ import { isoToString } from '../../utils/date';
 const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>) => (
   <div className={
     clsx(
-      'bg-[#D9D9D9] rounded-lg ring-1 ring-blue-400 group-hover:bg-[#f3f2f2] p-0 text-center py-0 flex justify-center items-center h-10',
+      'bg-[#f0f0f0] rounded-lg ring-1 ring-blue-400 group-hover:bg-[#e7e6e6] p-0 text-center py-0 flex justify-center items-center h-10',
       className,
     )
   }

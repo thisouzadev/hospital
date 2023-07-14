@@ -164,7 +164,7 @@ function Attendances() {
           <div className="flex gap-2 justify-between w-full">
             <Input
               textCenter
-              className="bg-transparent w-40"
+              className=" w-40"
               md={5}
               asChild
               label="Ano:"
@@ -176,14 +176,14 @@ function Attendances() {
                 {/* <option value="">Todos</option> */}
                 {
                   [...Array(4).keys()].map((year) => year + 2020).map((year) => (
-                    <option key={year} value={year} className="bg-transparent appearance-none">{year}</option>
+                    <option key={year} value={year} className=" appearance-none">{year}</option>
                   ))
                   }
               </select>
             </Input>
             <Input
               textCenter
-              className="bg-transparent"
+              className=""
               md={5}
               asChild
               label="Mês:"
@@ -195,14 +195,14 @@ function Attendances() {
                 <option value="">Todos</option>
                 {
                   months.slice(1).map((month) => (
-                    <option key={month.id} value={month.id} className="bg-transparent appearance-none">{month.name}</option>
+                    <option key={month.id} value={month.id} className=" appearance-none">{month.name}</option>
                   ))
                 }
               </select>
             </Input>
             <Input
               textCenter
-              className="bg-transparent w-44"
+              className=" w-44"
               md={5}
               asChild
               label="Semana:"
@@ -214,14 +214,14 @@ function Attendances() {
                 <option value="">Todas</option>
                 {
                  monthWeeks.map((week) => week + 1).map((week) => (
-                   <option key={week} value={week} className="bg-transparent appearance-none">{`${week}ª`}</option>
+                   <option key={week} value={week} className=" appearance-none">{`${week}ª`}</option>
                  ))
                   }
               </select>
             </Input>
             <Input
               textCenter
-              className="bg-transparent"
+              className=""
               md={5}
               asChild
               label="Dia:"
@@ -233,7 +233,7 @@ function Attendances() {
                 <option value="">Todos</option>
                 {
                   [...Array(31).keys()].map((day) => day + 1).map((day) => (
-                    <option key={day} value={day} className="bg-transparent appearance-none">{day}</option>
+                    <option key={day} value={day} className=" appearance-none">{day}</option>
                   ))
                 }
               </select>
@@ -241,7 +241,7 @@ function Attendances() {
 
             <Input
               textCenter
-              className="bg-transparent w-56"
+              className=" w-56"
               md={5}
               asChild
               name="specialty"
@@ -253,7 +253,7 @@ function Attendances() {
                 <option value="">Todas</option>
                 {
                     specialties.map((specialty) => (
-                      <option key={specialty} value={specialty} className="bg-transparent appearance-none">{specialty}</option>
+                      <option key={specialty} value={specialty} className=" appearance-none">{specialty}</option>
                     ))
                   }
               </select>
@@ -261,7 +261,7 @@ function Attendances() {
             </Input>
             <Input
               textCenter
-              className="bg-transparent"
+              className=""
               md={5}
               asChild
               name="doctorId"
@@ -273,7 +273,7 @@ function Attendances() {
                 <option value="">Todos</option>
                 {
                     filteredDoctors.map((doctor) => (
-                      <option key={doctor.doctorId} value={doctor.doctorId} className="bg-transparent appearance-none">{doctor.employee.name}</option>
+                      <option key={doctor.doctorId} value={doctor.doctorId} className=" appearance-none">{doctor.employee.name}</option>
                     ))
                   }
               </select>
