@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import * as yup from 'yup';
 import { CreateEmployeeDto } from '../../types/backend.dtos';
 import { useAppStore } from '../../store';
@@ -40,7 +40,9 @@ const schema = {
 function CreateEmployee() {
   const navigate = useNavigate();
   const [state] = useAppStore();
-  const { currentUser } = state;
+  const { currentHospital } = state;
+
+  const { hospitalId } = useParams();
 
   const onSubmit = async (data:CreateEmployeeDto) => {
     const result = await EmployeeService.create(data);
@@ -52,7 +54,7 @@ function CreateEmployee() {
 
   const employee = {
     user: { password: '123456' },
-    hospitalId: currentUser?.employee.hospital.hospitalId,
+    hospitalId: hospitalId || currentHospital?.hospitalId,
   } as Employee;
 
   return (

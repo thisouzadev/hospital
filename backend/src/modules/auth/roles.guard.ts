@@ -1,6 +1,11 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role } from 'src/shared/enums/role.enum';
+import { UserRole } from '../../shared/enums/user-role.enum';
 import { ROLES_KEY } from './roles.decorator';
 
 @Injectable()
@@ -8,14 +13,22 @@ export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_KEY, [
-      context.getHandler(),
-      context.getClass(),
-    ]);
+    const requiredRoles = this.reflector.getAllAndOverride<UserRole[]>(
+      ROLES_KEY,
+      [context.getHandler(), context.getClass()],
+    );
     if (!requiredRoles) {
       return true;
     }
     const { user } = context.switchToHttp().getRequest();
-    return requiredRoles.includes(user.role);
+    console.log(user);
+
+    const isAuthorized = requiredRoles.includes(user.role);
+    if (!isAuthorized) {
+      throw new UnauthorizedException(
+        'A sua função não permite acessar este recurso',
+      );
+    }
+    return isAuthorized;
   }
 }

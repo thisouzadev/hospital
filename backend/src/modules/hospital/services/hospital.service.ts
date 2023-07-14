@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateHospitalDto } from '../dtos/create-hospital.dto';
+import { UpdateHospitalDto } from '../dtos/update-hospital.dto';
 import { Hospital } from '../entities/hospital.entity';
 
 @Injectable()
@@ -31,14 +32,15 @@ export class HospitalService {
   }
 
   async getAllHospitals(): Promise<Hospital[]> {
-    try {
-      return await this.hospitalRepository.find();
-    } catch (error) {
-      throw new Error('Error getting hospitals: ' + error.message);
-    }
+    return await this.hospitalRepository.find({
+      relations: ['employees', 'employees.user'],
+    });
   }
 
-  async updateHospital(id: string, updatedData: Hospital): Promise<Hospital> {
+  async updateHospital(
+    id: string,
+    updatedData: UpdateHospitalDto,
+  ): Promise<Hospital> {
     try {
       await this.hospitalRepository.update(id, updatedData);
       return await this.getHospitalById(id);

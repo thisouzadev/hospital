@@ -144,10 +144,10 @@ const HospitalSectors = () => {
 
       <div className="mt-3">
         <Field>Setores</Field>
+        {sectors.length === 0
+              && <div className="text-lg w-full text-center">Nenhum setor cadastrada</div>}
         <table className="w-full text-sm text-center border-separate border-spacing-y-2 border-spacing-x-2">
           <tbody className="border">
-            {sectors.length === 0
-              && <div className="text-lg">Nenhum setor cadastrada</div>}
             {sectors.map((sector) => (
               <tr key={sector.sectorId} className="h-10  rounded-lg ring-2 ring-blue-300 ">
                 <td className="w-3/12">

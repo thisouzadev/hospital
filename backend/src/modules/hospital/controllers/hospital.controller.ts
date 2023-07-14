@@ -6,16 +6,26 @@ import {
   Body,
   Put,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/modules/auth/roles.decorator';
+import { RolesGuard } from '../../../modules/auth/roles.guard';
+import { UserRole } from '../../../shared/enums/user-role.enum';
+import { SuccessPresenter } from '../../../shared/presenters/success-result.presenter';
+import { UuidParamValidator } from '../../../shared/validators/uuid-param.validator';
 
 import { CreateHospitalDto } from '../dtos/create-hospital.dto';
+import { UpdateHospitalDto } from '../dtos/update-hospital.dto';
 import { Hospital } from '../entities/hospital.entity';
 import { HospitalService } from '../services/hospital.service';
 
-// @UseGuards(AuthGuard())
-@Controller('hospitais')
+@Controller('hospitals')
+@Roles(UserRole.SuperAdmin)
+@UseGuards(RolesGuard)
+@UseGuards(AuthGuard('jwt'))
 export class HospitalController {
   constructor(
     private hospitalService: HospitalService,
@@ -24,32 +34,37 @@ export class HospitalController {
   ) {}
 
   @Post()
+  @SuccessPresenter()
   async createHospital(@Body() hospital: CreateHospitalDto): Promise<Hospital> {
     return this.hospitalService.createHospital(hospital);
   }
 
-  // @Roles(Role.Admin)
-  // @UseGuards(RolesGuard)
   @Get()
+  @SuccessPresenter()
   async getAllHospitals(): Promise<Hospital[]> {
     return this.hospitalService.getAllHospitals();
   }
 
   @Get(':id')
-  async getHospitalById(@Param('id') id: string): Promise<Hospital> {
+  @SuccessPresenter()
+  async getHospitalById(
+    @Param() { id }: UuidParamValidator,
+  ): Promise<Hospital> {
     return this.hospitalService.getHospitalById(id);
   }
 
   @Put(':id')
+  @SuccessPresenter()
   async updateHospital(
-    @Param('id') id: string,
-    @Body() updatedData: Hospital,
+    @Param() { id }: UuidParamValidator,
+    @Body() updatedData: UpdateHospitalDto,
   ): Promise<Hospital> {
     return this.hospitalService.updateHospital(id, updatedData);
   }
 
   @Delete(':id')
-  async deleteHospital(@Param('id') id: string): Promise<void> {
+  @SuccessPresenter()
+  async deleteHospital(@Param() { id }: UuidParamValidator): Promise<void> {
     return this.hospitalService.deleteHospital(id);
   }
 }

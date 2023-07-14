@@ -30,6 +30,7 @@ const Login: React.FC = () => {
       return;
     }
     dispatch({ type: 'LOG_IN', payload: { user: res.user, token: res.accessToken, stayLoggedIn } });
+    dispatch({ type: 'CHANGE_HOSPITAL', payload: res.user.employee?.hospital });
     navigate('/', { replace: true });
   };
 

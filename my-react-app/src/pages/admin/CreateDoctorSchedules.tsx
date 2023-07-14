@@ -291,7 +291,7 @@ const CreateDoctorSchedules = () => {
           disabled
           md={4}
           // value={selectedSchedule ? selectedDoctor?.employee.hospital.name : ''}
-          value={showDoctorData ? selectedDoctor?.employee.hospital.name : ''}
+          value={showDoctorData ? selectedDoctor?.employee.hospital.hospitalName : ''}
 
         />
         <Input

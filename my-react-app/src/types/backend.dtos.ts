@@ -14,6 +14,8 @@ import { ListQuickTestsQueryDto } from '@modules/quick-test/dtos/list-quick-test
 import { CreateSectorDto } from '@modules/sector/dto/create-sector.dto';
 import { SectorAttendanceDto } from '@modules/sector/dto/sector-attendance.dto';
 import { MoveSectorDto } from '@modules/sector/dto/move-sector.dto';
+import { CreateHospitalDto } from '@modules/hospital/dtos/create-hospital.dto';
+import { UpdateHospitalDto } from '@modules/hospital/dtos/update-hospital.dto';
 import { PageDto } from '@shared/dtos/page.dto';
 
 export {
@@ -34,4 +36,6 @@ export {
   CreateSectorDto,
   SectorAttendanceDto,
   MoveSectorDto,
+  CreateHospitalDto,
+  UpdateHospitalDto,
 };

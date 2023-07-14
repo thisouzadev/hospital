@@ -13,10 +13,10 @@ export class Hospital {
   hospitalId: string;
 
   @Column()
-  name: string;
+  hospitalName: string;
 
-  @Column()
-  endereco: string;
+  @Column({ nullable: true })
+  director: string;
 
   @DeleteDateColumn({ name: 'deleted_at', nullable: true })
   deletedAt: Date;

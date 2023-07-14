@@ -8,6 +8,7 @@ import { DoctorSchedule } from '@modules/doctor/entities/doctor-schedule.entity'
 import { TestCategory } from '@modules/quick-test/entities/test-category.entity';
 import { QuickTest } from '@modules/quick-test/entities/quick-test.entity';
 import { Sector } from '@modules/sector/entities/sector.entity';
+import { Hospital } from '@modules/hospital/entities/hospital.entity';
 
 export {
   State,
@@ -20,5 +21,5 @@ export {
   TestCategory,
   QuickTest,
   Sector,
-
+  Hospital,
 };

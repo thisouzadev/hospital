@@ -17,6 +17,7 @@ import ListAttendancesAdmin from '../pages/admin/Attendances';
 import { UserRole } from '../types/backend.enums';
 import SectorAttendances from '../components/SectorAttendances';
 import HospitalSectors from '../pages/admin/HospitalSectors';
+import Hospitals from '../pages/admin/Hospitals';
 
 const Attendance = ({ role }:{ role: UserRole }) => {
   switch (role) {
@@ -41,6 +42,9 @@ interface Props {
 const PrivateRoutes = ({ role }:Props) => (
   <Routes>
     <Route path="/" element={<Welcome />} />
+    <Route path="/super-admin/hospitais" element={<Hospitals />} />
+    <Route path="/super-admin/hospitais/funcionario/:hospitalId" element={<CreateEmployee />} />
+
     <Route path="/admin/manage" element={<Management />} />
     <Route path="/admin/setores" element={<HospitalSectors />} />
     <Route path="/admin/pacientes/cadastrar" element={<CreatePatient />} />

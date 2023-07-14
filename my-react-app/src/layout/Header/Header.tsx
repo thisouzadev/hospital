@@ -9,6 +9,7 @@ import ScheduleImg from '../../assets/schedule.svg';
 import ManageImg from '../../assets/manage.svg';
 import AgendaImg from '../../assets/agenda.svg';
 import AttendanceListImg from '../../assets/attendanceList.svg';
+import HospitalImg from '../../assets/hospital.svg';
 import { useEventLogout } from '../../hooks';
 import { useAppStore } from '../../store';
 import { UserRole } from '../../types/backend.enums';
@@ -29,7 +30,11 @@ const HeaderItem = ({ to, img, title }: HeaderItemProps) => (
 
 const links: Record<UserRole, HeaderItemProps[]> = {
   'administrador de hospital': [],
-  'administrador do sistema': [],
+  'administrador do sistema': [
+    { to: '/super-admin/hospitais', img: HospitalImg, title: 'Hospitais' },
+    { to: '/admin/manage', img: ManageImg, title: 'Funcionários' },
+
+  ],
   administrador: [
     // { to: '/admin/pacientes/cadastrar', img: AddPatientImg },
     // { to: '/atendimento', img: PatientsImg, title: 'Fila de atendimentos' },
@@ -41,7 +46,6 @@ const links: Record<UserRole, HeaderItemProps[]> = {
   ],
   médico: [
     { to: '/atendimento', img: PatientsImg, title: 'Fila de atendimentos' },
-
   ],
   farmaceutico: [
     { to: '/atendimento', img: PatientsImg, title: 'Fila de atendimentos' },
@@ -80,9 +84,11 @@ const Header = ({ children }: PropsWithChildren) => {
 
   const navigate = useNavigate();
 
-  const { currentUser } = state;
+  const { currentUser, currentHospital } = state;
 
   const role = currentUser?.role as UserRole;
+
+  const debugMode = import.meta.env.VITE_DEBUG_MODE === 'true';
 
   return (
     <header className="">
@@ -94,12 +100,16 @@ const Header = ({ children }: PropsWithChildren) => {
 
         </div>
         <div className="flex gap-5 items-center">
-          <div className="flex flex-col bg-[#ffffff20] px-2 rounded-md shadow-sm">
-            <span>{currentUser?.employee?.name}</span>
-            <RoleSelect />
-            <span>{currentUser?.employee?.hospital?.name}</span>
-          </div>
-          <SectorSelect />
+          {debugMode
+            && (
+            <div className="flex flex-col bg-[#ffffff20] px-2 rounded-md shadow-sm">
+              <span>{currentUser?.employee?.name}</span>
+              <RoleSelect />
+              <span>{currentHospital?.hospitalName}</span>
+            </div>
+            )}
+          {debugMode
+          && <SectorSelect />}
           <button type="button" onClick={() => navigate(-1)} className="w-20 h-20">
             <img src={BackImg} alt="" />
           </button>

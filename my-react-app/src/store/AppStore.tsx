@@ -13,7 +13,7 @@ import { sessionStorageGet } from '../utils/sessionStorage';
 import { AuthReturnDto } from '../types/backend.dtos';
 import AppReducer from './AppReducer';
 import { localStorageGet } from '../utils/localStorage';
-import { Sector } from '@/types/backend.models';
+import { Hospital, Sector } from '@/types/backend.models';
 import sectorService from '@/service/sector.service';
 
 /**
@@ -24,6 +24,7 @@ export interface AppStoreState {
   isAuthenticated: boolean;
   currentUser?: User;
   currentSector?: Sector,
+  currentHospital?: Hospital,
   sectors: Sector[],
   token?: string;
 }
@@ -43,6 +44,7 @@ const AppStoreProvider: FunctionComponent<PropsWithChildren> = ({ children }) =>
   const previousDarkMode = Boolean(localStorageGet('darkMode'));
   const previousUser = localStorageGet('user') || sessionStorageGet('user');
   const previousSector = localStorageGet('sector') || sessionStorageGet('sector');
+  const previousHospital = localStorageGet('hospital') || sessionStorageGet('hospital');
   const previousToken = localStorageGet('token') || sessionStorageGet('token');
   const tokenExists = Boolean(previousToken);
 
@@ -54,6 +56,7 @@ const AppStoreProvider: FunctionComponent<PropsWithChildren> = ({ children }) =>
     isAuthenticated,
     currentUser: previousUser as AuthReturnDto['user'] || undefined,
     currentSector: previousSector,
+    currentHospital: previousHospital,
     sectors: [],
     token: previousToken,
   };

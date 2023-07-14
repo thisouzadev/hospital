@@ -1,4 +1,4 @@
-import axios, { InternalAxiosRequestConfig } from 'axios';
+import axios, { CreateAxiosDefaults, InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'react-toastify';
 import { localStorageGet } from '../utils/localStorage';
 import { sessionStorageGet } from '../utils/sessionStorage';
@@ -6,8 +6,9 @@ import { sessionStorageGet } from '../utils/sessionStorage';
 const baseURL = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
 const api = () => {
-  const defaultOptions = {
+  const defaultOptions:CreateAxiosDefaults<any> = {
     baseURL,
+
     // headers: {
     //   'Access-Control-Allow-Origin': '*',
     //   'Content-Type': 'application/json',
@@ -42,7 +43,7 @@ const api = () => {
         toast.error(message, { theme: 'colored' });
       }
       // return error.response || { data: error };
-      throw new Error(error);
+      throw new Error(message);
     },
   );
 

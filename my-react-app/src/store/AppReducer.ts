@@ -35,6 +35,10 @@ const AppReducer: React.Reducer<AppStoreState, any> = (state, action) => {
       localStorageDelete('token');
       sessionStorageDelete('user');
       sessionStorageDelete('token');
+      sessionStorageDelete('hospital');
+      sessionStorageDelete('hospital');
+      sessionStorageDelete('sector');
+      sessionStorageDelete('sector');
       return {
         ...state,
         isAuthenticated: false,
@@ -50,6 +54,12 @@ const AppReducer: React.Reducer<AppStoreState, any> = (state, action) => {
       return {
         ...state,
         currentUser: { ...state.currentUser, role: action.payload },
+      };
+    case 'CHANGE_HOSPITAL':
+      localStorageSet('hospital', action.payload);
+      return {
+        ...state,
+        currentHospital: action.payload,
       };
     case 'LOAD_SECTORS':
       return {

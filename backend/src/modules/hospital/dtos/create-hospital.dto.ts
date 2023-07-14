@@ -1,9 +1,9 @@
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateHospitalDto {
-  @IsNotEmpty()
-  name: string;
+  @IsNotEmpty({ message: 'O nome da unidade não pode estar vazio' })
+  hospitalName: string;
 
-  @IsNotEmpty()
-  endereco: string;
+  @IsNotEmpty({ message: 'O nome do diretor não pode estar vazio' })
+  director: string;
 }
