@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Patient } from '../../types/backend.models';
 import patientService from '../../service/patient.service';
+import { IPatient } from '@/types/backend.interfaces';
 
 function ListPatients() {
-  const [patients, setPatients] = useState<Patient[]>([]);
+  const [patients, setPatients] = useState<IPatient[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {

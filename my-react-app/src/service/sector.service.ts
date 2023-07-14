@@ -1,14 +1,14 @@
 import { CreateSectorDto, MoveSectorDto, SectorAttendanceDto } from '../types/backend.dtos';
 import api from './api';
-import { Sector } from '../types/backend.models';
 import { DefaultSuccessResponse } from '../types/backend.presenters';
+import { ISector } from '@/types/backend.interfaces';
 
 const sectorService = {
 
   async getAll() {
     const response = await api.get('/sectors');
 
-    return response.data as DefaultSuccessResponse<Sector[]>;
+    return response.data as DefaultSuccessResponse<ISector[]>;
   },
 
   async create(data:CreateSectorDto) {

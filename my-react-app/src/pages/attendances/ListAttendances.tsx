@@ -14,15 +14,15 @@ import {
   Panel, PanelContent, PanelSubHeader,
 } from '../../components/Panel';
 
-import {
-  Attendance, Doctor, DoctorSchedule, Patient,
-} from '../../types/backend.models';
 import Input from '../../components/Input';
 import { CreateAttendanceDto } from '../../types/backend.dtos';
 
 import AvailableSchedules, { IAvailableSchedules } from './components/AvailableSchedules';
 import PatientsTable from './components/PatientsTable';
 import Attendances from '../../components/Attendances';
+import {
+  IAttendance, IDoctor, IDoctorSchedule, IPatient,
+} from '@/types/backend.interfaces';
 
 interface SelectableInterval {
   firstDay: string;
@@ -37,15 +37,15 @@ const selectableIntervals: SelectableInterval[] = [...Array(10).keys()].map((ite
 function ListAttendances() {
   const queryClient = useQueryClient();
 
-  const [searchedPatients, setSearchedPatients] = useState<Patient[]>([]);
+  const [searchedPatients, setSearchedPatients] = useState<IPatient[]>([]);
 
-  const [selectedPatient, setSelectedPatient] = useState<Patient>();
-  const [selectedDoctor, setSelectedDoctor] = useState<Doctor>();
+  const [selectedPatient, setSelectedPatient] = useState<IPatient>();
+  const [selectedDoctor, setSelectedDoctor] = useState<IDoctor>();
   const [selectedSchedule, setSelectedSchedule] = useState<IAvailableSchedules>();
 
   const [selectedIntervalIndex, setSelectedIntervalIndex] = useState<number>();
 
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [doctors, setDoctors] = useState<IDoctor[]>([]);
 
   const [availableSchedules, setAvailableSchedules] = useState<IAvailableSchedules[]>([]);
 
@@ -74,11 +74,11 @@ function ListAttendances() {
     fetchData();
   }, []);
 
-  const handleSelectPatient = (patient:Patient) => {
+  const handleSelectPatient = (patient:IPatient) => {
     setSelectedPatient(patient);
   };
 
-  const handleSelectAttendance = (attendance:Attendance) => {
+  const handleSelectAttendance = (attendance:IAttendance) => {
     setSelectedPatient(attendance.patient);
   };
 
@@ -126,7 +126,7 @@ function ListAttendances() {
       return;
     }
 
-    const schedules: DoctorSchedule[] = res.result;
+    const schedules: IDoctorSchedule[] = res.result;
 
     const schedulesWeekDays = schedules.map((s) => s.weekDay);
 
@@ -144,7 +144,7 @@ function ListAttendances() {
       const isoDate = format(date, 'yyyy-MM-dd');
       const weekDay = date.getDay();
 
-      const availableSchedule = schedules.find((s) => s.weekDay === weekDay) as DoctorSchedule;
+      const availableSchedule = schedules.find((s) => s.weekDay === weekDay) as IDoctorSchedule;
 
       const attendancesScheduledToDay = availableSchedule.attendances.filter(
         (attendance) => attendance.attendanceDate === isoDate

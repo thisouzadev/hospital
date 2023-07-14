@@ -6,9 +6,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Employee } from '../../employee/entities/employee.entity';
+import { IHospital } from '../models/IHospital';
 
 @Entity()
-export class Hospital {
+export class Hospital implements IHospital {
   @PrimaryGeneratedColumn('uuid', { name: 'hospital_id' })
   hospitalId: string;
 

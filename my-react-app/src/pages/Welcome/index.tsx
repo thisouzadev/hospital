@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
-import { Sector } from '@/types/backend.models';
 import { useAppStore } from '../../store';
+import { ISector } from '@/types/backend.interfaces';
 
 function Welcome() {
   const [state, dispatch] = useAppStore();
@@ -9,7 +9,7 @@ function Welcome() {
 
   const { sectors } = state;
 
-  const handleSectorClick = (sector: Sector) => {
+  const handleSectorClick = (sector: ISector) => {
     dispatch({ type: 'CHANGE_SECTOR', payload: sector });
     navigate('/atendimento');
   };

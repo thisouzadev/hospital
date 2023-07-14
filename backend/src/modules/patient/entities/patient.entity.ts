@@ -8,11 +8,11 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { IPatient } from '../../../shared/models/patient/patient.interface';
 import { Address } from '../../../modules/address/entities/address.entity';
 import { Gender } from '../../../shared/enums/gender.enum';
 import { Attendance } from '../../attendance/entities/attendance.entity';
 import { QuickTest } from '../../../modules/quick-test/entities/quick-test.entity';
+import { IPatient } from '../models/IPatient';
 
 @Entity('patients')
 export class Patient implements IPatient {

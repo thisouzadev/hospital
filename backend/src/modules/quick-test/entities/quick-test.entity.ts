@@ -12,9 +12,10 @@ import { Patient } from '../../../modules/patient/entities/patient.entity';
 import { Attendance } from '../../../modules/attendance/entities/attendance.entity';
 import { TestCategory } from './test-category.entity';
 import { TestResult } from './test-result.entity';
+import { IQuickTest } from '../models/IQuickTest';
 
 @Entity('quick_tests')
-export class QuickTest {
+export class QuickTest implements IQuickTest {
   @PrimaryGeneratedColumn('uuid', { name: 'quick_test_id' })
   quickTestId: string;
 

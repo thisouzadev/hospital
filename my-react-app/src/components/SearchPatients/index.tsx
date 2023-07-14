@@ -1,13 +1,13 @@
 import { useForm, Controller } from 'react-hook-form';
 import { PatternFormat } from 'react-number-format';
-import { Patient } from '../../types/backend.models';
 import Input from '../Input';
 import { SearchPatientQueryDto } from '../../types/backend.dtos';
 import Button from '../Button';
 import patientService from '../../service/patient.service';
+import { IPatient } from '@/types/backend.interfaces';
 
 interface Props {
-  onSuccess: (patients: Patient[])=> void
+  onSuccess: (patients: IPatient[])=> void
 }
 
 const SearchPatients = ({ onSuccess }:Props) => {

@@ -10,9 +10,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { DoctorSchedule } from './doctor-schedule.entity';
+import { IDoctor } from '../models/IDoctor';
 
 @Entity('doctors')
-export class Doctor {
+export class Doctor implements IDoctor {
   @PrimaryGeneratedColumn('uuid', { name: 'doctor_id' })
   doctorId: string;
 

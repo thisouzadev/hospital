@@ -3,10 +3,10 @@ import { SubmitHandler } from 'react-hook-form';
 import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Patient } from '../../types/backend.models';
 import PatientForm from './PatientForm';
 import patientService from '../../service/patient.service';
 import Loading from '../../components/loading';
+import { IPatient } from '@/types/backend.interfaces';
 
 const createSchema = {
   name: yup.string().required(),
@@ -30,7 +30,7 @@ function UpdatePatient() {
 
   const navigate = useNavigate();
 
-  const [patient, setPatient] = useState<Patient>();
+  const [patient, setPatient] = useState<IPatient>();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -49,7 +49,7 @@ function UpdatePatient() {
     }
   }, [patientId]);
 
-  const onSubmit: SubmitHandler<Patient> = async (data) => {
+  const onSubmit: SubmitHandler<IPatient> = async (data) => {
     if (!patient) {
       return;
     }

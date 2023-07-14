@@ -1,7 +1,8 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ITestCategory } from '../models/ITestCategory';
 
 @Entity('test_categories')
-export class TestCategory {
+export class TestCategory implements ITestCategory {
   @PrimaryGeneratedColumn('uuid', { name: 'test_category_id' })
   testCategoryId: string;
 

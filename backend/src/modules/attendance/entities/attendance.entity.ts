@@ -18,9 +18,10 @@ import { AttendanceType } from '../../../shared/enums/attendance-type-enum';
 import { QuickTest } from '../../../modules/quick-test/entities/quick-test.entity';
 import { Sector } from '../../../modules/sector/entities/sector.entity';
 import { SectorAttendance } from '../../../modules/sector/entities/sector-attendance.entity';
+import { IAttendance } from '../models/IAttendance';
 
 @Entity('attendances')
-export class Attendance {
+export class Attendance implements IAttendance {
   @PrimaryGeneratedColumn('uuid', { name: 'attendance_id' })
   attendanceId: string;
 

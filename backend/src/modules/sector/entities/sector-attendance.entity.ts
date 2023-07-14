@@ -10,10 +10,11 @@ import {
 } from 'typeorm';
 import { Sector } from './sector.entity';
 import { SectorAttendanceStatus } from '../../../shared/enums/sector-attendance-status.enum';
+import { ISectorAttendance } from '../models/ISectorAttendance';
 
 @Entity('sector_attendances')
 @Index('SSS1', ['sectorAttendanceId', 'sectorId', 'attendanceId'])
-export class SectorAttendance {
+export class SectorAttendance implements ISectorAttendance {
   @PrimaryGeneratedColumn('uuid', { name: 'sector_attendance_id' })
   sectorAttendanceId: string;
 

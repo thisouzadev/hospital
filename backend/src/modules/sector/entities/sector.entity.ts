@@ -13,9 +13,10 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { SectorAttendance } from './sector-attendance.entity';
+import { ISector } from '../models/ISector';
 
 @Entity('sectors')
-export class Sector {
+export class Sector implements ISector {
   @PrimaryGeneratedColumn('uuid', { name: 'sector_id' })
   sectorId: string;
 

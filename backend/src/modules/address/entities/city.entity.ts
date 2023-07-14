@@ -1,8 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from 'typeorm';
+import { ICity } from '../models/ICity';
 import { State } from './state.entity';
 
 @Entity('cities')
-export class City {
+export class City implements ICity {
   @PrimaryColumn({ name: 'city_id' })
   cityId: number;
 

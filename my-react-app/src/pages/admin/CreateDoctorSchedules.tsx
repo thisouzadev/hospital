@@ -7,13 +7,13 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { weekDays } from '../../types/date';
 import doctorsService from '../../service/doctors.service';
-import { Doctor, DoctorSchedule } from '../../types/backend.models';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import SearchImg from '../../assets/search.svg';
 import DoctorImg from '../../assets/doctor.svg';
 import EditImg from '../../assets/edit.svg';
 import DeleteImg from '../../assets/delete.svg';
+import { IDoctor, IDoctorSchedule } from '@/types/backend.interfaces';
 
 const scheduleSchema = {
   doctorId: yup.string().required(),
@@ -29,7 +29,7 @@ const Field = ({ children }:PropsWithChildren) => (
 
 interface IDoctorFilter {name: string, cns: string, cpf: string}
 
-const filterDoctors = (doctors: Doctor[], filter: IDoctorFilter):Doctor[] => doctors.filter(
+const filterDoctors = (doctors: IDoctor[], filter: IDoctorFilter):IDoctor[] => doctors.filter(
   (doctor) => doctor.employee.name.startsWith(
     filter.name,
   )
@@ -42,11 +42,11 @@ const defaultScheduleValues = {
 };
 
 const CreateDoctorSchedules = () => {
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
+  const [doctors, setDoctors] = useState<IDoctor[]>([]);
 
   const [doctorFilter, setDoctorFilters] = useState<IDoctorFilter>({ name: '', cns: '', cpf: '' });
 
-  const [selectedDoctor, setSelectedDoctor] = useState<Doctor>();
+  const [selectedDoctor, setSelectedDoctor] = useState<IDoctor>();
 
   const [showDoctorData, setShowDoctorData] = useState(false);
 
@@ -72,12 +72,12 @@ const CreateDoctorSchedules = () => {
     reset(defaultScheduleValues as any as CreateDoctorScheduleDto);
   };
 
-  const handleSelectDoctor = (doctor: Doctor) => {
+  const handleSelectDoctor = (doctor: IDoctor) => {
     handleResetSchedule();
     setSelectedDoctor(doctor);
   };
 
-  const handleDeleteSchedule = async (schedule: DoctorSchedule) => {
+  const handleDeleteSchedule = async (schedule: IDoctorSchedule) => {
     // eslint-disable-next-line no-alert
     if (!window.confirm('Deseja excluir a agenda')) {
       return;
@@ -111,7 +111,7 @@ const CreateDoctorSchedules = () => {
     const response = await doctorsService.createSchedule(data);
     if (response.success) {
       toast.success('Agenda criada com sucesso');
-      const resultSchedule = response.result as DoctorSchedule;
+      const resultSchedule = response.result as IDoctorSchedule;
 
       const updatedDoctor = doctors.find((d) => d.doctorId === resultSchedule.doctorId);
 
@@ -142,7 +142,7 @@ const CreateDoctorSchedules = () => {
     if (response.success) {
       toast.success('Agenda atualizada com sucesso');
     }
-    const resultSchedule = response.result as DoctorSchedule;
+    const resultSchedule = response.result as IDoctorSchedule;
 
     const updatedDoctor = doctors.find((d) => d.doctorId === resultSchedule.doctorId);
 
@@ -160,7 +160,7 @@ const CreateDoctorSchedules = () => {
     }
   };
 
-  const handleSelectSchedule = (schedule: DoctorSchedule) => {
+  const handleSelectSchedule = (schedule: IDoctorSchedule) => {
     const {
       doctorId, weekDay, startAt, endAt, vacancies,
     } = schedule;

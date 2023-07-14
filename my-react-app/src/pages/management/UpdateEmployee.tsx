@@ -1,11 +1,11 @@
-import { SubmitHandler } from "react-hook-form";
-import { Employee } from "types/backend.models";
-import * as yup from "yup";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import EmployeeForm from "./EmployeeForm";
-import employeeService from "../../service/employee.service";
-import Loading from "../../components/loading";
+import { SubmitHandler } from 'react-hook-form';
+import * as yup from 'yup';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import EmployeeForm from './EmployeeForm';
+import employeeService from '../../service/employee.service';
+import Loading from '../../components/loading';
+import { IEmployee } from '@/types/backend.interfaces';
 
 const updateSchema = {
   user: yup.object().shape({
@@ -42,7 +42,7 @@ function UpdateEmployee() {
 
   const navigate = useNavigate();
 
-  const [employee, setEmployee] = useState<Employee>();
+  const [employee, setEmployee] = useState<IEmployee>();
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -61,7 +61,7 @@ function UpdateEmployee() {
     }
   }, [employeeId]);
 
-  const onSubmit: SubmitHandler<Employee> = async (data) => {
+  const onSubmit: SubmitHandler<IEmployee> = async (data) => {
     if (!employee) {
       return;
     }
@@ -73,13 +73,17 @@ function UpdateEmployee() {
       rg,
       cns,
       mat,
-      address: { cep, street, streetNumber, cityId, district, stateId },
+      address: {
+        cep, street, streetNumber, cityId, district, stateId,
+      },
     } = data;
 
     let doctor = data.doctor as any;
 
     if (doctor) {
-      const { doctorId, specialty, crm, crmStateId } = doctor;
+      const {
+        doctorId, specialty, crm, crmStateId,
+      } = doctor;
       doctor = {
         doctorId,
         specialty,
@@ -111,7 +115,7 @@ function UpdateEmployee() {
       return;
     }
 
-    navigate("/admin/manage");
+    navigate('/admin/manage');
   };
 
   if (isLoading) {

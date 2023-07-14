@@ -6,8 +6,8 @@ import scheduleImg from '../../assets/schedule2.svg';
 import patientImg from '../../assets/receivePatient.svg';
 import DeleteImg from '../../assets/delete.svg';
 import QueueImg from '../../assets/queue.svg';
-import { Attendance } from '../../types/backend.models';
 import ConfirmationModal from './ConfirmationModal';
+import { IAttendance } from '@/types/backend.interfaces';
 
 const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>) => (
   <td className={
@@ -27,8 +27,8 @@ interface UpdateAttendance {
   type?: AttendanceType,
 }
 interface AttendanceTableProps {
-  onSelectAttendance?: (attendance:Attendance) => void
-  attendances: Attendance[],
+  onSelectAttendance?: (attendance:IAttendance) => void
+  attendances: IAttendance[],
   selectedAttendanceId: string
   onChangeStatus?: (data:UpdateAttendance) => void
 }
@@ -41,18 +41,18 @@ const AttendancesTable = (
     onChangeStatus = () => {},
   }:AttendanceTableProps,
 ) => {
-  const [selectedAttendance, setSelectedAttendance] = useState<Attendance>();
+  const [selectedAttendance, setSelectedAttendance] = useState<IAttendance>();
 
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
-  const handleCancel = (attendance:Attendance) => {
+  const handleCancel = (attendance:IAttendance) => {
     if (!window.confirm(`Deseja realmente CANCELAR a consulta de ${attendance.patient.name}?`)) {
       return;
     }
     onChangeStatus({ attendanceId: attendance.attendanceId, status: AttendanceStatus.CANCELED });
   };
 
-  const handleConfirm = (attendance:Attendance) => {
+  const handleConfirm = (attendance:IAttendance) => {
     setSelectedAttendance(attendance);
     setIsConfirmationOpen(true);
   };
@@ -62,7 +62,7 @@ const AttendancesTable = (
       <ConfirmationModal
         isOpen={isConfirmationOpen}
         setIsOpen={setIsConfirmationOpen}
-        attendance={selectedAttendance as Attendance}
+        attendance={selectedAttendance as IAttendance}
       />
       <table className="w-full text-center align-middle border-spacing-y-1 border-separate">
         <thead>

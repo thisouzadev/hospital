@@ -7,9 +7,10 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { QuickTest } from './quick-test.entity';
+import { ITestResult } from '../models/ITestResult';
 
 @Entity('test_result')
-export class TestResult {
+export class TestResult implements ITestResult {
   @PrimaryGeneratedColumn('uuid', { name: 'test_result_id' })
   testResultId: string;
 

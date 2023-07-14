@@ -5,15 +5,15 @@ import { toast } from 'react-toastify';
 import { AttendanceStatus, AttendanceType } from '@/types/backend.enums';
 import { useAppStore } from '../../store';
 import Button from '../Button';
-import { Attendance } from '@/types/backend.models';
 import attendanceService from '@/service/attendance.service';
 import sectorService from '@/service/sector.service';
 import Dialog from '../Dialog';
+import { IAttendance } from '@/types/backend.interfaces';
 
 interface Props {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-  attendance:Attendance
+  attendance:IAttendance
 }
 const ConfirmationModal = ({
   isOpen, setIsOpen, attendance,

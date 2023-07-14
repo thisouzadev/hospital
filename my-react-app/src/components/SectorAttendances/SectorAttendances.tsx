@@ -6,18 +6,18 @@ import { Panel } from '../Panel';
 import { ListAttendanceQueryDto } from '../../types/backend.dtos';
 import SectorAttendancesTable from './SectorAttendancesTable';
 import { useAppStore } from '../../store';
-import { Attendance } from '@/types/backend.models';
 import { SectorAttendanceStatus } from '@/types/backend.enums';
+import { IAttendance } from '@/types/backend.interfaces';
 
 interface Props {
-  onSelectAttendance?: (attendance: Attendance) => void
+  onSelectAttendance?: (attendance: IAttendance) => void
 }
 const SectorAttendances = ({ onSelectAttendance }:Props) => {
   const [state] = useAppStore();
 
   const navigate = useNavigate();
 
-  const openAttendance = (attendance: Attendance) => {
+  const openAttendance = (attendance: IAttendance) => {
     navigate(`/atendimento/${attendance.attendanceId}`);
   };
 

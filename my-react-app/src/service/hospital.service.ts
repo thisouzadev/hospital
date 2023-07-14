@@ -1,14 +1,14 @@
 import { CreateHospitalDto, UpdateHospitalDto } from '../types/backend.dtos';
 import api from './api';
-import { Hospital } from '../types/backend.models';
 import { DefaultSuccessResponse } from '../types/backend.presenters';
+import { IHospital } from '@/types/backend.interfaces';
 
 const hospitalService = {
 
   async getAll() {
     const response = await api.get('/hospitals');
 
-    return response.data as DefaultSuccessResponse<Hospital[]>;
+    return response.data as DefaultSuccessResponse<IHospital[]>;
   },
 
   async create(data:CreateHospitalDto) {

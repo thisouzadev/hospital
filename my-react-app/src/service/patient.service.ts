@@ -1,11 +1,10 @@
 import axios, { } from 'axios';
-import { SearchPatientQueryDto } from '../types/backend.dtos';
-import { ICreatePatientDTO } from '../types/backend.interfaces';
+import { CreatePatientDto, SearchPatientQueryDto } from '../types/backend.dtos';
 import api from './api';
 import { objectFieldsToString } from '../utils/object';
 
 const patientService = {
-  async create(patientData:ICreatePatientDTO) {
+  async create(patientData:CreatePatientDto) {
     try {
       const response = await axios({
         method: 'post',

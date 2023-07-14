@@ -6,7 +6,6 @@ import {
 } from 'date-fns';
 import doctorsService from '../../service/doctors.service';
 import Button from '../../components/Button';
-import { Attendance } from '../../types/backend.models';
 import attendanceService from '../../service/attendance.service';
 import { ListAttendanceQueryDto } from '../../types/backend.dtos';
 // import AttendancesTable from './AttendanceTable';
@@ -15,6 +14,7 @@ import Input from '../../components/Input';
 import { getWeekRange, months } from '../../utils/date';
 import AttendancePrintTable from './AttendancePrintTable';
 import AttendancesTable from './AttendanceTable';
+import { IAttendance } from '@/types/backend.interfaces';
 
 interface IDayInterval {
   year: number,
@@ -126,7 +126,7 @@ function Attendances() {
     fetchNextPage();
   }, [data]);
 
-  const attendances = data?.pages.reduce<Attendance[]>(
+  const attendances = data?.pages.reduce<IAttendance[]>(
     (total, page) => [...total, ...page.result],
     [],
   ) || [];

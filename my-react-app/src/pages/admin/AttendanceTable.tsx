@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import { AttendanceStatus } from '../../types/backend.enums';
 import DetailsImg from '../../assets/details.svg';
 
-import { Attendance } from '../../types/backend.models';
 import { isoToString } from '../../utils/date';
+import { IAttendance } from '@/types/backend.interfaces';
 
 const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>) => (
   <div className={
@@ -21,8 +21,8 @@ const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>
 );
 
 interface AttendanceTableProps {
-  onSelectAttendance?: (attendance:Attendance) => void
-  attendances: Attendance[],
+  onSelectAttendance?: (attendance:IAttendance) => void
+  attendances: IAttendance[],
   forPrint? : boolean
 }
 

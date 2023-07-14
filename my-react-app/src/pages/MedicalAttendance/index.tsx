@@ -10,7 +10,6 @@ import Button from '../../components/Button';
 import { Panel, PanelHeader, PanelSubHeader } from '../../components/Panel';
 import attendanceService from '../../service/attendance.service';
 import Loading from '../../components/loading';
-import { Attendance, Patient } from '../../types/backend.models';
 import { UpdateTechnicianAttendanceDto } from '@/types/backend.dtos';
 import QuickTests from '../../components/QuickTests';
 import AttendanceHeader from '../../components/AttendanceHeader';
@@ -21,7 +20,8 @@ import { useAppStore } from '../../store';
 import { UserRole } from '@/types/backend.enums';
 import InitialPrescription from '../../components/InitialPrescription';
 import sectorService from '@/service/sector.service';
-import LastExams from '@/components/LastExams';
+import LastExams from '../../components/LastExams';
+import { IAttendance, IPatient } from '@/types/backend.interfaces';
 
 const fullUpdateAttendanceSchema = yup.object().shape(
   {
@@ -69,7 +69,7 @@ function MedicalAttendance() {
 
   const { data, isLoading } = useQuery({ queryKey: ['attendances', attendanceId], queryFn: () => attendanceService.getOne(attendanceId) });
 
-  const attendance = data?.result as Attendance;
+  const attendance = data?.result as IAttendance;
 
   const {
     register, handleSubmit, reset, formState: { errors }, setValue,
@@ -96,7 +96,7 @@ function MedicalAttendance() {
     }
   }, [attendance]);
 
-  const patient = data?.result.patient as Patient;
+  const patient = data?.result.patient as IPatient;
 
   if (isLoading) {
     return <Loading />;

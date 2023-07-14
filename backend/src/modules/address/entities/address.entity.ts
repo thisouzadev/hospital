@@ -5,11 +5,12 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { IAddress } from '../models/IAddress';
 import { City } from './city.entity';
 import { State } from './state.entity';
 
 @Entity('addresses')
-export class Address {
+export class Address implements IAddress {
   @PrimaryGeneratedColumn('uuid', { name: 'address_id' })
   addressId: string;
 

@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 import { PropsWithChildren } from 'react';
 import scheduleImg from '../../../assets/schedule2.svg';
-import { Patient } from '../../../types/backend.models';
+import { IPatient } from '@/types/backend.interfaces';
 
 interface AttendanceTableProps {
-  patients:Patient[]
-  selectedPatient?: Patient
-  onSelectPatient: (patient:Patient) => void
+  patients:IPatient[]
+  selectedPatient?: IPatient
+  onSelectPatient: (patient:IPatient) => void
 }
 
 const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>) => (

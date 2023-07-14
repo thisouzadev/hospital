@@ -1,15 +1,15 @@
 import { CreateQuickTestDto, ListQuickTestsQueryDto, PageDto } from '../types/backend.dtos';
 import api from './api';
-import { QuickTest, TestCategory } from '../types/backend.models';
 import { DefaultSuccessResponse } from '../types/backend.presenters';
 import { objectFieldsToString } from '../utils/object';
+import { IQuickTest, ITestCategory } from '@/types/backend.interfaces';
 
 const quickTestService = {
 
   async getAllCategories() {
     const response = await api.get('/test-categories');
 
-    return response.data as DefaultSuccessResponse<TestCategory[]>;
+    return response.data as DefaultSuccessResponse<ITestCategory[]>;
   },
 
   async getAllQuickTests(query?: ListQuickTestsQueryDto) {
@@ -18,13 +18,13 @@ const quickTestService = {
 
     const response = await api.get(`/quick-tests${objString}`);
 
-    return response.data as PageDto<QuickTest>;
+    return response.data as PageDto<IQuickTest>;
   },
 
   async create(data:CreateQuickTestDto) {
     const response = await api.post('/quick-tests', data);
 
-    return response.data as DefaultSuccessResponse<QuickTest>;
+    return response.data as DefaultSuccessResponse<IQuickTest>;
   },
 
 };

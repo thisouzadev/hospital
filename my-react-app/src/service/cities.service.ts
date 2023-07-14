@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { City, State } from 'types/backend.models';
+import { ICity, IState } from '@/types/backend.interfaces';
 
 const citiesService = {
   async getAllStates() {
@@ -8,7 +8,7 @@ const citiesService = {
         method: 'get',
         url: 'http://localhost:3000/states',
       });
-      return response.data as State[];
+      return response.data as IState[];
     } catch (error: any) {
       return error.response?.data;
     }
@@ -19,7 +19,7 @@ const citiesService = {
         method: 'get',
         url: `http://localhost:3000/cities?stateId=${stateId}`,
       });
-      return response.data as City[];
+      return response.data as ICity[];
     } catch (error: any) {
       return error.response?.data;
     }

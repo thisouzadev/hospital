@@ -3,14 +3,14 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 import Loading from '../loading';
 import { AttendanceStatus } from '../../types/backend.enums';
-import { Attendance } from '../../types/backend.models';
 import { getDate } from '../../utils/date';
 import attendanceService from '../../service/attendance.service';
 import { ListAttendanceQueryDto } from '../../types/backend.dtos';
 import AttendancesTable from './AttendanceTable';
+import { IAttendance } from '@/types/backend.interfaces';
 
 interface AttendancesProps {
-  onSelectAttendance?: (attendance:Attendance) => void
+  onSelectAttendance?: (attendance:IAttendance) => void
   patientId?: string,
   doctorId?: string,
 
@@ -50,7 +50,7 @@ function Attendances({ onSelectAttendance = () => {}, patientId = '', doctorId =
     setFilters((prev) => ({ ...prev, page: newPage }));
   };
 
-  const handleSelectAttendance = (attendance: Attendance) => {
+  const handleSelectAttendance = (attendance: IAttendance) => {
     setSelectedAttendanceId(attendance.attendanceId);
     onSelectAttendance(attendance);
   };

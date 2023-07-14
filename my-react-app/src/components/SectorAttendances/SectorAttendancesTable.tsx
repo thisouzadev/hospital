@@ -4,8 +4,7 @@ import { PropsWithChildren } from 'react';
 import { AttendanceType } from '../../types/backend.enums';
 import patientImg from '../../assets/receivePatient.svg';
 import ForwardImg from '../../assets/forward.svg';
-
-import { Attendance } from '../../types/backend.models';
+import { IAttendance } from '@/types/backend.interfaces';
 
 const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>) => (
   <td className={
@@ -20,8 +19,8 @@ const Cell = ({ children, className }: PropsWithChildren<{ className?: string }>
 );
 
 interface SectorAttendancesTableProps {
-  attendances: Attendance[],
-  onSelectAttendance?: (attendance:Attendance) => void
+  attendances: IAttendance[],
+  onSelectAttendance?: (attendance:IAttendance) => void
 }
 
 const SectorAttendancesTable = (

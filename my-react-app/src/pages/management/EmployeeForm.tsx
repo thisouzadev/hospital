@@ -6,15 +6,15 @@ import { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { UserRole } from '../../types/backend.enums';
-import { City, Employee, State } from '../../types/backend.models';
 import citiesService from '../../service/cities.service';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 import specialties from './data';
+import { ICity, IEmployee, IState } from '@/types/backend.interfaces';
 
 interface Props {
-  employee?: Employee;
-  handleFormSubmit: (employee: Employee) => void;
+  employee?: IEmployee;
+  handleFormSubmit: (employee: IEmployee) => void;
   schema: Record<string, any>;
 
   isUpdating?: boolean;
@@ -35,13 +35,13 @@ function EmployeeForm({
     formState: { errors },
     clearErrors,
     watch,
-  } = useForm<Employee>({
+  } = useForm<IEmployee>({
     defaultValues: employee,
     resolver: yupResolver(yup.object().shape(schema).required()),
   });
 
-  const [states, setStates] = useState<State[]>([]);
-  const [cities, setCities] = useState<City[]>([]);
+  const [states, setStates] = useState<IState[]>([]);
+  const [cities, setCities] = useState<ICity[]>([]);
 
   const [isLoadingStates, setIsLoadingStates] = useState(true);
   const [, setIsLoadingCities] = useState(false);

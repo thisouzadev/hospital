@@ -2,12 +2,12 @@ import { useMutation } from 'react-query';
 import { useAppStore } from '../../store';
 import Dialog from '../Dialog';
 import sectorService from '@/service/sector.service';
-import { Attendance, Sector } from '@/types/backend.models';
+import { IAttendance, ISector } from '@/types/backend.interfaces';
 
 interface Props {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
-  attendance: Attendance
+  attendance: IAttendance
   onForwardSuccess?: ()=>void
 }
 
@@ -25,7 +25,7 @@ const ForwardDialog = ({
     },
   });
 
-  const handleConfirmForward = (sector: Sector) => {
+  const handleConfirmForward = (sector: ISector) => {
     forwardAttendance.mutate({
       attendanceId: attendance.attendanceId,
       fromSectorId: currentSector?.sectorId as string,

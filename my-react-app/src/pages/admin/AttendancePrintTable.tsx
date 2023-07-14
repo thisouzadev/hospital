@@ -2,8 +2,8 @@ import { PropsWithChildren } from 'react';
 
 import { AttendanceStatus } from '../../types/backend.enums';
 
-import { Attendance } from '../../types/backend.models';
 import { isoToString } from '../../utils/date';
+import { IAttendance } from '@/types/backend.interfaces';
 
 const Cell = ({ children }: PropsWithChildren) => (
   <td>
@@ -19,7 +19,7 @@ interface ISearchParams {
 }
 
 interface AttendanceTableProps {
-  attendances: Attendance[],
+  attendances: IAttendance[],
   searchParams: ISearchParams
   // ref: React.MutableRefObject<null>
 }

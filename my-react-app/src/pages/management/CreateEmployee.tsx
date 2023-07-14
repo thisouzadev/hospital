@@ -6,7 +6,7 @@ import { useAppStore } from '../../store';
 import EmployeeService from '../../service/employee.service';
 
 import EmployeeForm from './EmployeeForm';
-import { Employee } from '@/types/backend.models';
+import { IEmployee } from '@/types/backend.interfaces';
 
 const schema = {
   user: yup.object().shape({
@@ -55,7 +55,7 @@ function CreateEmployee() {
   const employee = {
     user: { password: '123456' },
     hospitalId: hospitalId || currentHospital?.hospitalId,
-  } as Employee;
+  } as IEmployee;
 
   return (
     <div className="w-full">

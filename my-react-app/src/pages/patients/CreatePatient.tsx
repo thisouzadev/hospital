@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
 import PatientForm from './PatientForm';
 import patientService from '../../service/patient.service';
-import { Patient } from '../../types/backend.models';
+import { IPatient } from '@/types/backend.interfaces';
 
 const createSchema = {
   name: yup.string().required(),
@@ -26,7 +26,7 @@ const createSchema = {
 function CreatePatient() {
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<Patient> = async (data) => {
+  const onSubmit: SubmitHandler<IPatient> = async (data) => {
     const result = await patientService.create(data);
     if (result.error) {
       return;

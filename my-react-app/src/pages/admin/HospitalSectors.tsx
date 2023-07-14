@@ -5,7 +5,6 @@ import { CreateSectorDto } from 'types/backend.dtos';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { Sector } from '../../types/backend.models';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
@@ -13,6 +12,7 @@ import EditImg from '../../assets/edit.svg';
 import DeleteImg from '../../assets/delete.svg';
 import sectorService from '@/service/sector.service';
 import Loading from '../../components/loading';
+import { ISector } from '@/types/backend.interfaces';
 
 const scheduleSchema = {
   name: yup.string().min(3, 'O nome do setor precisa ter ao menos 3 caracteres').required(),
@@ -69,7 +69,7 @@ const HospitalSectors = () => {
 
   const sectors = data?.result || [];
 
-  const handleDeleteSector = async (sector: Sector) => {
+  const handleDeleteSector = async (sector: ISector) => {
     // eslint-disable-next-line no-alert
     if (!window.confirm('Deseja excluir o setor?')) {
       return;
@@ -85,7 +85,7 @@ const HospitalSectors = () => {
     updateSectorMutation.mutate({ sectorId: selectedSectorId, data: sector });
   };
 
-  const handleSelectSector = (sector: Sector) => {
+  const handleSelectSector = (sector: ISector) => {
     const {
       name, description,
     } = sector;

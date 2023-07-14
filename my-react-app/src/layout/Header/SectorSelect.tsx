@@ -1,4 +1,4 @@
-import { Sector } from '@/types/backend.models';
+import { ISector } from '@/types/backend.interfaces';
 import { useAppStore } from '../../store';
 
 const SectorSelect = () => {
@@ -7,7 +7,7 @@ const SectorSelect = () => {
 
   const handleChangeSector = (e:any) => {
     const sectorId = e.target.value;
-    const selectedSector = sectors.find((s) => s.sectorId === sectorId) as Sector;
+    const selectedSector = sectors.find((s) => s.sectorId === sectorId) as ISector;
     dispatch({ type: 'CHANGE_SECTOR', payload: selectedSector });
   };
 

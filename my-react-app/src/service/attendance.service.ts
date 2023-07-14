@@ -1,11 +1,11 @@
 import { DefaultSuccessResponse } from 'types/backend.presenters';
-import { Attendance } from '../types/backend.models';
 import {
   CreateAttendanceDto, ListAttendanceQueryDto, PageDto, UpdateTechnicianAttendanceDto,
 } from '../types/backend.dtos';
 import { objectFieldsToString } from '../utils/object';
 import api from './api';
 import { AttendanceStatus, AttendanceType } from '../types/backend.enums';
+import { IAttendance } from '@/types/backend.interfaces';
 
 const attendanceService = {
   async create(attendanceData:CreateAttendanceDto) {
@@ -40,13 +40,13 @@ const attendanceService = {
 
     const response = await api.get(`/attendances${objString}`);
 
-    return response.data as PageDto<Attendance>;
+    return response.data as PageDto<IAttendance>;
   },
 
   async getOne(attendanceId:string) {
     const response = await api.get(`/attendances/${attendanceId}`);
 
-    return response.data as DefaultSuccessResponse<Attendance>;
+    return response.data as DefaultSuccessResponse<IAttendance>;
   },
 };
 

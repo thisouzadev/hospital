@@ -13,8 +13,8 @@ import { sessionStorageGet } from '../utils/sessionStorage';
 import { AuthReturnDto } from '../types/backend.dtos';
 import AppReducer from './AppReducer';
 import { localStorageGet } from '../utils/localStorage';
-import { Hospital, Sector } from '@/types/backend.models';
 import sectorService from '@/service/sector.service';
+import { IHospital, ISector } from '@/types/backend.interfaces';
 
 /**
  * AppState structure and initial values
@@ -23,9 +23,9 @@ export interface AppStoreState {
   darkMode: boolean;
   isAuthenticated: boolean;
   currentUser?: User;
-  currentSector?: Sector,
-  currentHospital?: Hospital,
-  sectors: Sector[],
+  currentSector?: ISector,
+  currentHospital?: IHospital,
+  sectors: ISector[],
   token?: string;
 }
 const INITIAL_APP_STATE: AppStoreState = {

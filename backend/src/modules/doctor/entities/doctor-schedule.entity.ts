@@ -9,9 +9,10 @@ import {
 import { Doctor } from './doctor.entity';
 import { Hospital } from '../../hospital/entities/hospital.entity';
 import { Attendance } from '../../attendance/entities/attendance.entity';
+import { IDoctorSchedule } from '../models/IDoctorSchedule';
 
 @Entity('doctor_schedules')
-export class DoctorSchedule {
+export class DoctorSchedule implements IDoctorSchedule {
   @PrimaryGeneratedColumn('uuid', { name: 'schedule_id' })
   scheduleId: string;
 

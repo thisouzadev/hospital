@@ -11,9 +11,10 @@ import {
 import { Hospital } from '../../hospital/entities/hospital.entity';
 import { User } from '../../user/entities/user.entity';
 import { Doctor } from '../../doctor/entities/doctor.entity';
+import { IEmployee } from '../models/IEmployee';
 
 @Entity('employees')
-export class Employee {
+export class Employee implements IEmployee {
   @PrimaryGeneratedColumn('uuid', { name: 'employee_id' })
   employeeId: string;
 

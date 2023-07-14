@@ -1,10 +1,10 @@
-import { Attendance } from '@/types/backend.models';
 import { PanelSubHeader } from '../Panel';
 import Input from '../Input';
 import { getAge, isoToString } from '../../utils/date';
+import { IAttendance } from '@/types/backend.interfaces';
 
 interface Props {
-  attendance: Attendance
+  attendance: IAttendance
 }
 
 const AttendanceHeader = ({ attendance }:Props) => (

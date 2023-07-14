@@ -6,7 +6,6 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
-import { Hospital } from '../../types/backend.models';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
@@ -15,6 +14,7 @@ import DeleteImg from '../../assets/delete.svg';
 import Loading from '../../components/loading';
 import hospitalService from '@/service/hospital.service';
 import ManageImg from '../../assets/manage.svg';
+import { IHospital } from '@/types/backend.interfaces';
 
 const hospitalSchema = {
   hospitalName: yup.string().min(3, 'O nome da unidade precisa ter ao menos 3 caracteres').required(),
@@ -75,7 +75,7 @@ const Hospitals = () => {
 
   const sectors = data?.result || [];
 
-  const handleDeleteSector = async (hospital: Hospital) => {
+  const handleDeleteSector = async (hospital: IHospital) => {
     // eslint-disable-next-line no-alert
     if (!window.confirm('Deseja excluir a unidade?')) {
       return;
@@ -91,7 +91,7 @@ const Hospitals = () => {
     updateSectorMutation.mutate({ sectorId: selectedSectorId, data: hospitalData });
   };
 
-  const handleSelectSector = (hospital: Hospital) => {
+  const handleSelectSector = (hospital: IHospital) => {
     const {
       hospitalName,
       director,
